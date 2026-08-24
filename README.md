@@ -1,50 +1,83 @@
 # Mr.Kiplay Security Intelligence Platform
 
-Mr.Kiplay adalah dashboard full-stack berbahasa Indonesia untuk **assessment keamanan berizin**. Platform ini menggabungkan workspace, scope allowlist, gate otorisasi, preview pipeline Nmap → Nuclei, temuan yang dapat ditinjau, dan reporting dalam satu command center dark bernuansa Merah Putih.
+Mr.Kiplay adalah command center full-stack berbahasa Indonesia untuk **assessment keamanan yang berizin, non-destruktif, dan dapat diaudit**. Platform ini membantu analis mengelola workspace, menetapkan scope allowlist, mengumpulkan sinyal recon terbatas, meninjau hasil, serta menjaga setiap aktivitas tetap melalui validasi manual.
 
-> Mr.Kiplay bukan izin untuk menguji sistem pihak lain. Hanya gunakan pada aset milik sendiri atau target yang memiliki otorisasi tertulis.
+> Gunakan Mr.Kiplay hanya pada aset milik sendiri atau target yang memiliki otorisasi tertulis. Platform ini tidak memberikan izin untuk menguji sistem pihak lain.
 
-## Status saat ini
+## Fitur utama
 
-Versi awal menyediakan fondasi autentikasi Manus, schema database workspace, API tRPC terproteksi, dashboard responsif, halaman workspace, scope policy, preview pipeline, serta test dasar. Adapter executable untuk Nmap/Nuclei dan integrasi vendor lain masih dikembangkan bertahap; mode preview tidak menjalankan tool scanner.
-
-## Fitur fondasi
-
-| Area | Implementasi awal |
+| Area | Kemampuan |
 | --- | --- |
-| Workspace | Nama, deskripsi, target, profil scan, dan riwayat job |
-| Authorization gate | Konfirmasi izin, target allowlist, penolakan alamat sensitif, audit log |
-| Pipeline | Preview sequential Nmap discovery → Nuclei baseline |
-| Dashboard | Ringkasan target, job, temuan prioritas, kesiapan, dan modul |
-| UI | Dark graphite, aksen merah, off-white, copy Bahasa Indonesia, responsif |
-| Security posture | Dry-run/preview, rate limit, timeout, manual validation, tanpa eksploitasi otomatis |
+| Workspace | Workspace, target allowlist, profil scan, bukti otorisasi, audit trail, dan riwayat job |
+| Kesiapan | Checklist empat langkah: workspace, target, profil, dan konfirmasi otorisasi, dengan quick action ke langkah yang belum selesai |
+| Recon | DNS lookup, resolver kustom tervalidasi, cache TTL, pencarian subdomain kandidat terbatas, dan integrasi subdomain ke port scan |
+| Port scan | Daftar port eksplisit, maksimal 100 host dan 32 port, timeout, rate limit, tabel server-side pagination, filter, sorting, dan ekspor CSV maksimal 10.000 baris |
+| Pipeline | Preview Nmap discovery → Nuclei baseline tanpa menjalankan scanner atau eksploitasi otomatis |
+| Findings | Deduplikasi, severity, confidence, evidence tersanitasi, dan kewajiban validasi manual |
+| Reporting | Ekspor laporan HTML/JSON dan keluaran CSV yang aman dari formula injection |
+| Integrasi | Kontrak adapter untuk Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit |
+| UI | Dark graphite dengan aksen Merah Putih, responsif, keyboard-friendly, dan identitas pengguna generik tanpa menampilkan email pada sidebar |
 
-## Menjalankan lokal
+## Status implementasi
+
+MVP saat ini menyediakan dashboard React/Tailwind, backend Express/tRPC, autentikasi Manus, Drizzle ORM, database assessment, guardrail scope, recon DNS/subdomain aktif yang dibatasi, port observation server-side, preview pipeline, reporting, dan test Vitest. Adapter executable untuk tool eksternal tetap memerlukan deployment terisolasi, konfigurasi operator, serta validasi tambahan sebelum diaktifkan.
+
+## Menjalankan secara lokal
+
+Prasyaratnya adalah Node.js LTS, pnpm, dan database MySQL/TiDB yang kompatibel dengan konfigurasi project. Jangan commit file `.env` atau kredensial.
 
 ```bash
 pnpm install
+pnpm check
+pnpm test -- --run
 pnpm dev
 ```
 
-Pemeriksaan kualitas:
+Dashboard dapat dibuka melalui URL lokal yang ditampilkan oleh server. Untuk build produksi:
 
 ```bash
-pnpm check
-pnpm test -- --run
+pnpm build
+pnpm start
 ```
 
-## Arsitektur
+## Dukungan sistem operasi
 
-Frontend React/Tailwind menggunakan `DashboardLayout` dan tRPC. Backend Express/tRPC menggunakan prosedur terproteksi dan helper database Drizzle. Schema inti berada di `drizzle/schema.ts`; migration dikelola melalui Drizzle dan diterapkan melalui workflow database proyek. Policy scope berada di `shared/assessmentPolicy.ts` agar validasi target dapat dipakai bersama oleh adapter.
+| Sistem | Jalur yang disarankan |
+| --- | --- |
+| Ubuntu/Debian/Kali/BlackArch/Arch | Gunakan `scripts/install/install.sh` setelah Node.js LTS dan pnpm tersedia |
+| macOS | Gunakan Homebrew atau installer Node.js LTS, lalu jalankan `bash scripts/install/install.sh` |
+| Windows | Jalankan `scripts/install/install.ps1` melalui PowerShell setelah Node.js LTS dan pnpm tersedia |
+| Termux | Pasang `nodejs`, aktifkan corepack, lalu jalankan `bash scripts/install/install.sh` dari clone repository |
+| Sistem Unix lain | Pastikan Bash, Node.js LTS, pnpm, dan database tersedia; gunakan installer shell sebagai bootstrap |
 
-## Batas keamanan
+Installer hanya memasang dependency dan menjalankan pemeriksaan kualitas. Installer **tidak menjalankan pemindaian jaringan**.
 
-Target kosong, loopback, jaringan private, dan endpoint metadata cloud ditolak secara default. Semua job dimulai sebagai preview dan hanya target yang lolos allowlist serta authorization gate yang dapat diproses pada tahap berikutnya. Indikasi SQL injection, XSS, SSRF, exposure, atau misconfiguration harus tetap menjadi sinyal awal yang divalidasi manual; platform tidak menjalankan eksploitasi otomatis.
+## Alur assessment aman
 
-## Pengembangan berikutnya
+Buat workspace, masukkan hanya target yang diizinkan ke allowlist, pilih profil bounded, unggah atau konfirmasi bukti otorisasi, lalu gunakan mode preview untuk memeriksa rencana pipeline. Hasil recon dan port observation ditampilkan sebagai sinyal operasional, bukan bukti kerentanan final. Setiap indikasi SQLi, XSS, SSRF, exposure, atau misconfiguration wajib ditinjau dan divalidasi manual.
 
-Roadmap mencakup adapter terisolasi untuk Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit; modul recon serta intelligence; evidence tersanitasi; ekspor HTML/JSON; SDK plugin multi-bahasa; installer lintas platform; dan halaman laporan yang lebih lengkap.
+Alamat loopback, jaringan private, endpoint metadata cloud, target kosong, serta input di luar scope ditolak secara default. Timeout, rate limit, batas jumlah kandidat, batas host/port, sanitasi keluaran, dan audit trail merupakan bagian dari desain dasar.
 
-## Lisensi dan keamanan
+## Arsitektur singkat
 
-Lihat [LICENSE](LICENSE), [SECURITY.md](SECURITY.md), serta [CONTRIBUTING.md](CONTRIBUTING.md). Jangan commit credentials, hasil scan nyata, data pribadi, atau target yang tidak boleh dipublikasikan.
+Frontend berada di `client/` dan menggunakan React, Tailwind, komponen shadcn/ui, serta tRPC client. Backend berada di `server/` dengan Express, tRPC, helper Drizzle, dan prosedur terproteksi. Policy bersama berada di `shared/`, engine recon di `core/recon/`, adapter integrasi di `integrations/`, dan schema database di `drizzle/`.
+
+```text
+client React/Tailwind
+        │ tRPC
+server Express/tRPC ── shared policy ── core recon
+        │
+   Drizzle/MySQL
+```
+
+## Struktur dokumentasi
+
+`docs/installation/` berisi catatan instalasi, `docs/modules/` menjelaskan katalog modul, `docs/development/` berisi panduan kontribusi teknis, dan `integrations/` berisi kontrak adapter. Lihat juga [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), dan [LICENSE](LICENSE).
+
+## Roadmap aman
+
+Pengembangan berikutnya dapat mencakup worker terisolasi untuk pekerjaan berat, HTTP fingerprinting pasif, inventaris sertifikat, observability job, ekspor besar berbasis streaming, dan adapter eksternal dengan sandbox serta approval manual. Fitur yang bersifat eksploitasi otomatis, credential theft, persistence, destructive testing, atau target discovery tanpa otorisasi tidak menjadi bagian dari roadmap Mr.Kiplay.
+
+## Lisensi
+
+Project ini dirilis di bawah [MIT License](LICENSE). Lisensi tidak menghapus kewajiban operator untuk mematuhi hukum, kebijakan penyedia layanan, dan batas otorisasi engagement.

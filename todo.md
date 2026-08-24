@@ -122,3 +122,28 @@
 - [x] Assert eksplisit pemanggilan LIMIT/OFFSET, filter host/status, dan kolom sort pada query mock.
 - [x] Assert ekspor CSV server-side mengambil seluruh hasil terfilter, bukan hanya halaman aktif.
 - [x] Simpan checkpoint baru setelah test dan verifikasi final selesai.
+
+## Peningkatan identitas, kesiapan, dan distribusi lintas platform
+
+- [x] Menghapus nama/email pribadi dari greeting dan profil sidebar; gunakan identitas generik Mr.Kiplay.
+- [x] Menambahkan checklist kesiapan assessment yang menghitung workspace, target, profil, dan otorisasi dari data aktif.
+- [x] Menambahkan quick actions yang mengarahkan analis ke langkah yang belum selesai tanpa menjalankan scan otomatis.
+- [x] Memperbarui README dengan gambaran fitur aktual, batasan aman, arsitektur, penggunaan, dan dukungan Linux/macOS/Windows/Termux.
+- [x] Memperbarui CHANGELOG, LICENSE, CONTRIBUTING, SECURITY, dan skrip installer lintas platform.
+- [x] Menambahkan test untuk identitas generik dan helper checklist kesiapan.
+- [x] Memvalidasi project, membuat checkpoint, commit, dan push ke repository GitHub Mr.kiplay-Tools.
+
+## Riwayat perubahan sesi lanjutan
+
+- [x] Sinkronisasi hasil implementasi ke repository GitHub publik kholqin/Mr.kiplay-Tools dan verifikasi commit terbaru.
+
+## Koreksi verifikasi identitas dan kebijakan
+
+- [x] Perbarui LICENSE, CONTRIBUTING.md, dan SECURITY.md agar selaras dengan distribusi lintas platform serta guardrail terbaru.
+- [x] Tambahkan test UI/unit yang memverifikasi greeting dan sidebar memakai identitas generik tanpa merender nama/email pribadi.
+
+## Verifikasi akhir sesi
+
+- [ ] Buat checkpoint baru setelah perubahan identitas, dokumentasi, dan installer selesai divalidasi.
+- [ ] Lakukan git add, commit, dan push ke kholqin/Mr.kiplay-Tools lalu verifikasi commit terbaru pada remote.
+- [x] Tambahkan test kontrak komponen Home dan DashboardLayout yang memastikan identitas generik dirender tanpa nama/email pengguna.

@@ -45,3 +45,25 @@ Gunakan PowerShell 7 dan Node.js LTS. Jalankan `Set-ExecutionPolicy -Scope Proce
 ## Integrasi scanner
 
 Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit tidak dianggap terpasang otomatis oleh platform. Adapter harus memeriksa binary, versi, konfigurasi, scope, timeout, rate limit, dan mode preview sebelum mengeksekusi tool. Gunakan hanya pada target yang diizinkan.
+
+## Catatan bootstrap lintas platform
+
+Installer resmi project tersedia pada `scripts/install/install.sh` untuk lingkungan Unix dan `scripts/install/install.ps1` untuk Windows. Keduanya hanya memasang dependency aplikasi, menjalankan pemeriksaan TypeScript dan test, serta tidak memasang atau menjalankan scanner terhadap target.
+
+Untuk setup baru, aktifkan pnpm melalui Corepack sebelum menjalankan installer:
+
+```bash
+corepack enable
+corepack prepare pnpm@10.4.1 --activate
+bash scripts/install/install.sh
+```
+
+Di Windows gunakan PowerShell:
+
+```powershell
+corepack enable
+corepack prepare pnpm@10.4.1 --activate
+.\scripts\install\install.ps1
+```
+
+Setelah bootstrap, verifikasi dengan `pnpm check`, `pnpm test -- --run`, dan `git diff --check`. Integrasi Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit bersifat opsional serta harus dikonfigurasi secara terpisah oleh operator berwenang.
