@@ -46,3 +46,18 @@
 
 - [x] Menerapkan rate limit eksplisit pada setiap query DNS dan menyediakan helper yang dapat diuji.
 - [x] Menambahkan test timeout dan rate limit DNS tanpa mengirim query ke target nyata.
+
+## Resolver DNS kustom dan cache
+
+- [x] Menambahkan validasi resolver DNS kustom dan kebijakan daftar resolver yang aman.
+- [x] Menambahkan cache hasil DNS/subdomain berbasis TTL dan batas ukuran memori.
+- [x] Menghubungkan pilihan resolver serta opsi lewati cache ke API dan halaman Recon.
+- [x] Menulis test untuk validasi resolver, hit/miss/expiry cache, dan isolasi cache antar target.
+- [x] Memverifikasi build, test, responsif, dan membuat checkpoint.
+
+## Verifikasi akhir resolver/cache
+
+- [x] Verifikasi ulang halaman Recon pada viewport mobile dan desktop setelah kontrol resolver, TTL, dan lewati cache ditambahkan.
+- [x] Simpan checkpoint baru setelah validasi akhir resolver DNS kustom dan cache TTL selesai.
+
+- [x] Perbaiki panel kontrol resolver pada desktop agar input resolver memiliki lebar layak dan label tidak terpotong.

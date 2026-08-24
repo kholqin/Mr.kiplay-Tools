@@ -43,20 +43,20 @@ export const appRouter = router({
     findings: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listFindings(ctx.user.id, input.workspaceId)),
     report: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), format: z.enum(["json", "html"]) })).query(({ ctx, input }) => buildReport(ctx.user.id, input.workspaceId, input.format)),
     reconResults: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), kind: z.enum(["dns", "subdomain"]).optional() })).query(({ ctx, input }) => listReconResults(ctx.user.id, input.workspaceId, input.kind)),
-    dnsLookup: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+    dnsLookup: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true), resolver: z.string().max(64).default("system"), cacheTtlSeconds: z.number().int().min(5).max(3600).default(60), bypassCache: z.boolean().default(false) })).mutation(async ({ ctx, input }) => {
       const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
       if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
       const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
       if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
-      const result = await collectDnsRecords(target.value, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2 });
+      const result = await collectDnsRecords(target.value, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2, resolver: input.resolver, cacheTtlSeconds: input.cacheTtlSeconds, bypassCache: input.bypassCache });
       return saveReconResult(ctx.user.id, input.workspaceId, target.id, "dns", target.value, result);
     }),
-    subdomainDiscovery: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), candidates: z.array(z.string().trim().min(1).max(63)).min(1).max(100), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+    subdomainDiscovery: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), candidates: z.array(z.string().trim().min(1).max(63)).min(1).max(100), preview: z.boolean().default(true), resolver: z.string().max(64).default("system"), cacheTtlSeconds: z.number().int().min(5).max(3600).default(60), bypassCache: z.boolean().default(false) })).mutation(async ({ ctx, input }) => {
       const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
       if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
       const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
       if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
-      const result = await discoverSubdomains(target.value, input.candidates, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2 });
+      const result = await discoverSubdomains(target.value, input.candidates, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2, resolver: input.resolver, cacheTtlSeconds: input.cacheTtlSeconds, bypassCache: input.bypassCache });
       return saveReconResult(ctx.user.id, input.workspaceId, target.id, "subdomain", target.value, result);
     }),
   }),
