@@ -102,3 +102,23 @@
 - [x] Memverifikasi build, test, responsif, dan checkpoint.
 
 - [x] Simpan checkpoint baru setelah validasi akhir fitur pagination dan pengurutan tabel port selesai.
+
+## Server-side pagination hasil port
+
+- [x] Menambahkan kontrak query halaman port dengan filter host/status dan sort yang tervalidasi.
+- [x] Menambahkan query database dengan LIMIT/OFFSET serta total count terbatas pada workspace.
+- [x] Menghubungkan endpoint tRPC dan UI agar hanya memuat halaman aktif.
+- [x] Menjaga ekspor CSV tetap mengambil seluruh hasil terfilter melalui endpoint khusus dengan batas aman 10.000 baris.
+- [x] Menulis test kontrak pagination server-side dan validasi sort/filter melalui test pagination/filter yang sudah ada.
+- [x] Memverifikasi build, test, responsif, serta checkpoint.
+
+## Koreksi verifikasi server-side pagination
+
+- [x] Tambahkan test Vitest yang memverifikasi LIMIT/OFFSET, totalRows/totalPages, sort, filter, dan ekspor CSV server-side.
+- [x] Simpan checkpoint baru setelah validasi akhir server-side pagination selesai.
+
+## Penguatan test server-side pagination
+
+- [x] Assert eksplisit pemanggilan LIMIT/OFFSET, filter host/status, dan kolom sort pada query mock.
+- [x] Assert ekspor CSV server-side mengambil seluruh hasil terfilter, bukan hanya halaman aktif.
+- [x] Simpan checkpoint baru setelah test dan verifikasi final selesai.

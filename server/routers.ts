@@ -8,7 +8,7 @@ import { moduleCatalog } from "../core/modules/catalog";
 import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
 import { listReconResults, saveReconResult } from "./reconDb";
 import { createPortScanPlan, scanOpenPorts } from "../core/recon/portScan";
-import { listDiscoveredSubdomains, listPortObservations, savePortObservations } from "./portScanDb";
+import { listDiscoveredSubdomains, exportPortObservationsCsv, listPortObservations, listPortObservationsPage, savePortObservations } from "./portScanDb";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
@@ -63,7 +63,8 @@ export const appRouter = router({
       return saveReconResult(ctx.user.id, input.workspaceId, target.id, "subdomain", target.value, result);
     }),
     discoveredSubdomains: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listDiscoveredSubdomains(ctx.user.id, input.workspaceId)),
-    portObservations: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listPortObservations(ctx.user.id, input.workspaceId)),
+    portObservations: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), page: z.number().int().min(1).default(1), pageSize: z.number().int().min(1).max(100).default(25), host: z.string().max(255).optional(), state: z.enum(["all", "open", "closed", "timeout", "error"]).default("all"), sortKey: z.enum(["host", "port", "state", "createdAt"]).default("createdAt"), sortDirection: z.enum(["asc", "desc"]).default("desc") })).query(({ ctx, input }) => listPortObservationsPage(ctx.user.id, input)),
+    portObservationsCsv: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), host: z.string().max(255).optional(), state: z.enum(["all", "open", "closed", "timeout", "error"]).default("all"), sortKey: z.enum(["host", "port", "state", "createdAt"]).default("createdAt"), sortDirection: z.enum(["asc", "desc"]).default("desc") })).query(({ ctx, input }) => exportPortObservationsCsv(ctx.user.id, input)),
     portScanFromSubdomains: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), ports: z.array(z.number().int().min(1).max(65535)).min(1).max(32).default([80, 443, 8080, 8443]), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
       const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
       if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
