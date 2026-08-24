@@ -1,0 +1,19 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-and-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify required documentation
+        run: test -s README.md && test -s CHANGELOG.md && test -s LICENSE && test -s SECURITY.md
+      - name: Verify package metadata
+        run: node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8'))"

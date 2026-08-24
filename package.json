@@ -1,0 +1,9 @@
+{
+  "name": "mrkiplay-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Modular security intelligence toolkit scaffold",
+  "scripts": {
+    "check": "node --check scripts/check.js"
+  }
+}

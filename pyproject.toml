@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mrkiplay-tools"
+version = "0.1.0"
+description = "Modular security intelligence toolkit scaffold"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "kholqin" }]
+
+[project.scripts]
+mrk = "mrkiplay_tools.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
