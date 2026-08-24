@@ -9,6 +9,7 @@ import {
 } from "../drizzle/schema";
 import { getDb } from "./db";
 import { validateTargetForScope } from "../shared/assessmentPolicy";
+import { createPipelinePlan } from "../core/pipeline/runner";
 
 export async function listWorkspaces(ownerId: number) {
   const db = await getDb();
@@ -83,9 +84,13 @@ export async function createPreviewJob(ownerId: number, workspaceId: number, pro
   if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
   const targets = await listTargets(ownerId, workspaceId);
   if (targets.length === 0 || targets.some((target) => !target.inScope)) throw new Error("Workspace harus memiliki target yang berada dalam scope");
+  const profiles = await db.select().from(scanProfiles).where(and(eq(scanProfiles.id, profileId), eq(scanProfiles.workspaceId, workspaceId))).limit(1);
+  const profile = profiles[0];
+  if (!profile) throw new Error("Profil scan tidak ditemukan pada workspace ini");
+  const plan = createPipelinePlan(targets.map((target) => ({ value: target.value, type: target.targetType })), { dryRun: profile.mode === "preview", rateLimit: profile.rateLimit, timeoutSeconds: profile.timeoutSeconds, maxTargets: 32, excludedTags: ["dos", "fuzz", "brute-force", "intrusive"] });
   const result = await db.insert(scanJobs).values({ workspaceId, profileId, status: "preview", currentStage: "review", targetCount: targets.length, findingCount: 0 });
   const jobId = Number(result[0].insertId);
-  await db.insert(auditLogs).values({ workspaceId, actorId: ownerId, action: "scan.preview.created", metadata: { jobId, profileId, targetCount: targets.length } });
+  await db.insert(auditLogs).values({ workspaceId, actorId: ownerId, action: "scan.preview.created", metadata: { jobId, profileId, targetCount: targets.length, stages: plan.stages.map((stage) => stage.id), safety: plan.safety } });
   const rows = await db.select().from(scanJobs).where(eq(scanJobs.id, jobId)).limit(1);
   return rows[0];
 }
