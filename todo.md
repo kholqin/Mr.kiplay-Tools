@@ -92,3 +92,13 @@
 - [x] Menyimpan checkpoint baru setelah validasi akhir tabel dan ekspor CSV.
 
 - [x] Simpan checkpoint baru setelah validasi akhir fitur tabel port, filter host/status, dan ekspor CSV. selesai.
+
+## Pagination dan pengurutan tabel port
+
+- [x] Menambahkan helper pengurutan port yang deterministik berdasarkan host, port, status, dan waktu.
+- [x] Menambahkan pagination dengan pilihan ukuran halaman dan navigasi sebelumnya/berikutnya.
+- [x] Menjaga ekspor CSV tetap mencakup seluruh hasil yang sedang terfilter, bukan hanya halaman aktif.
+- [x] Menulis test helper sorting dan pagination.
+- [x] Memverifikasi build, test, responsif, dan checkpoint.
+
+- [ ] Simpan checkpoint baru setelah validasi akhir fitur pagination dan pengurutan tabel port selesai.
