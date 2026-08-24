@@ -181,3 +181,5 @@
 - [x] Tambahkan parameter `-Help` pada installer PowerShell tanpa menjalankan instalasi.
 - [x] Uji help mode pada job Windows dan verifikasi output usage yang eksplisit.
 - [x] Jalankan ulang check dan test setelah koreksi installer.
+
+- [x] Commit dan push workflow CI Windows serta help mode installer ke GitHub; SHA remote terverifikasi.
