@@ -91,3 +91,7 @@ HTTP fingerprinting pasif menggunakan request `HEAD` tanpa mengikuti redirect da
 ## Continuous integration
 
 Workflow `.github/workflows/ci.yml` menguji Node.js 20, 22, dan 24. Setiap matrix menjalankan instalasi frozen lockfile, pemeriksaan TypeScript, seluruh test, build produksi, dan validasi sintaks installer Unix.
+
+### Verifikasi installer Windows
+
+Workflow CI juga menjalankan job `windows-installer` pada `windows-latest`. Job tersebut mem-parse `scripts/install/install.ps1` dengan parser PowerShell, mengaktifkan Corepack/pnpm, lalu menjalankan bootstrap installer dalam lingkungan CI. Installer hanya memasang dependency, menjalankan check dan test, serta tidak menjalankan scanner atau request terhadap target.

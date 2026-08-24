@@ -166,4 +166,18 @@
 - [x] Jalankan ulang check dan test setelah koreksi rate limit HTTP.
 
 - [x] Simpan checkpoint baru untuk worker, HTTP fingerprinting, sertifikat, dan CI.
-- [ ] Commit dan push semua perubahan ke kholqin/Mr.kiplay-Tools lalu verifikasi SHA remote.
+- [x] Commit dan push semua perubahan ke kholqin/Mr.kiplay-Tools lalu verifikasi SHA remote.
+
+## CI Windows untuk installer PowerShell
+
+- [x] Audit workflow CI dan installer PowerShell saat ini.
+- [x] Tetapkan skenario test Windows yang aman tanpa menjalankan scanner atau target jaringan.
+- [x] Tambahkan workflow GitHub Actions Windows untuk validasi sintaks, mode bantuan, dan bootstrap installer PowerShell.
+- [x] Perbarui dokumentasi CI dan installer bila diperlukan.
+- [x] Jalankan validasi lokal (check, 46 test, diff check, sintaks installer Unix, parser PowerShell, dan help mode).
+
+## Koreksi help mode installer Windows
+
+- [x] Tambahkan parameter `-Help` pada installer PowerShell tanpa menjalankan instalasi.
+- [x] Uji help mode pada job Windows dan verifikasi output usage yang eksplisit.
+- [x] Jalankan ulang check dan test setelah koreksi installer.

@@ -65,3 +65,8 @@
 - Seluruh endpoint baru memeriksa workspace, authorization gate, dan target allowlist sebelum aktivitas aktif.
 - Worker tidak menerima kode executable dari client dan tidak menjalankan Nmap, Nuclei, atau scanner eksternal.
 - Hasil web recon diposisikan sebagai sinyal observasi yang wajib divalidasi manual.
+
+### CI Windows
+
+- Menambahkan job `windows-installer` pada GitHub Actions dengan runner `windows-latest`.
+- Job mem-parse installer PowerShell, menyiapkan Node.js 22 dan pnpm, lalu menjalankan bootstrap installer dalam mode CI tanpa scanner atau target jaringan.

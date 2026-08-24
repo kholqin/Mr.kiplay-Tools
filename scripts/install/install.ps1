@@ -1,4 +1,14 @@
+param(
+  [switch]$Help
+)
+
 $ErrorActionPreference = "Stop"
+if ($Help) {
+  Write-Output "Penggunaan: .\scripts\install\install.ps1 [-Help]"
+  Write-Output "  -Help  Menampilkan bantuan tanpa memasang dependency atau menjalankan pemeriksaan."
+  exit 0
+}
+
 Write-Host "Mr.Kiplay bootstrap installer"
 Write-Host "Script ini hanya memasang dependency aplikasi; tidak menjalankan scanner."
 
