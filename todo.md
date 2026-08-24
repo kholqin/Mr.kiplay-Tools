@@ -76,3 +76,19 @@
 - [x] Menambahkan test integrasi pipeline subdomain tersimpan ke planner port scan dan guard otorisasi.
 - [x] Memverifikasi halaman Recon pada viewport desktop setelah kartu port scan ditambahkan.
 - [x] Menyimpan checkpoint baru setelah verifikasi integrasi port scan selesai.
+
+## Tabel port dan ekspor CSV
+
+- [x] Menambahkan helper CSV dengan escaping dan perlindungan formula injection.
+- [x] Menambahkan tabel observasi port dengan filter host dan status.
+- [x] Menambahkan opsi ekspor CSV dari hasil terfilter.
+- [x] Menulis test helper CSV dan filter tabel.
+- [x] Memverifikasi build, test, responsif, dan checkpoint.
+
+## Verifikasi akhir tabel CSV
+
+- [x] Mengekstrak dan menguji helper filter host/status secara deterministik.
+- [x] Memverifikasi halaman Recon pada viewport mobile setelah tabel port dan ekspor CSV ditambahkan.
+- [x] Menyimpan checkpoint baru setelah validasi akhir tabel dan ekspor CSV.
+
+- [x] Simpan checkpoint baru setelah validasi akhir fitur tabel port, filter host/status, dan ekspor CSV. selesai.
