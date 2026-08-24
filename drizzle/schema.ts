@@ -91,7 +91,7 @@ export const reconResults = mysqlTable("recon_results", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
   targetId: int("targetId").notNull(),
-  kind: mysqlEnum("kind", ["dns", "subdomain"]).notNull(),
+  kind: mysqlEnum("kind", ["dns", "subdomain", "http", "certificate"]).notNull(),
   target: varchar("target", { length: 255 }).notNull(),
   payload: json("payload").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

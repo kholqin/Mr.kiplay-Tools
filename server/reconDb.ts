@@ -3,7 +3,7 @@ import { assessmentTargets, auditLogs, reconResults } from "../drizzle/schema";
 import { getDb } from "./db";
 import { getWorkspace } from "./assessmentDb";
 
-export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain", target: string, payload: unknown) {
+export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain" | "http" | "certificate", target: string, payload: unknown) {
   const db = await getDb();
   if (!db || !(await getWorkspace(ownerId, workspaceId))) return undefined;
   const targetRows = await db.select().from(assessmentTargets).where(and(eq(assessmentTargets.id, targetId), eq(assessmentTargets.workspaceId, workspaceId), eq(assessmentTargets.inScope, 1))).limit(1);

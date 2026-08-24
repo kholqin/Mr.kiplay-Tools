@@ -81,3 +81,13 @@ Pengembangan berikutnya dapat mencakup worker terisolasi untuk pekerjaan berat, 
 ## Lisensi
 
 Project ini dirilis di bawah [MIT License](LICENSE). Lisensi tidak menghapus kewajiban operator untuk mematuhi hukum, kebijakan penyedia layanan, dan batas otorisasi engagement.
+
+## Worker dan observasi web
+
+Ringkasan hasil port dan recon dapat dijalankan melalui worker thread terisolasi. Antrean dibatasi maksimal delapan job, concurrency satu, payload dibatasi, dan timeout maksimum 15 detik. Worker hanya mengolah data yang sudah berada di workspace; worker tidak mengeksekusi scanner eksternal atau kode dari pengguna. Status job diisolasi berdasarkan workspace dan tersedia melalui API tRPC.
+
+HTTP fingerprinting pasif menggunakan request `HEAD` tanpa mengikuti redirect dan hanya menyimpan header terpilih serta sinyal teknologi terbatas. Inventaris sertifikat TLS hanya membaca metadata peer certificate, seperti subject, issuer, masa berlaku, fingerprint, dan SAN; material kunci tidak disimpan. Kedua modul tetap memerlukan workspace terotorisasi, target allowlist, DNS preflight publik, timeout, dan validasi manual.
+
+## Continuous integration
+
+Workflow `.github/workflows/ci.yml` menguji Node.js 20, 22, dan 24. Setiap matrix menjalankan instalasi frozen lockfile, pemeriksaan TypeScript, seluruh test, build produksi, dan validasi sintaks installer Unix.
