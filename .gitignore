@@ -39,3 +39,4 @@ artifacts/
 .idea/
 .DS_Store
 Thumbs.db
+config/authorization.json

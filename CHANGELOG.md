@@ -9,6 +9,8 @@ Format versi mengikuti pola `MAJOR.MINOR.PATCH` secara sederhana, dengan kategor
 ### Added
 
 - Menetapkan struktur awal repository untuk aplikasi CLI, dashboard web, REST API, core engine, modul analisis, integrasi, plugin, wordlist, laporan, dokumentasi, dan pengujian.
+- Menambahkan konfigurasi pipeline awal `core/pipeline/default.yaml` dengan urutan Nmap service discovery lalu Nuclei baseline checks.
+- Menambahkan contoh manifest otorisasi di `config/authorization.example.json` dan validator konfigurasi di `scripts/validate_pipeline.py`.
 - Menambahkan README dengan penjelasan arsitektur, alur kerja, batas penggunaan, dan roadmap implementasi.
 - Menambahkan MIT License.
 - Menambahkan panduan kontribusi, kebijakan pelaporan keamanan, dan kode etik komunitas.

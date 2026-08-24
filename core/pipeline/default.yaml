@@ -1,0 +1,134 @@
+# Mr.kiplay-Tools initial pipeline configuration
+# This file describes execution policy; it does not grant authorization.
+
+version: "1"
+name: "authorized-nmap-nuclei-baseline"
+description: "Baseline asset discovery followed by vulnerability template checks"
+
+authorization:
+  required: true
+  evidence_file: "./config/authorization.json"
+  scope_enforcement: "strict"
+  deny_if_scope_is_empty: true
+  deny_private_networks_by_default: true
+  deny_cloud_metadata_endpoints: true
+  require_explicit_confirmation: true
+
+scope:
+  # Replace these examples with assets covered by written authorization.
+  allowed_targets: []
+  excluded_targets:
+    - "127.0.0.0/8"
+    - "169.254.169.254/32"
+    - "::1/128"
+  allowed_ports:
+    - "80"
+    - "443"
+    - "8080"
+    - "8443"
+  max_targets: 32
+
+execution:
+  mode: "sequential"
+  stop_on_stage_failure: true
+  dry_run: true
+  working_directory: "./results"
+  artifacts:
+    format: "jsonl"
+    retain_days: 30
+    redact_secrets: true
+    include_command_line: true
+
+limits:
+  global_timeout_seconds: 900
+  per_target_timeout_seconds: 180
+  max_parallel_targets: 2
+  max_retries: 1
+
+stages:
+  - id: "nmap-discovery"
+    name: "Nmap service discovery"
+    enabled: true
+    integration: "nmap"
+    input: "scope.allowed_targets"
+    output: "./results/{run_id}/nmap/"
+    timeout_seconds: 180
+    command:
+      - "nmap"
+      - "-Pn"
+      - "-sV"
+      - "--version-light"
+      - "--top-ports"
+      - "100"
+      - "--max-retries"
+      - "2"
+      - "--host-timeout"
+      - "180s"
+      - "--max-rate"
+      - "50"
+      - "--open"
+      - "-oX"
+      - "{output_dir}/services.xml"
+      - "-oN"
+      - "{output_dir}/services.txt"
+      - "{target}"
+    safety:
+      intrusive_scripts: false
+      os_detection: false
+      udp_scan: false
+
+  - id: "nuclei-baseline"
+    name: "Nuclei baseline checks"
+    enabled: true
+    integration: "nuclei"
+    depends_on:
+      - "nmap-discovery"
+    input: "nmap-discovery.web_services"
+    output: "./results/{run_id}/nuclei/"
+    timeout_seconds: 600
+    command:
+      - "nuclei"
+      - "-l"
+      - "{input_file}"
+      - "-jsonl"
+      - "-o"
+      - "{output_dir}/findings.jsonl"
+      - "-severity"
+      - "info,low,medium,high,critical"
+      - "-rate-limit"
+      - "25"
+      - "-bulk-size"
+      - "10"
+      - "-concurrency"
+      - "5"
+      - "-timeout"
+      - "10"
+      - "-retries"
+      - "1"
+      - "-no-interactsh"
+      - "-no-color"
+    safety:
+      template_sources: "local-approved-only"
+      exclude_tags:
+        - "dos"
+        - "fuzz"
+        - "brute-force"
+        - "intrusive"
+      require_template_signature: false
+      oob_callbacks: false
+
+reporting:
+  formats:
+    - "jsonl"
+    - "html"
+  include_raw_artifacts: true
+  deduplicate_by:
+    - "template_id"
+    - "host"
+    - "matched_at"
+  severity_order:
+    - "critical"
+    - "high"
+    - "medium"
+    - "low"
+    - "info"
