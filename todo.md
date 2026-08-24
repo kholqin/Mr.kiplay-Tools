@@ -101,4 +101,4 @@
 - [x] Menulis test helper sorting dan pagination.
 - [x] Memverifikasi build, test, responsif, dan checkpoint.
 
-- [ ] Simpan checkpoint baru setelah validasi akhir fitur pagination dan pengurutan tabel port selesai.
+- [x] Simpan checkpoint baru setelah validasi akhir fitur pagination dan pengurutan tabel port selesai.
