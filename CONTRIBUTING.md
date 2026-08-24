@@ -1,27 +1,13 @@
-# Contributing to Mr.kiplay-Tools
+# Panduan Kontribusi
 
-Terima kasih telah mempertimbangkan kontribusi ke Mr.kiplay-Tools. Proyek ini berfokus pada tooling security yang dapat diaudit, modular, dan aman digunakan pada scope yang telah disetujui.
+Kontribusi ke Mr.Kiplay harus menjaga prinsip **scope jelas, otorisasi terverifikasi, output dapat diaudit, dan default non-destruktif**. Sebelum membuat perubahan besar, jelaskan tujuan, risiko, dan cara verifikasinya.
 
-## Sebelum mulai
+Jalankan `pnpm check` dan `pnpm test -- --run` sebelum pull request. Jangan menambahkan credentials, data pribadi, hasil scan nyata, target privat, atau contoh eksploitasi yang dapat langsung disalahgunakan. Perubahan adapter wajib mendokumentasikan timeout, rate limit, validasi input, format output, dan perilaku ketika scope tidak valid.
 
-Baca README dan SECURITY.md terlebih dahulu. Untuk perubahan besar, buka issue yang menjelaskan masalah, tujuan, batasan, dan rancangan solusi. Perubahan yang memperluas kemampuan scanning harus menjelaskan scope enforcement, rate limiting, timeout, logging, dan cara mencegah penggunaan di luar otorisasi.
+## Verifikasi lintas platform
 
-## Alur pull request
+Perubahan installer atau dokumentasi harus ditulis agar dapat dijalankan pada Ubuntu, Debian, Kali, Arch, BlackArch, macOS, Windows, dan Termux. Gunakan `scripts/install/install.sh` untuk Unix dan `scripts/install/install.ps1` untuk Windows. Installer hanya melakukan bootstrap dependency serta pemeriksaan kualitas.
 
-Gunakan branch dengan nama yang deskriptif, misalnya `feat/recon-module` atau `fix/report-export`. Buat perubahan sekecil dan sefokus mungkin. Sertakan pengujian, dokumentasi, contoh output yang telah disanitasi, dan catatan kompatibilitas bila diperlukan.
+## Privasi dan identitas
 
-Sebelum membuat pull request, jalankan pemeriksaan lokal:
-
-```bash
-make check
-```
-
-Judul pull request sebaiknya singkat dan menjelaskan hasil perubahan. Deskripsi pull request perlu mencakup konteks, pendekatan, cara verifikasi, dampak keamanan, serta pekerjaan lanjutan yang belum selesai.
-
-## Standar keamanan
-
-Jangan memasukkan token, password, API key, data pribadi, target privat, atau hasil scan nyata ke repository. Gunakan fixtures sintetis dan domain contoh. Modul baru harus menolak input yang ambigu, menggunakan timeout, menangani error secara eksplisit, dan tidak menjalankan aksi destruktif secara default.
-
-## Lisensi kontribusi
-
-Dengan mengirimkan kontribusi, Anda menyatakan bahwa Anda memiliki hak untuk mengirimkannya dan menyetujui kontribusi tersebut dirilis di bawah MIT License yang berlaku untuk proyek ini.
+Jangan menambahkan nama, email, token, hasil scan nyata, target privat, atau bukti otorisasi asli ke fixture, screenshot, dokumentasi, atau commit. Gunakan identitas generik dan data sintetis yang tidak menyerupai target nyata.

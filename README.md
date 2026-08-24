@@ -1,104 +1,83 @@
-# Mr.Kiplay Security Intelligence Toolkit
+# Mr.Kiplay Security Intelligence Platform
 
-**Mr.kiplay-Tools** adalah toolkit modular untuk **reconnaissance, asset discovery, security assessment, evidence collection, dan reporting** dalam satu alur kerja yang terstruktur. Proyek ini dirancang agar analis keamanan dapat mengorkestrasi berbagai integrasi populer melalui CLI, dashboard web, REST API, dan plugin SDK.
+Mr.Kiplay adalah command center full-stack berbahasa Indonesia untuk **assessment keamanan yang berizin, non-destruktif, dan dapat diaudit**. Platform ini membantu analis mengelola workspace, menetapkan scope allowlist, mengumpulkan sinyal recon terbatas, meninjau hasil, serta menjaga setiap aktivitas tetap melalui validasi manual.
 
-> **Peringatan penggunaan:** toolkit ini hanya boleh digunakan pada aset yang Anda miliki atau yang secara tertulis mengizinkan pengujian. Menjalankan pemindaian, eksploitasi, atau pengumpulan data terhadap target tanpa otorisasi dapat melanggar hukum dan kebijakan layanan.
+> Gunakan Mr.Kiplay hanya pada aset milik sendiri atau target yang memiliki otorisasi tertulis. Platform ini tidak memberikan izin untuk menguji sistem pihak lain.
 
-## Status proyek
+## Fitur utama
 
-Repository ini saat ini berfungsi sebagai **scaffold arsitektur**. Struktur modul dan integrasi disiapkan agar implementasi dapat dikembangkan secara bertahap. Fitur yang belum tersedia tidak boleh dianggap sudah berjalan hanya karena direktori atau nama modulnya telah dibuat.
+| Area | Kemampuan |
+| --- | --- |
+| Workspace | Workspace, target allowlist, profil scan, bukti otorisasi, audit trail, dan riwayat job |
+| Kesiapan | Checklist empat langkah: workspace, target, profil, dan konfirmasi otorisasi, dengan quick action ke langkah yang belum selesai |
+| Recon | DNS lookup, resolver kustom tervalidasi, cache TTL, pencarian subdomain kandidat terbatas, dan integrasi subdomain ke port scan |
+| Port scan | Daftar port eksplisit, maksimal 100 host dan 32 port, timeout, rate limit, tabel server-side pagination, filter, sorting, dan ekspor CSV maksimal 10.000 baris |
+| Pipeline | Preview Nmap discovery → Nuclei baseline tanpa menjalankan scanner atau eksploitasi otomatis |
+| Findings | Deduplikasi, severity, confidence, evidence tersanitasi, dan kewajiban validasi manual |
+| Reporting | Ekspor laporan HTML/JSON dan keluaran CSV yang aman dari formula injection |
+| Integrasi | Kontrak adapter untuk Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit |
+| UI | Dark graphite dengan aksen Merah Putih, responsif, keyboard-friendly, dan identitas pengguna generik tanpa menampilkan email pada sidebar |
 
-| Area | Rencana fungsi | Status awal |
-| --- | --- | --- |
-| `apps/cli` | Antarmuka command-line `mrk` | Scaffold |
-| `apps/web` | Dashboard pemantauan dan hasil scan | Scaffold |
-| `apps/api` | REST API untuk orkestrasi job | Scaffold |
-| `core/` | Engine, pipeline, scheduler, evidence, report, storage | Scaffold |
-| `modules/` | Recon, vulnerability assessment, OSINT, discovery, intelligence | Scaffold |
-| `integrations/` | Adapter untuk tool eksternal | Scaffold |
-| `plugins/` | SDK dan contoh ekstensi | Scaffold |
-| `tests/` | Unit test, integration test, dan fixtures | Scaffold |
+## Status implementasi
 
-## Prinsip desain
+MVP saat ini menyediakan dashboard React/Tailwind, backend Express/tRPC, autentikasi Manus, Drizzle ORM, database assessment, guardrail scope, recon DNS/subdomain aktif yang dibatasi, port observation server-side, preview pipeline, reporting, dan test Vitest. Adapter executable untuk tool eksternal tetap memerlukan deployment terisolasi, konfigurasi operator, serta validasi tambahan sebelum diaktifkan.
 
-Mr.kiplay-Tools menggunakan pendekatan modular sehingga setiap kemampuan dapat dikembangkan, diuji, dan diganti secara terpisah. **Core engine** bertanggung jawab atas orkestrasi; **module** menyediakan kemampuan analisis; **integration** menjadi adapter untuk program eksternal; sedangkan **evidence, reporting, dan storage** memastikan hasil dapat ditelusuri dan diekspor dengan konsisten.
+## Menjalankan secara lokal
 
-Setiap operasi yang menyentuh target harus memiliki scope yang jelas, jejak audit, batas rate, serta mekanisme penghentian. Modul aktif sebaiknya menyediakan mode pasif terlebih dahulu, validasi input, timeout, logging, dan output terstruktur.
+Prasyaratnya adalah Node.js LTS, pnpm, dan database MySQL/TiDB yang kompatibel dengan konfigurasi project. Jangan commit file `.env` atau kredensial.
 
-## Struktur repository
+```bash
+pnpm install
+pnpm check
+pnpm test -- --run
+pnpm dev
+```
+
+Dashboard dapat dibuka melalui URL lokal yang ditampilkan oleh server. Untuk build produksi:
+
+```bash
+pnpm build
+pnpm start
+```
+
+## Dukungan sistem operasi
+
+| Sistem | Jalur yang disarankan |
+| --- | --- |
+| Ubuntu/Debian/Kali/BlackArch/Arch | Gunakan `scripts/install/install.sh` setelah Node.js LTS dan pnpm tersedia |
+| macOS | Gunakan Homebrew atau installer Node.js LTS, lalu jalankan `bash scripts/install/install.sh` |
+| Windows | Jalankan `scripts/install/install.ps1` melalui PowerShell setelah Node.js LTS dan pnpm tersedia |
+| Termux | Pasang `nodejs`, aktifkan corepack, lalu jalankan `bash scripts/install/install.sh` dari clone repository |
+| Sistem Unix lain | Pastikan Bash, Node.js LTS, pnpm, dan database tersedia; gunakan installer shell sebagai bootstrap |
+
+Installer hanya memasang dependency dan menjalankan pemeriksaan kualitas. Installer **tidak menjalankan pemindaian jaringan**.
+
+## Alur assessment aman
+
+Buat workspace, masukkan hanya target yang diizinkan ke allowlist, pilih profil bounded, unggah atau konfirmasi bukti otorisasi, lalu gunakan mode preview untuk memeriksa rencana pipeline. Hasil recon dan port observation ditampilkan sebagai sinyal operasional, bukan bukti kerentanan final. Setiap indikasi SQLi, XSS, SSRF, exposure, atau misconfiguration wajib ditinjau dan divalidasi manual.
+
+Alamat loopback, jaringan private, endpoint metadata cloud, target kosong, serta input di luar scope ditolak secara default. Timeout, rate limit, batas jumlah kandidat, batas host/port, sanitasi keluaran, dan audit trail merupakan bagian dari desain dasar.
+
+## Arsitektur singkat
+
+Frontend berada di `client/` dan menggunakan React, Tailwind, komponen shadcn/ui, serta tRPC client. Backend berada di `server/` dengan Express, tRPC, helper Drizzle, dan prosedur terproteksi. Policy bersama berada di `shared/`, engine recon di `core/recon/`, adapter integrasi di `integrations/`, dan schema database di `drizzle/`.
 
 ```text
-apps/             Aplikasi CLI, dashboard web, dan REST API
-core/              Engine orkestrasi dan layanan inti
-modules/           Modul recon, vulnerability, OSINT, discovery, intelligence
-integrations/      Adapter Burp, Nmap, Nuclei, Amass, Subfinder, httpx, SearchSploit
-frontend/          Komponen UI, halaman, dashboard, tema, animasi, aset
-native/            Engine C++ dan integrasi C#/.NET
-plugins/           SDK plugin dan contoh implementasi
-wordlists/         Wordlist subdomain, direktori, dan parameter
-reports/           Template serta contoh laporan
-tests/             Unit test, integration test, dan fixtures
-docs/              Dokumentasi arsitektur, modul, API, instalasi, development
-scripts/           Script instalasi, build, dan release
-.github/           Workflow CI, template issue, serta template pull request
+client React/Tailwind
+        │ tRPC
+server Express/tRPC ── shared policy ── core recon
+        │
+   Drizzle/MySQL
 ```
 
-## Instalasi pengembangan
+## Struktur dokumentasi
 
-Karena repository masih berada pada tahap scaffold, perintah berikut menyiapkan lingkungan Python dan Node.js secara umum. Detail dependency setiap aplikasi akan ditambahkan bersama implementasi masing-masing komponen.
+`docs/installation/` berisi catatan instalasi, `docs/modules/` menjelaskan katalog modul, `docs/development/` berisi panduan kontribusi teknis, dan `integrations/` berisi kontrak adapter. Lihat juga [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), dan [LICENSE](LICENSE).
 
-```bash
-git clone https://github.com/kholqin/Mr.kiplay-Tools.git
-cd Mr.kiplay-Tools
+## Roadmap aman
 
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-
-npm install
-```
-
-Untuk memeriksa struktur proyek dan menjalankan pemeriksaan dasar:
-
-```bash
-make check
-```
-
-## Konsep penggunaan
-
-Alur kerja yang direncanakan adalah sebagai berikut:
-
-1. Membuat **target dan scope** yang terdokumentasi.
-2. Menentukan modul dan integrasi yang diizinkan untuk job tersebut.
-3. Menjalankan pipeline dengan timeout, rate limit, dan logging.
-4. Mengumpulkan evidence yang relevan tanpa menyimpan rahasia atau data pribadi yang tidak diperlukan.
-5. Meninjau hasil, memberi tingkat keparahan dan confidence, lalu membuat report.
-6. Menyimpan artefak secara aman serta menghapus data sesuai kebijakan retensi.
-
-Contoh bentuk perintah yang direncanakan, bukan jaminan fitur yang sudah tersedia:
-
-```bash
-mrk target add example.com --scope approved
-mrk scan run --target example.com --profile passive
-mrk report generate --format html --input ./results/latest
-```
-
-## Integrasi eksternal
-
-Adapter pada `integrations/` ditujukan untuk menghubungkan toolkit dengan tool security assessment yang telah terpasang dan dikonfigurasi oleh pengguna. Integrasi tidak otomatis memberikan izin untuk mengakses target. Pengguna tetap bertanggung jawab atas instalasi tool, lisensi, kredensial, scope, dan kepatuhan terhadap aturan yang berlaku.
-
-## Kontribusi
-
-Kontribusi dipersilakan melalui issue dan pull request. Sebelum mengirim perubahan, baca [CONTRIBUTING.md](CONTRIBUTING.md), pastikan perubahan tidak menambahkan perilaku pemindaian yang agresif tanpa guardrail, dan sertakan pengujian atau penjelasan verifikasi yang sesuai.
-
-## Pelaporan kerentanan
-
-Jangan mempublikasikan detail kerentanan keamanan repository melalui issue terbuka. Ikuti prosedur pada [SECURITY.md](SECURITY.md) agar laporan dapat ditangani secara bertanggung jawab.
+Pengembangan berikutnya dapat mencakup worker terisolasi untuk pekerjaan berat, HTTP fingerprinting pasif, inventaris sertifikat, observability job, ekspor besar berbasis streaming, dan adapter eksternal dengan sandbox serta approval manual. Fitur yang bersifat eksploitasi otomatis, credential theft, persistence, destructive testing, atau target discovery tanpa otorisasi tidak menjadi bagian dari roadmap Mr.Kiplay.
 
 ## Lisensi
 
-Proyek ini dirilis di bawah [MIT License](LICENSE). Lisensi tersebut berlaku untuk kode dan artefak proyek yang memang dibuat di dalam repository, sedangkan tool pihak ketiga tetap tunduk pada lisensinya masing-masing.
-
-## Kredit dan kontak
-
-Pemelihara repository: **kholqin**. Untuk pertanyaan umum, gunakan GitHub Issues. Untuk isu keamanan, gunakan kanal privat yang dijelaskan dalam [SECURITY.md](SECURITY.md).
+Project ini dirilis di bawah [MIT License](LICENSE). Lisensi tidak menghapus kewajiban operator untuk mematuhi hukum, kebijakan penyedia layanan, dan batas otorisasi engagement.

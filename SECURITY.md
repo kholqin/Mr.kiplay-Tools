@@ -1,19 +1,19 @@
-# Security Policy
+# Kebijakan Keamanan
 
-## Ruang lingkup
+Mr.Kiplay hanya ditujukan untuk assessment yang memiliki otorisasi. Jangan gunakan platform untuk mengakses, memindai, mengeksploitasi, atau mengumpulkan data dari target di luar scope.
 
-Kebijakan ini berlaku untuk kode, konfigurasi, workflow, dokumentasi, dan artefak yang berada di repository Mr.kiplay-Tools.
+## Guardrail wajib
 
-## Pelaporan privat
+Setiap workspace harus memiliki allowlist target, bukti atau konfirmasi izin, pengecualian jaringan sensitif, timeout, rate limit, audit trail, dan preview sebelum aktivitas berikutnya diaktifkan. Temuan SQLi, XSS, SSRF, exposure, serta misconfiguration adalah indikasi awal dan harus divalidasi manual.
 
-Jangan membuka issue publik untuk kerentanan yang dapat dieksploitasi. Gunakan fitur **Private vulnerability reporting** GitHub bila tersedia pada repository. Jika fitur tersebut belum tersedia, hubungi pemelihara repository melalui kanal kontak privat yang terhubung dengan akun GitHub `kholqin` dan sertakan subjek `[SECURITY]`.
+## Pelaporan kerentanan
 
-Laporan sebaiknya memuat versi atau commit yang terdampak, langkah reproduksi minimal pada lingkungan yang diizinkan, dampak, bukti konsep yang aman dan tidak destruktif, serta saran mitigasi. Jangan menyertakan kredensial, data pribadi, atau data target pihak lain.
+Jangan mempublikasikan kredensial, data pribadi, hasil scan nyata, atau detail kerentanan yang dapat dieksploitasi melalui issue publik. Gunakan kanal privat pemilik repository untuk laporan keamanan dan sertakan versi/commit, langkah reproduksi aman, dampak, serta rekomendasi mitigasi.
 
-## Proses penanganan
+## Distribusi lintas platform
 
-Pemelihara akan mengonfirmasi penerimaan laporan, melakukan triase, menyiapkan perbaikan, dan mengoordinasikan pengungkapan setelah mitigasi tersedia. Waktu respons dapat berbeda tergantung tingkat keparahan dan kompleksitas verifikasi.
+Mr.Kiplay dapat dikembangkan melalui Node.js LTS dan pnpm pada Linux, macOS, Windows, serta Termux. Skrip installer tidak memasang atau menjalankan scanner secara otomatis. Integrasi tool eksternal harus disandbox, diberi batas timeout dan rate, serta dijalankan hanya setelah otorisasi manual.
 
-## Penggunaan toolkit
+## Privasi repository
 
-Mr.kiplay-Tools bukan izin untuk menguji sistem pihak lain. Pengguna wajib memperoleh otorisasi tertulis, menetapkan scope, menghormati rate limit, dan mematuhi hukum serta kebijakan layanan yang berlaku. Fitur yang berpotensi mengirim request aktif harus memiliki peringatan, batas aman, dan konfigurasi opt-in.
+Sebelum commit, periksa diff untuk memastikan tidak ada nama/email pribadi, credentials, hasil scan nyata, target privat, atau bukti otorisasi asli. Gunakan identitas operasional generik pada UI dan contoh dokumentasi.

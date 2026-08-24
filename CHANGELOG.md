@@ -1,30 +1,49 @@
 # Changelog
 
-Semua perubahan penting pada Mr.kiplay-Tools akan dicatat di dokumen ini.
-
-Format versi mengikuti pola `MAJOR.MINOR.PATCH` secara sederhana, dengan kategori **Added**, **Changed**, **Fixed**, **Security**, dan **Removed** bila relevan.
-
 ## [Unreleased]
 
 ### Added
 
-- Menetapkan struktur awal repository untuk aplikasi CLI, dashboard web, REST API, core engine, modul analisis, integrasi, plugin, wordlist, laporan, dokumentasi, dan pengujian.
-- Menambahkan konfigurasi pipeline awal `core/pipeline/default.yaml` dengan urutan Nmap service discovery lalu Nuclei baseline checks.
-- Menambahkan contoh manifest otorisasi di `config/authorization.example.json` dan validator konfigurasi di `scripts/validate_pipeline.py`.
-- Menambahkan README dengan penjelasan arsitektur, alur kerja, batas penggunaan, dan roadmap implementasi.
-- Menambahkan MIT License.
-- Menambahkan panduan kontribusi, kebijakan pelaporan keamanan, dan kode etik komunitas.
+- Dashboard dark responsif dengan identitas visual Merah Putih dan navigasi modular berbahasa Indonesia.
+- Workspace assessment untuk menyimpan konteks, target, profil scan, dan riwayat job.
+- Authorization gate dengan konfirmasi izin, allowlist target, penolakan jaringan sensitif, timeout, rate limit, serta audit trail.
+- Preview pipeline berurutan Nmap discovery → Nuclei baseline tanpa eksekusi scanner.
+- Scope policy dan unit test untuk normalisasi target serta penolakan loopback, jaringan private, dan endpoint metadata.
+- README produk dan dokumentasi penggunaan aman.
 
 ### Security
 
-- Menetapkan prinsip penggunaan hanya pada target yang dimiliki atau telah mendapat otorisasi tertulis.
-- Menetapkan kebutuhan scope, rate limit, timeout, audit trail, dan perlindungan data pada pipeline.
+- Semua indikasi kerentanan diposisikan sebagai sinyal awal yang memerlukan validasi manual.
+- Eksploitasi otomatis, OOB callback, dan aktivitas destruktif tidak diaktifkan pada fondasi awal.
 
 ## [0.1.0] - 2026-08-24
 
-### Added
+- Inisialisasi platform full-stack Mr.Kiplay.
 
-- Rilis scaffold pertama Mr.kiplay-Tools.
+## [Unreleased] — Integrasi Port Scan Subdomain
 
-[Unreleased]: https://github.com/kholqin/Mr.kiplay-Tools/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/kholqin/Mr.kiplay-Tools/releases/tag/v0.1.0
+- Menambahkan planner port scan dari subdomain hasil recon tersimpan.
+- Menambahkan pemeriksaan port terbatas dengan batas maksimal 32 port, 100 host, timeout, rate limit, mode pratinjau, penyimpanan hasil, dan audit trail.
+- Menambahkan tabel `port_scan_results`, endpoint tRPC terproteksi, kartu kontrol pada halaman Recon, serta test normalisasi dan guardrail.
+- Eksekusi hanya dapat dilakukan setelah otorisasi workspace dikonfirmasi; penggunaan pada target tanpa izin tetap dilarang.
+
+## [Unreleased] — Identitas Generik dan Kesiapan Assessment
+
+### Ditambahkan
+
+- Checklist kesiapan assessment yang menghitung status workspace, target allowlist, profil pemindaian, dan otorisasi secara deterministik.
+- Quick action pada checklist yang mengarahkan analis ke modul yang belum selesai tanpa memulai scan otomatis.
+- Identitas operasional generik “Analis Mr.Kiplay” pada sidebar dan greeting dashboard yang tidak menampilkan nama atau email pribadi.
+- Panduan menjalankan project pada Ubuntu, Debian, Kali, BlackArch, Arch, macOS, Windows, Termux, dan sistem Unix lain.
+
+### Diperbaiki
+
+- Perhitungan kesiapan dashboard dipusatkan pada helper bersama agar konsisten dan dapat diuji.
+- Test query port memperiksa filter, sort, LIMIT/OFFSET, dan ekspor tanpa offset secara eksplisit.
+- README diselaraskan dengan status aktual MVP dan batas keamanan platform.
+
+### Keamanan
+
+- Semua aktivitas tetap dibatasi pada target berizin, allowlist, timeout, rate limit, dan audit trail.
+- Preview pipeline dan indikasi kerentanan tidak menjalankan eksploitasi otomatis.
+- Dokumentasi melarang penyimpanan credentials, data pribadi, hasil scan nyata, dan target privat di repository.

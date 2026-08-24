@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787577988159,
+      "tag": "0000_familiar_crusher_hogan",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787578160254,
+      "tag": "0001_swift_secret_warriors",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787578647463,
+      "tag": "0002_naive_thor_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787580482650,
+      "tag": "0003_complete_titanium_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787581210223,
+      "tag": "0004_friendly_wolfpack",
+      "breakpoints": true
+    }
+  ]
+}
