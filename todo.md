@@ -165,5 +165,5 @@
 - [x] Tambahkan test yang membuktikan jeda rate limit HTTP dipakai pada jalur aktif.
 - [x] Jalankan ulang check dan test setelah koreksi rate limit HTTP.
 
-- [ ] Simpan checkpoint baru untuk worker, HTTP fingerprinting, sertifikat, dan CI.
-- [ ] Commit dan push semua perubahan ke kholqin/Mr.kiplay-Tools lalu verifikasi SHA remote.
+- [x] Simpan checkpoint baru untuk worker, HTTP fingerprinting, sertifikat, dan CI.
+- [x] Commit dan push semua perubahan ke kholqin/Mr.kiplay-Tools lalu verifikasi SHA remote.
