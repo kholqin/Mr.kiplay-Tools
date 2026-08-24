@@ -6,6 +6,9 @@ import { addTarget, confirmAuthorization, createPreviewJob, createWorkspace, ens
 import { buildReport } from "./reporting";
 import { moduleCatalog } from "../core/modules/catalog";
 import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
+import { fingerprintHttp } from "../core/recon/httpFingerprint";
+import { inventoryCertificate } from "../core/recon/certificateInventory";
+import { isolatedWorkerQueue } from "../core/worker/isolatedWorker";
 import { listReconResults, saveReconResult } from "./reconDb";
 import { createPortScanPlan, scanOpenPorts } from "../core/recon/portScan";
 import { listDiscoveredSubdomains, exportPortObservationsCsv, listPortObservations, listPortObservationsPage, savePortObservations } from "./portScanDb";
@@ -75,6 +78,44 @@ export const appRouter = router({
       const result = await scanOpenPorts(hosts, { ports: input.ports, preview: false, maxHosts: 100, timeoutMs: 3000, rateLimitPerSecond: 2 });
       const saved = await savePortObservations(ctx.user.id, input.workspaceId, null, result.observations);
       return { plan: result.plan, observations: saved };
+    }),
+    httpFingerprint: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
+      if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
+      const result = await fingerprintHttp(target.value, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 1 });
+      return saveReconResult(ctx.user.id, input.workspaceId, target.id, "http", target.value, result);
+    }),
+    certificateInventory: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
+      if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
+      const result = await inventoryCertificate(target.value, { preview: input.preview, timeoutMs: 5000 });
+      return saveReconResult(ctx.user.id, input.workspaceId, target.id, "certificate", target.value, result);
+    }),
+    enqueueWorker: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), task: z.enum(["aggregatePortObservations", "summarizeReconResults"]) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const payload = input.task === "aggregatePortObservations" ? { rows: await listPortObservations(ctx.user.id, input.workspaceId) } : { results: await listReconResults(ctx.user.id, input.workspaceId) };
+      return isolatedWorkerQueue.enqueue(input.workspaceId, input.task, payload, 10000);
+    }),
+    workerJobs: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      return isolatedWorkerQueue.listForWorkspace(input.workspaceId);
+    }),
+    workerJob: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).query(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      const job = isolatedWorkerQueue.getForWorkspace(input.jobId, input.workspaceId);
+      if (!job) throw new Error("Job worker tidak ditemukan");
+      return job;
+    }),
+    cancelWorker: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).mutation(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      const job = isolatedWorkerQueue.getForWorkspace(input.jobId, input.workspaceId);
+      if (!job) throw new Error("Job worker tidak ditemukan");
+      return { cancelled: isolatedWorkerQueue.cancel(input.jobId) };
     }),
   }),
 });

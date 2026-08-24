@@ -147,3 +147,23 @@
 - [x] Buat checkpoint baru setelah perubahan identitas, dokumentasi, dan installer selesai divalidasi.
 - [x] Lakukan git add, commit, dan push ke kholqin/Mr.kiplay-Tools lalu verifikasi commit terbaru pada remote.
 - [x] Tambahkan test kontrak komponen Home dan DashboardLayout yang memastikan identitas generik dirender tanpa nama/email pengguna.
+
+## Worker, HTTP fingerprinting, sertifikat, dan CI
+
+- [x] Audit kontrak job, recon, router, dan workflow CI yang tersedia.
+- [x] Tambahkan worker terisolasi bounded untuk tugas berat non-destruktif dengan timeout, batas antrean, dan status job.
+- [x] Tambahkan HTTP fingerprinting pasif dengan validasi scope, timeout, rate limit, dan sanitasi header.
+- [x] Tambahkan inventaris sertifikat TLS dengan validasi scope, timeout, dan keluaran metadata terbatas.
+- [x] Hubungkan modul baru ke API/UI melalui alur preview dan authorization gate.
+- [x] Tambahkan test untuk worker, HTTP fingerprinting, inventaris sertifikat, dan guardrail.
+- [x] Tambahkan GitHub Actions untuk Node.js 20, 22, dan 24 dengan check, test, build, serta validasi installer.
+- [x] Jalankan validasi akhir (check, test, build, diff, installer, dan visual UI).
+
+## Koreksi rate limit HTTP
+
+- [x] Terapkan rate limit konservatif pada request HTTP aktif, bukan hanya mendeklarasikan opsi.
+- [x] Tambahkan test yang membuktikan jeda rate limit HTTP dipakai pada jalur aktif.
+- [x] Jalankan ulang check dan test setelah koreksi rate limit HTTP.
+
+- [ ] Simpan checkpoint baru untuk worker, HTTP fingerprinting, sertifikat, dan CI.
+- [ ] Commit dan push semua perubahan ke kholqin/Mr.kiplay-Tools lalu verifikasi SHA remote.

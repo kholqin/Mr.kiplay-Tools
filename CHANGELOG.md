@@ -47,3 +47,21 @@
 - Semua aktivitas tetap dibatasi pada target berizin, allowlist, timeout, rate limit, dan audit trail.
 - Preview pipeline dan indikasi kerentanan tidak menjalankan eksploitasi otomatis.
 - Dokumentasi melarang penyimpanan credentials, data pribadi, hasil scan nyata, dan target privat di repository.
+
+## [Unreleased] — Worker dan Web Recon Pasif
+
+### Ditambahkan
+
+- Worker thread terisolasi dengan antrean maksimal delapan job, concurrency satu, timeout maksimum 15 detik, pembatasan payload, isolasi workspace, status, dan pembatalan job antrean.
+- HTTP fingerprinting pasif melalui metadata HEAD terpilih, tanpa mengikuti redirect atau mengirim payload eksploitasi.
+- Inventaris sertifikat TLS peer yang hanya menyimpan metadata subject, issuer, masa berlaku, fingerprint, dan SAN.
+- DNS preflight untuk menolak hostname yang mengarah ke jaringan sensitif atau alamat non-publik sebelum observasi HTTP/TLS.
+- Endpoint tRPC dan kontrol Recon untuk preview, eksekusi terotorisasi, serta ringkasan worker.
+- Migration `recon_results.kind` untuk jenis hasil `http` dan `certificate`.
+- GitHub Actions matrix Node.js 20, 22, dan 24 untuk check, test, build, dan validasi installer.
+
+### Keamanan
+
+- Seluruh endpoint baru memeriksa workspace, authorization gate, dan target allowlist sebelum aktivitas aktif.
+- Worker tidak menerima kode executable dari client dan tidak menjalankan Nmap, Nuclei, atau scanner eksternal.
+- Hasil web recon diposisikan sebagai sinyal observasi yang wajib divalidasi manual.
