@@ -22,6 +22,13 @@
       "when": 1787578647463,
       "tag": "0002_naive_thor_girl",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787580482650,
+      "tag": "0003_complete_titanium_man",
+      "breakpoints": true
     }
   ]
 }

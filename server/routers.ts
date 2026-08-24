@@ -4,6 +4,8 @@ import { protectedProcedure } from "./_core/trpc";
 import { addTarget, confirmAuthorization, createPreviewJob, createWorkspace, ensureDefaultProfile, getWorkspace, listFindings, listProfiles, listRecentJobs, listTargets, listWorkspaces, saveAuthorizationEvidence } from "./assessmentDb";
 import { buildReport } from "./reporting";
 import { moduleCatalog } from "../core/modules/catalog";
+import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
+import { listReconResults, saveReconResult } from "./reconDb";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
@@ -40,6 +42,23 @@ export const appRouter = router({
     jobs: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listRecentJobs(ctx.user.id, input.workspaceId)),
     findings: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listFindings(ctx.user.id, input.workspaceId)),
     report: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), format: z.enum(["json", "html"]) })).query(({ ctx, input }) => buildReport(ctx.user.id, input.workspaceId, input.format)),
+    reconResults: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), kind: z.enum(["dns", "subdomain"]).optional() })).query(({ ctx, input }) => listReconResults(ctx.user.id, input.workspaceId, input.kind)),
+    dnsLookup: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
+      if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
+      const result = await collectDnsRecords(target.value, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2 });
+      return saveReconResult(ctx.user.id, input.workspaceId, target.id, "dns", target.value, result);
+    }),
+    subdomainDiscovery: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), candidates: z.array(z.string().trim().min(1).max(63)).min(1).max(100), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
+      if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
+      const result = await discoverSubdomains(target.value, input.candidates, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2 });
+      return saveReconResult(ctx.user.id, input.workspaceId, target.id, "subdomain", target.value, result);
+    }),
   }),
 });
 

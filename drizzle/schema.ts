@@ -87,6 +87,16 @@ export const findings = mysqlTable("findings", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const reconResults = mysqlTable("recon_results", {
+  id: int("id").autoincrement().primaryKey(),
+  workspaceId: int("workspaceId").notNull(),
+  targetId: int("targetId").notNull(),
+  kind: mysqlEnum("kind", ["dns", "subdomain"]).notNull(),
+  target: varchar("target", { length: 255 }).notNull(),
+  payload: json("payload").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const evidence = mysqlTable("evidence", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
@@ -114,3 +124,4 @@ export type ScanJob = typeof scanJobs.$inferSelect;
 export type Finding = typeof findings.$inferSelect;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type Evidence = typeof evidence.$inferSelect;
+export type ReconResult = typeof reconResults.$inferSelect;

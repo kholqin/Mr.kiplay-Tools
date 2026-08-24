@@ -32,3 +32,17 @@
 - [x] Buat halaman Temuan dengan deduplikasi, filter, severity/confidence, evidence tersanitasi, dan remediasi.
 - [x] Lengkapi installer/platform notes untuk Unix, Windows, Termux, macOS, dan distro Linux yang ditargetkan.
 - [x] Tambahkan test Vitest untuk policy workspace, authorization gate, pipeline preview/validation, deduplikasi findings, sanitizer, dan ekspor laporan inti.
+
+## Recon aktif DNS dan subdomain
+
+- [x] Menambahkan engine DNS berizin dengan timeout, rate limit, validasi scope, dan audit trail.
+- [x] Menambahkan engine pencarian subdomain berbasis kandidat terbatas dengan deduplikasi dan tanpa brute force agresif.
+- [x] Menambahkan schema/penyimpanan hasil recon dan endpoint API terproteksi.
+- [x] Menambahkan halaman Recon berbahasa Indonesia untuk menjalankan pratinjau dan recon aktif terotorisasi.
+- [x] Menulis test untuk scope gate, DNS normalization, subdomain deduplikasi, timeout, dan pembatasan rate.
+- [x] Memverifikasi build, test, dan responsif tanpa menggunakan target nyata.
+
+## Koreksi verifikasi recon
+
+- [x] Menerapkan rate limit eksplisit pada setiap query DNS dan menyediakan helper yang dapat diuji.
+- [x] Menambahkan test timeout dan rate limit DNS tanpa mengirim query ke target nyata.

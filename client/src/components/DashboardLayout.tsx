@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Activity, Bug, FileText, LayoutDashboard, LogOut, PanelLeft, Radar, Settings2, ShieldCheck, Target, Users } from "lucide-react";
+import { Activity, Bug, FileText, LayoutDashboard, LogOut, PanelLeft, Radar, Search, Settings2, ShieldCheck, Target, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -31,6 +31,7 @@ const menuItems = [
   { icon: LayoutDashboard, label: "Ringkasan", path: "/" },
   { icon: Target, label: "Ruang kerja", path: "/workspace" },
   { icon: Radar, label: "Pipeline pemindaian", path: "/pipeline" },
+  { icon: Search, label: "Recon DNS", path: "/recon" },
   { icon: Bug, label: "Temuan", path: "/findings" },
   { icon: FileText, label: "Laporan", path: "/reports" },
   { icon: ShieldCheck, label: "Otorisasi", path: "/authorization" },

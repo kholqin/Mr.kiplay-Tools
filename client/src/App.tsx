@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Workspace from "./pages/Workspace";
 import Reports from "./pages/Reports";
 import Findings from "./pages/Findings";
+import Recon from "./pages/Recon";
 import DashboardLayout from "./components/DashboardLayout";
 
 const modulePaths = ["/workspace", "/pipeline", "/findings", "/reports", "/authorization", "/settings"];
@@ -20,7 +21,8 @@ function Router() {
       <Route path={"/workspace"} component={Workspace} />
       <Route path={"/reports"} component={Reports} />
       <Route path={"/findings"} component={Findings} />
-      {modulePaths.filter((path) => path !== "/workspace" && path !== "/reports" && path !== "/findings").map((path) => <Route key={path} path={path} component={Home} />)}
+      <Route path={"/recon"} component={Recon} />
+      {modulePaths.filter((path) => path !== "/workspace" && path !== "/reports" && path !== "/findings" && path !== "/recon").map((path) => <Route key={path} path={path} component={Home} />)}
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
