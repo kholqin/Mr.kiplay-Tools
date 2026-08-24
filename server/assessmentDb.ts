@@ -2,6 +2,7 @@ import { and, desc, eq } from "drizzle-orm";
 import {
   assessmentTargets,
   assessmentWorkspaces,
+  evidence,
   auditLogs,
   findings,
   scanJobs,
@@ -10,6 +11,7 @@ import {
 import { getDb } from "./db";
 import { validateTargetForScope } from "../shared/assessmentPolicy";
 import { createPipelinePlan } from "../core/pipeline/runner";
+import { storagePut } from "./storage";
 
 export async function listWorkspaces(ownerId: number) {
   const db = await getDb();
@@ -31,6 +33,23 @@ export async function createWorkspace(ownerId: number, input: { name: string; de
   const id = Number(result[0].insertId);
   await db.insert(auditLogs).values({ workspaceId: id, actorId: ownerId, action: "workspace.created", metadata: { name: input.name } });
   return getWorkspace(ownerId, id);
+}
+
+export async function saveAuthorizationEvidence(ownerId: number, workspaceId: number, input: { filename: string; mimeType: string; base64: string }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database belum tersedia");
+  const workspace = await getWorkspace(ownerId, workspaceId);
+  if (!workspace) return undefined;
+  const allowed = new Set(["application/pdf", "image/png", "image/jpeg", "text/plain"]);
+  if (!allowed.has(input.mimeType)) throw new Error("Format bukti belum didukung");
+  const bytes = Buffer.from(input.base64, "base64");
+  if (bytes.length === 0 || bytes.length > 2_000_000) throw new Error("Ukuran bukti harus antara 1 byte dan 2 MB");
+  const safeName = input.filename.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100) || "evidence.bin";
+  const stored = await storagePut(`workspaces/${workspaceId}/authorization/${Date.now()}-${safeName}`, bytes, input.mimeType);
+  await db.update(assessmentWorkspaces).set({ authorizationEvidenceUrl: stored.url }).where(eq(assessmentWorkspaces.id, workspaceId));
+  await db.insert(evidence).values({ workspaceId, scanJobId: 0, findingId: null, kind: "authorization", content: stored.url, sanitized: 1 });
+  await db.insert(auditLogs).values({ workspaceId, actorId: ownerId, action: "authorization.evidence_uploaded", metadata: { filename: safeName, mimeType: input.mimeType, size: bytes.length } });
+  return { url: stored.url, key: stored.key, filename: safeName };
 }
 
 export async function confirmAuthorization(ownerId: number, workspaceId: number, evidenceUrl?: string) {

@@ -1,8 +1,9 @@
 import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
 import { protectedProcedure } from "./_core/trpc";
-import { addTarget, confirmAuthorization, createPreviewJob, createWorkspace, ensureDefaultProfile, getWorkspace, listFindings, listProfiles, listRecentJobs, listTargets, listWorkspaces } from "./assessmentDb";
+import { addTarget, confirmAuthorization, createPreviewJob, createWorkspace, ensureDefaultProfile, getWorkspace, listFindings, listProfiles, listRecentJobs, listTargets, listWorkspaces, saveAuthorizationEvidence } from "./assessmentDb";
 import { buildReport } from "./reporting";
+import { moduleCatalog } from "../core/modules/catalog";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
@@ -21,11 +22,14 @@ export const appRouter = router({
     }),
   }),
 
+  modules: publicProcedure.query(() => moduleCatalog),
+
   assessment: router({
     workspaces: protectedProcedure.query(({ ctx }) => listWorkspaces(ctx.user.id)),
     getWorkspace: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => getWorkspace(ctx.user.id, input.workspaceId)),
     createWorkspace: protectedProcedure.input(z.object({ name: z.string().trim().min(3).max(160), description: z.string().trim().max(1000).optional() })).mutation(({ ctx, input }) => createWorkspace(ctx.user.id, input)),
     confirmAuthorization: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), evidenceUrl: z.string().url().optional() })).mutation(({ ctx, input }) => confirmAuthorization(ctx.user.id, input.workspaceId, input.evidenceUrl)),
+    uploadAuthorizationEvidence: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), filename: z.string().min(1).max(120), mimeType: z.enum(["application/pdf", "image/png", "image/jpeg", "text/plain"]), base64: z.string().min(1).max(2_700_000) })).mutation(({ ctx, input }) => saveAuthorizationEvidence(ctx.user.id, input.workspaceId, input)),
     targets: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listTargets(ctx.user.id, input.workspaceId)),
     addTarget: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), value: z.string().trim().min(1).max(255), targetType: z.enum(["domain", "url", "ip", "cidr"]) })).mutation(({ ctx, input }) => addTarget(ctx.user.id, input.workspaceId, input)),
     profiles: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(async ({ ctx, input }) => {
