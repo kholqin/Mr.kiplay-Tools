@@ -67,3 +67,7 @@ corepack prepare pnpm@10.4.1 --activate
 ```
 
 Setelah bootstrap, verifikasi dengan `pnpm check`, `pnpm test -- --run`, dan `git diff --check`. Integrasi Nmap, Nuclei, Burp Suite, Amass, Subfinder, httpx, dan SearchSploit bersifat opsional serta harus dikonfigurasi secara terpisah oleh operator berwenang.
+
+### Umpan balik visual installer Windows
+
+Installer PowerShell menampilkan progress bar per tahap ketika dijalankan di terminal interaktif, mencakup pemeriksaan Node.js, Corepack/pnpm, instalasi dependency, pemeriksaan TypeScript, dan test. Pada lingkungan CI, progress bar diganti marker teks seperti `[CI] [55%]` agar log tetap mudah dibaca dan tidak bergantung pada terminal interaktif. Gunakan `-Help` untuk melihat penggunaan tanpa memasang dependency atau menjalankan pemeriksaan.

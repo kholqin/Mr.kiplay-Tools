@@ -183,3 +183,18 @@
 - [x] Jalankan ulang check dan test setelah koreksi installer.
 
 - [x] Commit dan push workflow CI Windows serta help mode installer ke GitHub; SHA remote terverifikasi.
+
+## Progress feedback installer PowerShell
+
+- [x] Audit installer dan kontrak CI PowerShell saat ini.
+- [x] Rancang progress bar interaktif yang dilewati atau diringkas pada mode CI.
+- [x] Tambahkan progress feedback per tahap tanpa mengubah urutan bootstrap atau menjalankan scanner.
+- [x] Tambahkan test untuk help mode, progress marker, dan mode CI installer.
+- [x] Perbarui dokumentasi installer dan CHANGELOG.
+- [x] Jalankan validasi (check, 47 test, diff check, parser/help PowerShell, dan marker progress).
+
+## Koreksi dokumentasi progress installer
+
+- [x] Perbarui README atau panduan instalasi Windows tentang progress bar interaktif dan output ringkas CI.
+- [x] Tambahkan entri CHANGELOG untuk progress feedback dan marker `[CI]`.
+- [x] Jalankan ulang check dan test setelah dokumentasi diperbarui.

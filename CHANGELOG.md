@@ -70,3 +70,9 @@
 
 - Menambahkan job `windows-installer` pada GitHub Actions dengan runner `windows-latest`.
 - Job mem-parse installer PowerShell, menyiapkan Node.js 22 dan pnpm, lalu menjalankan bootstrap installer dalam mode CI tanpa scanner atau target jaringan.
+
+### Progress feedback installer PowerShell
+
+- Installer Windows kini menampilkan progress bar per tahap pada terminal interaktif.
+- Mode `CI=true` memakai marker teks `[CI] [persentase%]` yang stabil untuk log otomatis.
+- Mode `-Help` tetap berhenti sebelum instalasi dan tidak menjalankan pemeriksaan.

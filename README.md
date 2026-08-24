@@ -95,3 +95,7 @@ Workflow `.github/workflows/ci.yml` menguji Node.js 20, 22, dan 24. Setiap matri
 ### Verifikasi installer Windows
 
 Workflow CI juga menjalankan job `windows-installer` pada `windows-latest`. Job tersebut mem-parse `scripts/install/install.ps1` dengan parser PowerShell, mengaktifkan Corepack/pnpm, lalu menjalankan bootstrap installer dalam lingkungan CI. Installer hanya memasang dependency, menjalankan check dan test, serta tidak menjalankan scanner atau request terhadap target.
+
+### Progress installer PowerShell
+
+Saat dijalankan di terminal interaktif, `scripts/install/install.ps1` menampilkan progress bar untuk tahap pemeriksaan Node.js, Corepack/pnpm, instalasi dependency, pemeriksaan TypeScript, dan test. Ketika `CI=true`, tampilan beralih ke marker teks `[CI] [persentase%]` agar log runner stabil. Jalankan `.\scripts\install\install.ps1 -Help` untuk membaca penggunaan tanpa menjalankan bootstrap.

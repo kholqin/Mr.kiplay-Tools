@@ -11,6 +11,15 @@ describe("Windows PowerShell installer contract", () => {
     expect(installer.indexOf("if ($Help)")).toBeLessThan(installer.indexOf("pnpm install"));
   });
 
+  it("menyediakan progress feedback interaktif dan marker CI", () => {
+    expect(installer).toContain("Write-Progress");
+    expect(installer).toContain("$isCi = $env:CI -eq \"true\"");
+    expect(installer).toContain("[CI] [$Percent%]");
+    expect(installer).toContain("-Completed");
+    expect(installer.indexOf("Update-InstallProgress -Status \"Memeriksa Node.js LTS\""))
+      .toBeLessThan(installer.indexOf("pnpm install"));
+  });
+
   it("CI memeriksa parser PowerShell dan help mode", () => {
     const workflow = readFileSync(new URL("../.github/workflows/ci.yml", import.meta.url), "utf8");
     expect(workflow).toContain("runs-on: windows-latest");
