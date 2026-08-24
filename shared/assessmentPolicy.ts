@@ -12,6 +12,12 @@ export function isSensitiveTarget(value: string) {
   return false;
 }
 
+export function assertReconAuthorization(authorizationConfirmed: number | null | undefined, targetCount: number) {
+  if (authorizationConfirmed !== 1) throw new Error("Otorisasi workspace belum dikonfirmasi");
+  if (targetCount < 1) throw new Error("Belum ada target hasil recon dalam scope");
+  return true as const;
+}
+
 export function validateTargetForScope(value: string) {
   const normalized = normalizeTarget(value);
   if (!normalized) return { ok: false as const, reason: "Target kosong" };

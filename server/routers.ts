@@ -1,11 +1,14 @@
 import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
+import { assertReconAuthorization } from "../shared/assessmentPolicy";
 import { protectedProcedure } from "./_core/trpc";
 import { addTarget, confirmAuthorization, createPreviewJob, createWorkspace, ensureDefaultProfile, getWorkspace, listFindings, listProfiles, listRecentJobs, listTargets, listWorkspaces, saveAuthorizationEvidence } from "./assessmentDb";
 import { buildReport } from "./reporting";
 import { moduleCatalog } from "../core/modules/catalog";
 import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
 import { listReconResults, saveReconResult } from "./reconDb";
+import { createPortScanPlan, scanOpenPorts } from "../core/recon/portScan";
+import { listDiscoveredSubdomains, listPortObservations, savePortObservations } from "./portScanDb";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
@@ -58,6 +61,19 @@ export const appRouter = router({
       if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
       const result = await discoverSubdomains(target.value, input.candidates, { preview: input.preview, timeoutMs: 5000, rateLimitPerSecond: 2, resolver: input.resolver, cacheTtlSeconds: input.cacheTtlSeconds, bypassCache: input.bypassCache });
       return saveReconResult(ctx.user.id, input.workspaceId, target.id, "subdomain", target.value, result);
+    }),
+    discoveredSubdomains: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listDiscoveredSubdomains(ctx.user.id, input.workspaceId)),
+    portObservations: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listPortObservations(ctx.user.id, input.workspaceId)),
+    portScanFromSubdomains: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), ports: z.array(z.number().int().min(1).max(65535)).min(1).max(32).default([80, 443, 8080, 8443]), preview: z.boolean().default(true) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const hosts = await listDiscoveredSubdomains(ctx.user.id, input.workspaceId);
+      assertReconAuthorization(workspace.authorizationConfirmed, hosts.length);
+      const plan = createPortScanPlan(hosts, { ports: input.ports, preview: input.preview, maxHosts: 100, timeoutMs: 3000, rateLimitPerSecond: 2 });
+      if (input.preview) return { plan, observations: [] };
+      const result = await scanOpenPorts(hosts, { ports: input.ports, preview: false, maxHosts: 100, timeoutMs: 3000, rateLimitPerSecond: 2 });
+      const saved = await savePortObservations(ctx.user.id, input.workspaceId, null, result.observations);
+      return { plan: result.plan, observations: saved };
     }),
   }),
 });

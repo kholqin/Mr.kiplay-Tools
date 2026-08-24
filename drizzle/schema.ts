@@ -97,6 +97,16 @@ export const reconResults = mysqlTable("recon_results", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const portScanResults = mysqlTable("port_scan_results", {
+  id: int("id").autoincrement().primaryKey(),
+  workspaceId: int("workspaceId").notNull(),
+  sourceReconId: int("sourceReconId"),
+  host: varchar("host", { length: 255 }).notNull(),
+  port: int("port").notNull(),
+  state: mysqlEnum("state", ["open", "closed", "timeout", "error"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const evidence = mysqlTable("evidence", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
@@ -125,3 +135,4 @@ export type Finding = typeof findings.$inferSelect;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type Evidence = typeof evidence.$inferSelect;
 export type ReconResult = typeof reconResults.$inferSelect;
+export type PortScanResult = typeof portScanResults.$inferSelect;

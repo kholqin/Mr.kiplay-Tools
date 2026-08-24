@@ -61,3 +61,18 @@
 - [x] Simpan checkpoint baru setelah validasi akhir resolver DNS kustom dan cache TTL selesai.
 
 - [x] Perbaiki panel kontrol resolver pada desktop agar input resolver memiliki lebar layak dan label tidak terpotong.
+
+## Integrasi subdomain ke port scanning
+
+- [x] Menambahkan planner port scan aman dari hasil subdomain dengan daftar port eksplisit dan batas target.
+- [x] Menambahkan schema/penyimpanan hasil port scan serta audit trail.
+- [x] Menambahkan endpoint API terproteksi untuk pratinjau dan eksekusi port scan berizin.
+- [x] Menambahkan kontrol UI Recon untuk port scan otomatis dari subdomain tersimpan.
+- [x] Menulis test untuk normalisasi port, batas port/target, scope gate, dan pipeline subdomain→port.
+- [x] Memverifikasi build, test, responsif, dan checkpoint tanpa memindai target nyata.
+
+## Verifikasi integrasi port scan
+
+- [x] Menambahkan test integrasi pipeline subdomain tersimpan ke planner port scan dan guard otorisasi.
+- [x] Memverifikasi halaman Recon pada viewport desktop setelah kartu port scan ditambahkan.
+- [x] Menyimpan checkpoint baru setelah verifikasi integrasi port scan selesai.
