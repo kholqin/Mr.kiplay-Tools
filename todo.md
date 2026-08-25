@@ -357,3 +357,12 @@
 - [x] Tambahkan test helper dan endpoint untuk authorization, sanitasi, batas ukuran, dan format output.
 - [x] Perbarui README, panduan modul, dan CHANGELOG tentang ekspor recon.
 - [x] Jalankan check, test, build, screenshot desktop/mobile, dan checkpoint.
+
+## PDF server-side untuk recon OSINT
+
+- [x] Tambahkan generator PDF langsung dari server tanpa binary runtime tambahan.
+- [x] Ubah endpoint ekspor HTML menjadi respons PDF binary dengan MIME dan nama file yang benar.
+- [x] Ubah tombol UI menjadi Unduh PDF langsung dengan state loading/error yang jelas.
+- [x] Tambahkan test PDF untuk signature, sanitasi, batas 1000 baris, dan ketiadaan secret.
+- [x] Perbarui README, panduan modul, dan CHANGELOG.
+- [x] Jalankan check, test, build, screenshot desktop/mobile, dan checkpoint.

@@ -43,4 +43,4 @@ Seluruh entri baru memiliki `previewOnly: true`, `active: false`, dan `manualVal
 
 ## Ekspor recon OSINT
 
-Ekspor recon tersedia melalui prosedur tRPC terproteksi `assessment.reconExport`. Format `csv` menghasilkan kolom modul, target, status, waktu, dan ringkasan. Format `html` menghasilkan laporan print-ready yang dapat disimpan melalui dialog browser sebagai PDF. Keduanya memakai data workspace yang sudah melewati authorization gate, maksimal 1.000 baris, escaping HTML, escaping CSV, dan redaksi field sensitif.
+Ekspor recon tersedia melalui prosedur tRPC terproteksi `assessment.reconExport`. Format `csv` menghasilkan kolom modul, target, status, waktu, dan ringkasan. Format `pdf` menghasilkan PDF binary langsung dari server dan diunduh tanpa dialog print browser. Keduanya memakai data workspace yang sudah melewati authorization gate, maksimal 1.000 baris, escaping CSV, sanitasi teks, dan redaksi field sensitif.

@@ -2,7 +2,8 @@ import { and, desc, eq } from "drizzle-orm";
 import { assessmentTargets, auditLogs, reconResults } from "../drizzle/schema";
 import { getDb } from "./db";
 import { getWorkspace } from "./assessmentDb";
-import { reconRowsFromResults, reconRowsToCsv, reconRowsToPrintableHtml } from "../shared/reconExport";
+import { reconRowsFromResults, reconRowsToCsv } from "../shared/reconExport";
+import { reconRowsToPdf } from "./reconPdf";
 
 export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain" | "http" | "certificate", target: string, payload: unknown) {
   const db = await getDb();
@@ -22,8 +23,8 @@ export async function listReconResults(ownerId: number, workspaceId: number, kin
   return db.select().from(reconResults).where(filters).orderBy(desc(reconResults.createdAt)).limit(100);
 }
 
-export async function exportReconResults(ownerId: number, workspaceId: number, format: "csv" | "html") {
+export async function exportReconResults(ownerId: number, workspaceId: number, format: "csv" | "pdf") {
   const rows = await listReconResults(ownerId, workspaceId);
   const exportRows = reconRowsFromResults(rows);
-  return format === "csv" ? reconRowsToCsv(exportRows) : reconRowsToPrintableHtml(exportRows);
+  return format === "csv" ? reconRowsToCsv(exportRows) : reconRowsToPdf(exportRows).toString("base64");
 }

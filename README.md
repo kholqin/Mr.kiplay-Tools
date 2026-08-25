@@ -146,4 +146,4 @@ Release Mr.Kiplay tetap berorientasi pada assessment berizin. Modul baru dan ada
 
 ## Ekspor hasil recon OSINT
 
-Pada halaman **Recon DNS**, bagian **Hasil recon tersimpan** menyediakan **Unduh CSV** dan **Buka PDF**. CSV berisi modul, target, status, waktu, dan ringkasan metadata tersanitasi. PDF dibuka sebagai laporan print-ready pada tab baru; gunakan dialog browser **Simpan sebagai PDF**. Ekspor dibatasi maksimal 1.000 hasil per workspace, melewati authorization gate, dan menghapus field yang menyerupai token, cookie, password, atau API key.
+Pada halaman **Recon DNS**, bagian **Hasil recon tersimpan** menyediakan **Unduh CSV** dan **Unduh PDF**. CSV berisi modul, target, status, waktu, dan ringkasan metadata tersanitasi. PDF dibuat langsung oleh server dan diunduh sebagai berkas PDF tanpa dialog print browser. Ekspor dibatasi maksimal 1.000 hasil per workspace, melewati authorization gate, dan menghapus field yang menyerupai token, cookie, password, atau API key.
