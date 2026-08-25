@@ -11,6 +11,7 @@ import { useLocation } from "wouter";
 import { toast } from "sonner";
 import { getAssessmentReadiness } from "../../../shared/assessmentReadiness";
 import { OPERATOR_IDENTITY } from "../../../shared/operatorIdentity";
+import { OfflineOsintPanel } from "@/components/OfflineOsintPanel";
 
 const modules = [
   { label: "Recon & Inventaris", detail: "DNS, subdomain, HTTP, sertifikat, IP", icon: Globe2, color: "text-sky-300" },
@@ -98,17 +99,19 @@ export default function Home() {
 
       <Card className="overflow-hidden border-red-300/15 bg-gradient-to-br from-red-500/[0.10] to-white/[0.03]">
         <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div><p className="text-xs uppercase tracking-[0.25em] text-red-200">Video pengenalan</p><CardTitle className="mt-2 text-xl">Kenalan dengan Mr.Kiplay dalam 90 detik</CardTitle><p className="mt-1 text-sm text-zinc-500">Dashboard, 19 modul OSINT, simulasi preview aman, GitHub, dan instalasi Kali Linux.</p></div>
+          <div><p className="text-xs uppercase tracking-[0.25em] text-red-200">Video pengenalan</p><CardTitle className="mt-2 text-xl">Kenalan dengan Mr.Kiplay dalam 1 menit</CardTitle><p className="mt-1 text-sm text-zinc-500">Dashboard, mode offline, snapshot lokal, GitHub, dan instalasi Kali Linux.</p></div>
           <a href="https://github.com/kholqin/Mr.kiplay-Tools" target="_blank" rel="noreferrer" className="text-xs text-red-200 underline-offset-4 hover:underline">Buka GitHub</a>
         </CardHeader>
         <CardContent className="space-y-3">
-          <video className="aspect-video w-full rounded-2xl border border-white/10 bg-black object-cover" controls preload="metadata" playsInline poster="/manus-storage/scene_dashboard_97952c19.png" aria-label="Video presentasi Mr.Kiplay berdurasi sekitar 90 detik">
-            <source src="/manus-storage/mrkiplay-video-presentasi_96e7b107.mp4" type="video/mp4" />
+          <video className="aspect-video w-full rounded-2xl border border-white/10 bg-black object-cover" controls preload="metadata" playsInline poster="/manus-storage/scene_dashboard_97952c19.png" aria-label="Video demo offline Mr.Kiplay berdurasi sekitar 1 menit">
+            <source src="/manus-storage/mrkiplay-offline-demo-1min_0e968a15.mp4" type="video/mp4" />
             Browser Anda tidak mendukung pemutar video HTML5.
           </video>
           <p className="text-xs text-zinc-500">Video hanya menampilkan simulasi dan metadata berizin; tidak ada target nyata yang dipindai.</p>
         </CardContent>
       </Card>
+
+      <OfflineOsintPanel />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[

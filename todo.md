@@ -384,3 +384,19 @@
 - [x] Perkuat worker agar status job dan hasil bertahan setelah restart server.
 - [x] Tambahkan konfigurasi provider opsional dan secret hanya untuk modul yang membutuhkannya.
 - [x] Tambahkan test unit/integrasi tanpa menjalankan target eksternal dan dokumentasikan cara mengaktifkan eksekusi nyata.
+
+## Integrasi provider riwayat DNS dan breach
+
+- [x] Ditutup atas keputusan mode tanpa provider: adapter SecurityTrails tidak diaktifkan; riwayat DNS memakai snapshot lokal operator.
+- [x] Ditutup atas keputusan mode tanpa provider: adapter HIBP tidak diaktifkan; indikator breach hanya memakai dataset lokal operator.
+- [x] Ditutup atas keputusan mode tanpa provider: tidak ada secret provider yang disimpan atau diminta untuk mode offline.
+- [x] Ditutup atas keputusan mode tanpa provider: endpoint/UI menggunakan alur impor lokal dan tidak menghubungi provider eksternal.
+- [x] Ditutup atas keputusan mode tanpa provider: test provider tidak dijalankan; guardrail impor lokal diuji tanpa network.
+- [x] Perbarui dokumentasi mode offline dan jalankan validasi check, test, serta build sebelum checkpoint.
+
+## Demo offline 1 menit
+
+- [x] Tambahkan penjelasan dan alur snapshot DNS lokal tanpa klaim real-time.
+- [x] Tambahkan alur impor dataset breach lokal yang hanya menerima data yang disediakan pengguna dan tidak membuat data palsu.
+- [x] Susun storyboard serta naskah video demo berdurasi 1 menit.
+- [x] Produksi, rakit, validasi, dan kirim video demo kepada pengguna.
