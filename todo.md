@@ -310,4 +310,4 @@
 
 ## Sequencing checkpoint instalasi
 
-- [ ] Simpan checkpoint baru setelah verifikasi clone publik bersih selesai agar validasi Termux/repository tercakup oleh checkpoint terbaru.
+- [x] Simpan checkpoint baru setelah verifikasi clone publik bersih selesai agar validasi Termux/repository tercakup oleh checkpoint terbaru.
