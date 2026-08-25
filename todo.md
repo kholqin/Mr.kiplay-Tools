@@ -340,4 +340,4 @@
 - [x] Perkuat validasi input, error boundary, dan observability server/client tanpa melemahkan authorization gate.
 - [x] Perbarui README, CHANGELOG, LICENSE, dan panduan release sesuai fitur aktual.
 - [x] Jalankan check, seluruh test, build, audit dependency, diff whitespace, dan pemeriksaan rahasia.
-- [ ] Commit dan push perubahan ke repository GitHub publik lalu verifikasi SHA, tree, dan file dokumentasi remote.
+- [x] Commit dan push perubahan ke repository GitHub publik lalu verifikasi SHA, tree, dan file dokumentasi remote.
