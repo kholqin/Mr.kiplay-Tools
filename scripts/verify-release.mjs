@@ -20,7 +20,8 @@ if (pkg) {
 const catalog = read("core/modules/catalog.ts");
 const osintCount = (catalog.match(/id: "osint\./g) ?? []).length;
 check("catalog:osint-count", osintCount === 19, `${osintCount}/19 modul OSINT`);
-check("catalog:preview-only", !/id: "osint\.[^\n]+active: true/.test(catalog), "modul OSINT tidak aktif otomatis");
+const activeOsintLines = catalog.split("\n").filter((line) => /id: "osint\.[^"]+"/.test(line) && /active: true/.test(line));
+check("catalog:active-safe", activeOsintLines.length <= 10 && activeOsintLines.every((line) => /manualValidationRequired: true/.test(line) && /safetyNote:/.test(line)), `${activeOsintLines.length} modul live dengan guardrail`);
 check("installer:network-safe", /tidak menjalankan|tidak melakukan|scanner/i.test(read("scripts/install/install.sh")), "installer tidak menjalankan scanner");
 
 const suspicious = /(-----BEGIN (RSA|OPENSSH|PRIVATE) KEY-----|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|password\s*[:=]\s*[^<\s]{12,})/i;

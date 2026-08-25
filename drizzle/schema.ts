@@ -71,6 +71,18 @@ export const scanJobs = mysqlTable("scan_jobs", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const workerJobs = mysqlTable("worker_jobs", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  workspaceId: int("workspaceId").notNull(),
+  task: mysqlEnum("task", ["aggregatePortObservations", "summarizeReconResults"]).notNull(),
+  status: mysqlEnum("status", ["queued", "running", "completed", "failed", "cancelled"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  startedAt: timestamp("startedAt"),
+  finishedAt: timestamp("finishedAt"),
+  result: json("result"),
+  error: varchar("error", { length: 255 }),
+});
+
 export const findings = mysqlTable("findings", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
@@ -91,7 +103,7 @@ export const reconResults = mysqlTable("recon_results", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
   targetId: int("targetId").notNull(),
-  kind: mysqlEnum("kind", ["dns", "subdomain", "http", "certificate"]).notNull(),
+  kind: mysqlEnum("kind", ["dns", "subdomain", "http", "certificate", "osint"]).notNull(),
   target: varchar("target", { length: 255 }).notNull(),
   payload: json("payload").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

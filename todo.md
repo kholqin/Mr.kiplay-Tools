@@ -375,3 +375,12 @@
 - [x] Produksi video presentasi sekitar 90 detik dengan subtitle/teks layar yang terbaca.
 - [x] Tambahkan pemutar video yang jelas pada dashboard dengan poster, caption, dan kontrol aksesibel.
 - [x] Validasi durasi, audio, visual, responsif, dan ukuran media sebelum checkpoint.
+
+## Aktivasi fitur nyata terkontrol
+
+- [x] Aktifkan engine metadata publik nyata untuk RDAP, CT, robots/sitemap, favicon, email DNS, MX, NS, redirect, arsip, dan repository publik.
+- [x] Hubungkan endpoint tRPC live OSINT ke target allowlist dan otorisasi workspace tanpa preview default.
+- [x] Tambahkan persistensi hasil live OSINT serta provenance/evidence ke database workspace.
+- [x] Perkuat worker agar status job dan hasil bertahan setelah restart server.
+- [ ] Tambahkan konfigurasi provider opsional dan secret hanya untuk modul yang membutuhkannya.
+- [x] Tambahkan test unit/integrasi tanpa menjalankan target eksternal dan dokumentasikan cara mengaktifkan eksekusi nyata.

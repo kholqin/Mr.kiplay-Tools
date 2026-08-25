@@ -8,9 +8,11 @@ describe("katalog 19 modul OSINT", () => {
     expect(osintModuleCatalog.every((module) => module.group === "intelligence")).toBe(true);
   });
 
-  it("menetapkan mode preview dan validasi manual pada setiap modul", () => {
-    expect(osintModuleCatalog.every((module) => module.previewOnly === true)).toBe(true);
-    expect(osintModuleCatalog.every((module) => module.active === false)).toBe(true);
+  it("membedakan modul live dan provider-gated dengan guardrail manual", () => {
+    const liveIds = new Set(["osint.rdap-domain", "osint.ct-inventory", "osint.robots-sitemap", "osint.favicon-hash", "osint.email-security", "osint.mx-infrastructure", "osint.nameserver-infrastructure", "osint.redirect-chain", "osint.archive-metadata", "osint.public-repository-metadata"]);
+    expect(osintModuleCatalog.filter((module) => module.active)).toHaveLength(liveIds.size);
+    expect(osintModuleCatalog.filter((module) => module.active).every((module) => liveIds.has(module.id) && module.previewOnly !== true)).toBe(true);
+    expect(osintModuleCatalog.filter((module) => !module.active).every((module) => module.previewOnly === true)).toBe(true);
     expect(osintModuleCatalog.every((module) => module.manualValidationRequired === true)).toBe(true);
     expect(osintModuleCatalog.every((module) => Boolean(module.safetyNote))).toBe(true);
   });

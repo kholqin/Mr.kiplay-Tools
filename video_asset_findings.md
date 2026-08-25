@@ -7,3 +7,7 @@ Screenshot Recon referensi: `/home/ubuntu/screenshots/webdev-preview-recon-17876
 Screenshot GitHub aktual: `/home/ubuntu/screenshots/github_2026-08-25_08-59-16_1547.webp`. Menampilkan repository `kholqin/Mr.kiplay-Tools`, branch main, commit terbaru, folder `.github`, `apps`, `client`, `core`, `docs`, `modules`, `scripts`, `server`, `shared`, serta README/CHANGELOG/LICENSE/SECURITY/CONTRIBUTING.
 
 Batasan: gunakan data kosong atau contoh non-jaringan; jangan menampilkan kredensial, token, alamat pribadi, atau output scan target nyata.
+
+## Verifikasi visual aktivasi live
+
+Screenshot Recon desktop menunjukkan katalog 19 modul dan panel kerja tetap rapi pada lebar 1280px; selector dan tombol live berada setelah katalog. Screenshot mobile 390px menunjukkan heading, filter, badge, dan kartu modul tidak terpotong; panel dapat dilanjutkan dengan scroll vertikal. Server startup terbaru normal pada 09:25:27 dan tidak menampilkan error package config baru; warning baseline-browser-mapping bersifat dependency freshness.

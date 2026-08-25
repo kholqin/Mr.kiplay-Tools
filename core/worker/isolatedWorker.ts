@@ -17,6 +17,7 @@ export type HeavyWorkerJob = {
 };
 
 type QueueItem = { job: HeavyWorkerJob; payload: unknown; timeoutMs: number };
+type PersistenceHook = (job: HeavyWorkerJob) => void | Promise<void>;
 
 const MAX_QUEUE = 8;
 const MAX_TIMEOUT_MS = 15_000;
@@ -55,11 +56,16 @@ export class IsolatedWorkerQueue {
   private readonly queue: QueueItem[] = [];
   private readonly jobs = new Map<string, HeavyWorkerJob>();
   private running = false;
+  private persistenceHook?: PersistenceHook;
+
+  setPersistenceHook(hook: PersistenceHook) { this.persistenceHook = hook; }
+  private notify(job: HeavyWorkerJob) { try { void this.persistenceHook?.(job); } catch { /* persistence tidak boleh mematikan worker */ } }
 
   enqueue(workspaceId: number, task: HeavyWorkerTask, payload: unknown, timeoutMs = 10_000) {
     if (this.queue.length >= MAX_QUEUE) throw new Error("Antrean worker penuh; coba lagi setelah job selesai");
     const job: HeavyWorkerJob = { id: randomUUID(), workspaceId, task, status: "queued", createdAt: new Date().toISOString() };
     this.jobs.set(job.id, job);
+    this.notify(job);
     this.queue.push({ job, payload, timeoutMs: Math.min(Math.max(Math.trunc(timeoutMs), 1000), MAX_TIMEOUT_MS) });
     void this.drain();
     return job;
@@ -83,6 +89,7 @@ export class IsolatedWorkerQueue {
     if (!job || job.status !== "queued") return false;
     job.status = "cancelled";
     job.finishedAt = new Date().toISOString();
+    this.notify(job);
     return true;
   }
 
@@ -94,14 +101,18 @@ export class IsolatedWorkerQueue {
     this.running = true;
     next.job.status = "running";
     next.job.startedAt = new Date().toISOString();
+    this.notify(next.job);
     try {
       next.job.result = await runWorker(next.job.task, next.payload, next.timeoutMs);
       next.job.status = "completed";
+      this.notify(next.job);
     } catch (error) {
       next.job.status = "failed";
       next.job.error = error instanceof Error ? error.message : "Worker gagal";
+      this.notify(next.job);
     } finally {
       next.job.finishedAt = new Date().toISOString();
+      this.notify(next.job);
       this.running = false;
       void this.drain();
     }

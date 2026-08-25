@@ -116,9 +116,9 @@ Setelah upgrade AWS SDK, tRPC, Express, streamdown, recharts, Drizzle ORM, nanoi
 
 ## Katalog 19 modul OSINT aman
 
-Halaman **Recon** kini memuat katalog 19 modul OSINT dalam mode `preview-only`. Modulnya mencakup RDAP domain, WHOIS IP, ASN/BGP, riwayat DNS, Certificate Transparency, korelasi subdomain pasif, snapshot security headers, robots/sitemap, favicon hash, fingerprint teknologi, SPF/DKIM/DMARC, infrastruktur MX, nameserver, metadata cloud/storage berbasis DNS, rantai redirect HEAD, metadata arsip web, metadata repository publik, indikator breach melalui API resmi tanpa data mentah, serta korelasi CVE/CPE.
+Halaman **Recon** kini memuat katalog 19 modul OSINT. Sepuluh modul memiliki jalur live terkontrol—RDAP domain, Certificate Transparency, robots/sitemap, favicon hash, SPF/DKIM/DMARC, MX, nameserver, redirect HEAD, metadata arsip web, dan metadata repository publik—sementara modul lain tetap `preview-only` atau provider-gated.
 
-Katalog menyediakan pencarian dan filter kategori. Setiap modul memiliki kontrak input/output, catatan keamanan, status aktif, serta kewajiban validasi manual. Implementasi provider eksternal belum diaktifkan otomatis; modul baru hanya mendeskripsikan rencana observasi aman sampai endpoint, kredensial, scope, rate limit, dan persetujuan operator tersedia.
+Katalog menyediakan pencarian dan filter kategori. Setiap modul memiliki kontrak input/output, catatan keamanan, status aktif, serta kewajiban validasi manual. Provider yang memerlukan kredensial atau data khusus tidak diaktifkan otomatis sampai endpoint resmi, secret, scope, rate limit, dan persetujuan operator tersedia.
 
 Helper pendukung pada `shared/osintSupport.ts` menyediakan normalisasi IOC, relasi domain-IP untuk graph aset, timeline evidence terbaru, risk scoring bounded yang transparan, serta ekspor ringkasan CSV. Helper menolak indikator secret-like dan alamat IPv4 privat. Mr.Kiplay tidak mengumpulkan password, token, cookie, data breach mentah, isi repository privat, atau profil personal di luar kebutuhan engagement.
 
@@ -147,3 +147,13 @@ Release Mr.Kiplay tetap berorientasi pada assessment berizin. Modul baru dan ada
 ## Ekspor hasil recon OSINT
 
 Pada halaman **Recon DNS**, bagian **Hasil recon tersimpan** menyediakan **Unduh CSV** dan **Unduh PDF**. CSV berisi modul, target, status, waktu, dan ringkasan metadata tersanitasi. PDF dibuat langsung oleh server dan diunduh sebagai berkas PDF tanpa dialog print browser. Ekspor dibatasi maksimal 1.000 hasil per workspace, melewati authorization gate, dan menghapus field yang menyerupai token, cookie, password, atau API key.
+
+## Eksekusi OSINT nyata terkontrol
+
+Engine live tersedia untuk RDAP domain, Certificate Transparency, robots/sitemap, favicon hash, SPF/DKIM/DMARC, MX, nameserver, redirect HEAD, metadata arsip web, dan metadata repository publik. Jalur Recon menyimpan hasilnya sebagai `recon_results.kind=osint` dengan provenance dan audit action, sehingga hasil dapat ikut diekspor ke CSV/PDF.
+
+Eksekusi hanya berjalan jika target berada dalam allowlist dan otorisasi workspace sudah dikonfirmasi. Request publik memiliki timeout, batas hop/bytes/rows, public-resolution preflight untuk URL, sanitasi output, serta tidak mengambil credential, isi privat, atau data breach mentah. Riwayat DNS, indikator breach, WHOIS/ASN provider, dan korelasi CVE lanjutan tetap provider-gated sampai konfigurasi resmi tersedia.
+
+## Eksekusi nyata dan worker persisten
+
+Status job worker kini disimpan pada tabel `worker_jobs`, termasuk queued, running, completed, failed, dan cancelled beserta hasil ringkasan yang dibatasi. Setelah server restart, riwayat status workspace tetap dapat dibaca dari database. Worker tetap hanya mengolah payload hasil assessment yang sudah tersimpan; ia tidak menjalankan kode dari client, scanner eksternal, atau exploit.

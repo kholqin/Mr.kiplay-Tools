@@ -8,7 +8,11 @@ import { moduleCatalog } from "../core/modules/catalog";
 import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
 import { fingerprintHttp } from "../core/recon/httpFingerprint";
 import { inventoryCertificate } from "../core/recon/certificateInventory";
+import { runLiveOsint, type LiveOsintModule } from "../core/recon/liveOsint";
 import { isolatedWorkerQueue } from "../core/worker/isolatedWorker";
+import { listPersistedWorkerJobs, persistWorkerJob } from "./workerDb";
+
+isolatedWorkerQueue.setPersistenceHook(persistWorkerJob);
 import { exportReconResults, listReconResults, saveReconResult } from "./reconDb";
 import { createPortScanPlan, scanOpenPorts } from "../core/recon/portScan";
 import { listDiscoveredSubdomains, exportPortObservationsCsv, listPortObservations, listPortObservationsPage, savePortObservations } from "./portScanDb";
@@ -96,6 +100,14 @@ export const appRouter = router({
       const result = await inventoryCertificate(target.value, { preview: input.preview, timeoutMs: 5000 });
       return saveReconResult(ctx.user.id, input.workspaceId, target.id, "certificate", target.value, result);
     }),
+    liveOsint: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), module: z.enum(["rdap-domain", "ct-inventory", "robots-sitemap", "favicon-hash", "email-security", "mx-infrastructure", "nameserver-infrastructure", "redirect-chain", "archive-metadata", "public-repository-metadata"]) })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId);
+      if (!target) throw new Error("Target tidak ditemukan dalam daftar izin");
+      const result = await runLiveOsint(input.module as LiveOsintModule, target.value);
+      return saveReconResult(ctx.user.id, input.workspaceId, target.id, "osint", target.value, result);
+    }),
     enqueueWorker: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), task: z.enum(["aggregatePortObservations", "summarizeReconResults"]) })).mutation(async ({ ctx, input }) => {
       const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
       if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
@@ -104,7 +116,8 @@ export const appRouter = router({
     }),
     workerJobs: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(async ({ ctx, input }) => {
       if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
-      return isolatedWorkerQueue.listForWorkspace(input.workspaceId);
+      const persisted = await listPersistedWorkerJobs(input.workspaceId);
+      return persisted.length ? persisted : isolatedWorkerQueue.listForWorkspace(input.workspaceId);
     }),
     workerJob: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).query(async ({ ctx, input }) => {
       if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");

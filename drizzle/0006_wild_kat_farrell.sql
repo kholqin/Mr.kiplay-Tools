@@ -1,0 +1,1 @@
+ALTER TABLE `recon_results` MODIFY COLUMN `kind` enum('dns','subdomain','http','certificate','osint') NOT NULL;

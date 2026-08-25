@@ -5,7 +5,7 @@ import { getWorkspace } from "./assessmentDb";
 import { reconRowsFromResults, reconRowsToCsv } from "../shared/reconExport";
 import { reconRowsToPdf } from "./reconPdf";
 
-export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain" | "http" | "certificate", target: string, payload: unknown) {
+export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain" | "http" | "certificate" | "osint", target: string, payload: unknown) {
   const db = await getDb();
   if (!db || !(await getWorkspace(ownerId, workspaceId))) return undefined;
   const targetRows = await db.select().from(assessmentTargets).where(and(eq(assessmentTargets.id, targetId), eq(assessmentTargets.workspaceId, workspaceId), eq(assessmentTargets.inScope, 1))).limit(1);
@@ -16,7 +16,7 @@ export async function saveReconResult(ownerId: number, workspaceId: number, targ
   return rows[0];
 }
 
-export async function listReconResults(ownerId: number, workspaceId: number, kind?: "dns" | "subdomain") {
+export async function listReconResults(ownerId: number, workspaceId: number, kind?: "dns" | "subdomain" | "osint") {
   const db = await getDb();
   if (!db || !(await getWorkspace(ownerId, workspaceId))) return [];
   const filters = kind ? and(eq(reconResults.workspaceId, workspaceId), eq(reconResults.kind, kind)) : eq(reconResults.workspaceId, workspaceId);

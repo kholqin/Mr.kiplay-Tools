@@ -96,14 +96,14 @@
 
 ### Ditambahkan
 
-- Katalog 19 modul OSINT preview-only: RDAP domain, WHOIS IP, ASN/BGP, riwayat DNS, Certificate Transparency, korelasi subdomain pasif, snapshot security headers, robots/sitemap, favicon hash, fingerprint teknologi, SPF/DKIM/DMARC, infrastruktur MX, nameserver, metadata cloud/storage berbasis DNS, rantai redirect HEAD, metadata arsip web, metadata repository publik, indikator breach melalui API resmi tanpa data mentah, dan korelasi CVE/CPE.
+- Katalog 19 modul OSINT dengan status live, preview-only, atau provider-gated: RDAP domain, WHOIS IP, ASN/BGP, riwayat DNS, Certificate Transparency, korelasi subdomain pasif, snapshot security headers, robots/sitemap, favicon hash, fingerprint teknologi, SPF/DKIM/DMARC, infrastruktur MX, nameserver, metadata cloud/storage berbasis DNS, rantai redirect HEAD, metadata arsip web, metadata repository publik, indikator breach melalui API resmi tanpa data mentah, dan korelasi CVE/CPE.
 - Panel Recon berbahasa Indonesia dengan pencarian, filter kategori, jumlah modul, keluaran yang diharapkan, dan catatan guardrail.
 - Helper normalisasi IOC, relasi domain-IP untuk graph aset, timeline evidence, risk scoring bounded transparan, dan ekspor ringkasan CSV.
 - Test katalog dan helper: 65 test lulus, 1 test dilewati karena PowerShell tidak berada di PATH Linux.
 
 ### Keamanan
 
-- Seluruh modul baru nonaktif dan preview-only sampai provider, scope, otorisasi, timeout, rate limit, dan audit trail dikonfigurasi.
+- Modul yang belum memiliki engine atau provider tetap nonaktif/preview-only; sepuluh modul live memerlukan scope, otorisasi, timeout, rate limit, sanitasi, dan audit trail.
 - Sistem menolak nilai yang menyerupai secret serta alamat IPv4 privat pada helper IOC.
 - Modul breach hanya boleh menyimpan status/provenance dari API resmi; password, token, cookie, data bocor mentah, isi privat, dan data personal berlebihan dilarang.
 - Tidak ada modul yang menjalankan eksploitasi, brute force agresif, zone transfer, crawling massal, credential testing, atau akses bucket/objek cloud.
@@ -150,3 +150,17 @@
 - Endpoint tRPC `assessment.reconExport` dengan format `csv` dan `pdf`, authorization workspace, batas 1.000 baris, redaksi field rahasia, sanitasi teks, dan perlindungan formula injection.
 - Generator PDF 1.4 server-side tanpa binary runtime tambahan, dengan pagination dan font standar.
 - Test helper ekspor untuk sanitasi target/payload, signature PDF, batas baris, dan ketiadaan secret.
+
+## [Unreleased] — Aktivasi OSINT live terkontrol
+
+- Menambahkan engine metadata publik nyata untuk RDAP, Certificate Transparency, robots/sitemap, favicon hash, SPF/DKIM/DMARC, MX, nameserver, redirect HEAD, metadata arsip web, dan repository publik.
+- Menambahkan prosedur tRPC `assessment.liveOsint` dengan target allowlist, otorisasi workspace, public-resolution preflight, timeout, batas hop/bytes, dan sanitasi output.
+- Menambahkan persistence `recon_results.kind=osint` serta audit action `recon.osint.completed` agar hasil live dapat ditinjau dan diekspor.
+- Memisahkan riwayat DNS, indikator breach, WHOIS/ASN provider, dan korelasi lanjutan sebagai fitur provider-gated sampai konfigurasi resmi tersedia.
+
+## [Unreleased] — Aktivasi runtime nyata terkontrol
+
+- Sepuluh modul metadata publik memiliki engine live terkontrol melalui tRPC: RDAP, CT, robots/sitemap, favicon, email DNS, MX, nameserver, redirect, arsip, dan repository publik.
+- Hasil live disimpan sebagai `recon_results.kind=osint` dengan provenance dan audit trail workspace.
+- Worker thread memiliki persistence lifecycle pada tabel `worker_jobs`, sehingga status dan hasil ringkasan tetap tersedia setelah restart server.
+- Verifikasi tetap memakai allowlist, authorization gate, public-resolution preflight, timeout, rate limit, sanitasi, batas bytes/hop/rows, dan validasi manual.
