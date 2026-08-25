@@ -195,3 +195,11 @@ Ditambahkan planner satu-input URL/IP yang bounded dan tetap bergantung pada all
 - AI tidak diberi tool eksekusi dan tidak dapat memulai scan, exploitasi, credential testing, atau melewati authorization gate.
 - Insight selalu diberi disclaimer validasi manual dan hanya berjalan setelah workspace terotorisasi.
 - `prefers-reduced-motion` mengungguli pilihan intensitas pengguna untuk menjaga aksesibilitas.
+
+## [Unreleased] — Gaya Laporan AI
+### Ditambahkan
+- Pilihan gaya laporan AI Ringkas, Eksekutif, dan Teknis pada Pengaturan.
+- Preferensi gaya disimpan lokal dan tersinkron ke panel Insight AI tanpa mengirim kredensial atau data preferensi ke server di luar permintaan insight.
+- Endpoint AI memvalidasi gaya melalui enum dan menerapkan instruksi format terkontrol pada prompt.
+### Keamanan
+- Gaya laporan tidak memberi AI tool eksekusi dan tidak mengubah scope, allowlist, authorization, atau tahapan pipeline.

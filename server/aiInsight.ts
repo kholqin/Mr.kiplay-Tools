@@ -3,6 +3,8 @@ import { invokeLLM, listLLMModels } from "./_core/llm";
 const SENSITIVE_KEY = /(password|passwd|token|secret|cookie|authorization|credential|api[_-]?key|private[_-]?key|email|phone|telepon)/i;
 const SENSITIVE_VALUE = /(bearer\s+[a-z0-9._-]+|sk-[a-z0-9_-]{12,}|gh[pousr]_[a-z0-9]{12,})/i;
 
+export type ReportStyle = "ringkas" | "eksekutif" | "teknis";
+
 export type AiInsight = {
   summary: string;
   priorities: Array<{ title: string; severity: "critical" | "high" | "medium" | "low" | "info"; rationale: string; confidence: "high" | "medium" | "low"; remediation: string }>;
@@ -44,8 +46,14 @@ function parseInsight(content: unknown): AiInsight {
   return { summary: String(candidate.summary ?? "Tidak ada ringkasan AI.").slice(0, 800), priorities, caveat: String(candidate.caveat ?? "Insight AI adalah bantuan triase dan bukan bukti kerentanan.").slice(0, 500) };
 }
 
-export async function createAiInsight(input: { findings: unknown[]; reconResults: unknown[]; focus?: string }) {
-  const sanitized = sanitizeForAi({ findings: input.findings, reconResults: input.reconResults, focus: input.focus ?? "prioritas review" });
+export async function createAiInsight(input: { findings: unknown[]; reconResults: unknown[]; focus?: string; style?: ReportStyle }) {
+  const style = input.style ?? "ringkas";
+  const styleInstruction: Record<ReportStyle, string> = {
+    ringkas: "Gunakan format ringkas: inti observasi, risiko utama, dan tindakan berikutnya dalam kalimat pendek.",
+    eksekutif: "Gunakan format eksekutif: dampak bisnis defensif, prioritas keputusan, dan ringkasan tanpa jargon berlebihan.",
+    teknis: "Gunakan format teknis: detail evidence, asumsi, batasan observasi, dan langkah hardening yang dapat diverifikasi.",
+  };
+  const sanitized = sanitizeForAi({ findings: input.findings, reconResults: input.reconResults, focus: input.focus ?? "prioritas review", style });
   const payload = JSON.stringify(sanitized).slice(0, 16_000);
   const models = await listLLMModels();
   const model = models.data.find((item) => item.id === "gpt-5-mini")?.id ?? models.data.find((item) => item.id.startsWith("gpt-"))?.id;
@@ -54,7 +62,7 @@ export async function createAiInsight(input: { findings: unknown[]; reconResults
     maxTokens: 1400,
     messages: [
       { role: "system", content: "Anda adalah analis triase keamanan defensif. Analisis hanya observasi yang sudah disanitasi. Jangan menyimpulkan eksploitasi, jangan memberi payload, jangan meminta credential, dan selalu tekankan validasi manual. Jawab dalam Bahasa Indonesia." },
-      { role: "user", content: `Buat ringkasan singkat dan maksimal 8 prioritas review dari data JSON berikut. Gunakan severity dan confidence yang konservatif.\n${payload}` },
+      { role: "user", content: `Buat ringkasan singkat dan maksimal 8 prioritas review dari data JSON berikut. Gunakan severity dan confidence yang konservatif. ${styleInstruction[style]}\n${payload}` },
     ],
     response_format: { type: "json_schema", json_schema: { name: "mrkiplay_ai_insight", strict: true, schema: { type: "object", properties: { summary: { type: "string" }, priorities: { type: "array", items: { type: "object", properties: { title: { type: "string" }, severity: { type: "string", enum: ["critical", "high", "medium", "low", "info"] }, rationale: { type: "string" }, confidence: { type: "string", enum: ["high", "medium", "low"] }, remediation: { type: "string" } }, required: ["title", "severity", "rationale", "confidence", "remediation"], additionalProperties: false } }, caveat: { type: "string" } }, required: ["summary", "priorities", "caveat"], additionalProperties: false } } },
   });

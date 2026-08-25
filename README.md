@@ -183,3 +183,7 @@ AI hanya digunakan sebagai bantuan triase. Semua hasil harus divalidasi operator
 ## Preferensi animasi pengguna
 
 Pada **Pengaturan**, operator dapat memilih intensitas animasi timeline **Penuh**, **Ringan**, atau **Mati**. Pilihan disimpan lokal pada browser dan tidak memengaruhi scope, authorization, atau data pipeline. Sistem tetap memprioritaskan `prefers-reduced-motion`; ketika aktif, animasi dinonaktifkan terlepas dari pilihan pengguna.
+
+### Gaya laporan AI
+
+Preferensi **Gaya laporan AI** pada Pengaturan menyediakan tiga format: **Ringkas** untuk inti observasi dan tindakan berikutnya, **Eksekutif** untuk dampak defensif serta prioritas keputusan, dan **Teknis** untuk evidence, asumsi, batasan, serta hardening yang dapat diverifikasi. Gaya dipilih secara lokal dan hanya dikirim sebagai enum terkontrol ke endpoint AI; pengguna tidak dapat menyisipkan instruksi bebas melalui pilihan ini.

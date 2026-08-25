@@ -154,10 +154,10 @@ export const appRouter = router({
       if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
       return cancelPipeline(input.jobId, input.workspaceId);
     }),
-    aiInsight: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), focus: z.string().trim().max(240).optional() })).mutation(async ({ ctx, input }) => {
+    aiInsight: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), focus: z.string().trim().max(240).optional(), style: z.enum(["ringkas", "eksekutif", "teknis"]).default("ringkas") })).mutation(async ({ ctx, input }) => {
       if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
       const [findings, reconResults] = await Promise.all([listFindings(ctx.user.id, input.workspaceId), listReconResults(ctx.user.id, input.workspaceId)]);
-      return createAiInsight({ findings, reconResults, focus: input.focus });
+      return createAiInsight({ findings, reconResults, focus: input.focus, style: input.style });
     }),
   }),
 });

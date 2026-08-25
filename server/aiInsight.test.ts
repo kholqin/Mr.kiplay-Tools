@@ -21,5 +21,8 @@ describe("AI insight safety contract", () => {
     expect(page).toContain("Ringan");
     expect(page).toContain("Mati");
     expect(hook).toContain("localStorage");
+    expect(hook).toContain("ReportStyle");
+    const router = readFileSync(resolve(process.cwd(), "server/routers.ts"), "utf8");
+    expect(router).toContain('z.enum(["ringkas", "eksekutif", "teknis"])');
   });
 });

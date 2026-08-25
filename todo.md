@@ -440,3 +440,13 @@
 - [x] Tambahkan test untuk redaksi AI, schema output, authorization, batas input, error handling, dan preferensi animasi.
 - [x] Jalankan check, test, build, release verifier, diff check, dan verifikasi visual desktop/mobile.
 - [x] Simpan checkpoint final fitur AI dan preferensi pengguna.
+
+## Gaya laporan AI
+
+- [x] Tambahkan kontrak gaya laporan AI Ringkas, Eksekutif, dan Teknis.
+- [x] Simpan preferensi gaya laporan secara lokal pada browser.
+- [x] Tambahkan pilihan gaya laporan pada halaman Pengaturan.
+- [x] Teruskan gaya terpilih ke endpoint AI dengan prompt terkontrol tanpa memberi tool eksekusi.
+- [x] Tambahkan test untuk validasi gaya, persistence preference, dan authorization AI.
+- [x] Jalankan check, test, build, release verifier, diff check, dan verifikasi visual.
+- [x] Simpan checkpoint final gaya laporan AI.
