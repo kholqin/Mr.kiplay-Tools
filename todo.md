@@ -422,3 +422,10 @@
 - [x] Tambahkan test Vitest untuk progres, cancel, reconnect/stale state, authorization, dan sanitasi pesan.
 - [x] Jalankan check, test, build, diff check, dan verifikasi visual desktop/mobile sebelum checkpoint.
 - [x] Simpan checkpoint final setelah seluruh validasi dashboard progres selesai.
+
+## Animasi transisi timeline pipeline
+
+- [x] Tambahkan transisi status tahap yang halus dengan indikator aktif dan perubahan progres yang informatif.
+- [x] Hormati prefers-reduced-motion serta pertahankan fokus dan aria-live yang ada.
+- [x] Jalankan check, test, dan verifikasi visual desktop/mobile.
+- [x] Simpan checkpoint setelah animasi timeline tervalidasi.
