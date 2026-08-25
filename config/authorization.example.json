@@ -1,0 +1,14 @@
+{
+  "engagement_id": "replace-with-approved-engagement-id",
+  "authorized_by": "replace-with-authorized-owner",
+  "valid_from": "2026-01-01T00:00:00Z",
+  "valid_until": "2026-12-31T23:59:59Z",
+  "targets": [
+    "replace-with-approved-host.example"
+  ],
+  "allowed_actions": [
+    "nmap-service-discovery",
+    "nuclei-baseline-checks"
+  ],
+  "notes": "Replace every placeholder and store the real manifest outside version control."
+}
