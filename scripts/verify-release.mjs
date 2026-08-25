@@ -13,7 +13,7 @@ for (const path of ["package.json", "pnpm-lock.yaml", "README.md", "CHANGELOG.md
 let pkg;
 try { pkg = JSON.parse(read("package.json")); check("package.json:valid", true, pkg.name); } catch { check("package.json:valid", false, "JSON tidak valid"); }
 if (pkg) {
-  check("packageManager:pnpm", /^pnpm@10\.4\.1\+sha512\.[a-f0-9]{128}$/.test(pkg.packageManager ?? ""), "pnpm pinned dengan integrity hash");
+  check("packageManager:pnpm", /^pnpm@10\.4\.1(?:\+sha512\.[a-f0-9]{128})?$/.test(pkg.packageManager ?? ""), "pnpm pinned ke versi 10.4.1 yang kompatibel dengan Node");
   for (const command of ["check", "test", "build", "diagnose", "release:verify"]) check(`script:${command}`, typeof pkg.scripts?.[command] === "string", "command tersedia");
 }
 

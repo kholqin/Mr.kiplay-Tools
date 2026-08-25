@@ -341,3 +341,10 @@
 - [x] Perbarui README, CHANGELOG, LICENSE, dan panduan release sesuai fitur aktual.
 - [x] Jalankan check, seluruh test, build, audit dependency, diff whitespace, dan pemeriksaan rahasia.
 - [x] Commit dan push perubahan ke repository GitHub publik lalu verifikasi SHA, tree, dan file dokumentasi remote.
+
+## Perbaikan ERR_INVALID_PACKAGE_CONFIG
+
+- [x] Perbaiki sumber error runtime package config dan pastikan format manifest kompatibel dengan Node.js 20/22/24.
+- [x] Restart server dan verifikasi log startup tanpa ERR_INVALID_PACKAGE_CONFIG.
+- [x] Jalankan check, test, build, dan screenshot halaman utama serta Recon desktop/mobile.
+- [x] Simpan checkpoint hasil perbaikan runtime.
