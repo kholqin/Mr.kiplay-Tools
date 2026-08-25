@@ -9,9 +9,10 @@ import Workspace from "./pages/Workspace";
 import Reports from "./pages/Reports";
 import Findings from "./pages/Findings";
 import Recon from "./pages/Recon";
+import Pipeline from "./pages/Pipeline";
 import DashboardLayout from "./components/DashboardLayout";
 
-const modulePaths = ["/workspace", "/pipeline", "/findings", "/reports", "/authorization", "/settings"];
+const modulePaths = ["/workspace", "/findings", "/reports", "/authorization", "/settings"];
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"/reports"} component={Reports} />
       <Route path={"/findings"} component={Findings} />
       <Route path={"/recon"} component={Recon} />
+      <Route path={"/pipeline"} component={Pipeline} />
       {modulePaths.filter((path) => path !== "/workspace" && path !== "/reports" && path !== "/findings" && path !== "/recon").map((path) => <Route key={path} path={path} component={Home} />)}
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

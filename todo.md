@@ -411,3 +411,14 @@
 - [x] Tambahkan test kontrak polyglot, pipeline URL/IP, concurrency, cancellation, dan guardrail.
 - [x] Perbarui README, CHANGELOG, panduan integrasi, dan installer tanpa memasang runtime bahasa yang tidak diperlukan.
 - [x] Jalankan check, test, build, verifier, screenshot, dan checkpoint.
+
+## Dashboard progres pipeline real-time
+
+- [x] Audit alur job URL/IP, persistence worker, router tRPC, dan komponen dashboard yang tersedia.
+- [x] Tambahkan kontrak progres per tahap dengan status, persentase, timestamps, pesan aman, dan hasil ringkas.
+- [x] Hubungkan pembaruan progres real-time berbasis polling adaptif yang terotorisasi, dengan reconnect dan stale-state handling.
+- [x] Tambahkan kontrol cancel job yang idempotent serta tetap menghormati authorization gate dan allowlist.
+- [x] Bangun dashboard interaktif responsif untuk timeline tahap, progress bar, log aman, error/retry, dan status koneksi.
+- [x] Tambahkan test Vitest untuk progres, cancel, reconnect/stale state, authorization, dan sanitasi pesan.
+- [x] Jalankan check, test, build, diff check, dan verifikasi visual desktop/mobile sebelum checkpoint.
+- [x] Simpan checkpoint final setelah seluruh validasi dashboard progres selesai.

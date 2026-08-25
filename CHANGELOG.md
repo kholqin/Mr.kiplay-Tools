@@ -172,3 +172,15 @@ Mr.Kiplay kini mendokumentasikan adapter JSON untuk C#, C++, Java, Python, Go, P
 ## [Unreleased] — Dark performance dan polyglot contract
 
 Ditambahkan planner satu-input URL/IP yang bounded dan tetap bergantung pada allowlist serta konfirmasi otorisasi. Kontrak adapter diperluas dengan contoh Java, Go, PHP, Laravel, dan HTML; runtime inti tetap TypeScript/Node.js. Dokumentasi menegaskan concurrency, cache, deduplikasi, timeout, cancellation, rate limit, dan audit trail sebagai kontrol wajib.
+
+## [Unreleased] — Dashboard Progres Pipeline
+### Ditambahkan
+- Halaman `/pipeline` untuk memantau progres pipeline URL/IP dari lifecycle job server.
+- Kontrak shared tahap, status, persentase, timestamps, ringkasan hasil, dan pesan tersanitasi.
+- Polling terotorisasi setiap 1,5 detik, status koneksi, refresh, fallback riwayat, dan tombol sambung ulang.
+- Cancel idempotent dengan batas aman serta mode pratinjau tanpa request jaringan.
+- Orchestrator bounded untuk DNS, HTTP pasif, sertifikat TLS, OSINT redirect terbatas, dan port eksplisit setelah authorization gate.
+- Regression test untuk progres, mode preview, sanitasi pesan, isolasi workspace, dan cancel.
+### Keamanan
+- Pipeline aktif hanya menerima target allowlist pada workspace dengan otorisasi terkonfirmasi.
+- Tidak ada exploitasi, credential testing, crawling agresif, OOB callback, atau bypass scope.

@@ -167,3 +167,9 @@ Pipeline URL/IP Mr.Kiplay tetap dimulai dari target yang sudah masuk allowlist d
 Operator dapat memulai alur recon dari satu URL atau alamat IP publik setelah target masuk allowlist dan otorisasi workspace dikonfirmasi. Planner menyusun tahapan DNS, HTTP, sertifikat, OSINT, dan port dengan maksimum 100 host serta 32 port; setiap tahap tetap memiliki timeout, rate limit, cancellation, audit, dan review manual. Planner tidak mengeksekusi exploit atau melewati scope.
 
 Contoh adapter polyglot berada di `plugins/examples/` untuk C#, C++, Java, Python, Go, PHP, Laravel, dan HTML. Adapter menerima kontrak JSON dari host, sedangkan host tetap mengendalikan policy dan jaringan.
+
+## Dashboard progres pipeline
+
+Halaman **Pipeline pemindaian** menyediakan dashboard interaktif untuk satu target URL atau IP yang telah dimasukkan ke allowlist. Pilih workspace dan target, lalu gunakan **Pratinjau aman** untuk memeriksa urutan tahap tanpa request jaringan atau **Jalankan terbatas** untuk observasi metadata non-destruktif yang sudah dilindungi authorization gate.
+
+Status job diperbarui dari lifecycle server setiap 1,5 detik dan menampilkan tahap prapemeriksaan, DNS, HTTP pasif, sertifikat TLS, OSINT publik terbatas, port eksplisit, serta finalisasi. Riwayat job dapat dipilih kembali, tombol **Sambung ulang** tersedia ketika query gagal, dan pembatalan bersifat idempotent. Cancel menghentikan tahap lanjutan pada batas aman; request jaringan yang sudah berada di library operasi dapat menyelesaikan timeout normal terlebih dahulu.

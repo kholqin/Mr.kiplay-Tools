@@ -11,6 +11,7 @@ import { inventoryCertificate } from "../core/recon/certificateInventory";
 import { runLiveOsint, type LiveOsintModule } from "../core/recon/liveOsint";
 import { isolatedWorkerQueue } from "../core/worker/isolatedWorker";
 import { listPersistedWorkerJobs, persistWorkerJob } from "./workerDb";
+import { cancelPipeline, getPipeline, listPipelines, startPipeline } from "./pipelineProgress";
 
 isolatedWorkerQueue.setPersistenceHook(persistWorkerJob);
 import { exportReconResults, listReconResults, saveReconResult } from "./reconDb";
@@ -130,6 +131,27 @@ export const appRouter = router({
       const job = isolatedWorkerQueue.getForWorkspace(input.jobId, input.workspaceId);
       if (!job) throw new Error("Job worker tidak ditemukan");
       return { cancelled: isolatedWorkerQueue.cancel(input.jobId) };
+    }),
+    startPipeline: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), mode: z.enum(["preview", "active"]).default("preview") })).mutation(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
+      if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");
+      const target = (await listTargets(ctx.user.id, input.workspaceId)).find((item) => item.id === input.targetId && item.inScope);
+      if (!target) throw new Error("Target tidak ditemukan dalam allowlist workspace");
+      return startPipeline({ ownerId: ctx.user.id, workspaceId: input.workspaceId, targetId: target.id, target: target.value, targetType: target.targetType, mode: input.mode });
+    }),
+    pipelineProgress: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).query(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      const snapshot = getPipeline(input.jobId, input.workspaceId);
+      if (!snapshot) throw new Error("Pipeline tidak ditemukan atau sudah kedaluwarsa");
+      return snapshot;
+    }),
+    pipelineHistory: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      return listPipelines(input.workspaceId);
+    }),
+    cancelPipeline: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).mutation(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      return cancelPipeline(input.jobId, input.workspaceId);
     }),
   }),
 });
