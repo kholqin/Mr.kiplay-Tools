@@ -1,7 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+cd "$PROJECT_ROOT"
+
+if [[ ! -f package.json ]]; then
+  printf '%s\n' "package.json tidak ditemukan pada root project: $PROJECT_ROOT" >&2
+  exit 1
+fi
+
+if [[ -n "${TERMUX_VERSION:-}" || "${PREFIX:-}" == *"com.termux"* ]]; then
+  ENVIRONMENT='Termux'
+elif [[ -r /etc/os-release ]] && grep -qiE '^ID=(kali|blackarch)' /etc/os-release; then
+  ENVIRONMENT='Kali/BlackArch'
+else
+  ENVIRONMENT="${OSTYPE:-Unix}"
+fi
+
 printf '%s\n' 'Mr.Kiplay bootstrap installer'
+printf '%s\n' "Environment: $ENVIRONMENT"
 printf '%s\n' 'Script ini hanya memasang dependency aplikasi; tidak menjalankan scanner.'
 
 if ! command -v node >/dev/null 2>&1; then
@@ -25,7 +43,8 @@ if ! command -v pnpm >/dev/null 2>&1; then
   fi
 fi
 
-pnpm install
+pnpm install --frozen-lockfile
+pnpm diagnose
 pnpm check
 pnpm test -- --run
 printf '%s\n' 'Bootstrap selesai. Jalankan pnpm dev untuk membuka dashboard lokal.'

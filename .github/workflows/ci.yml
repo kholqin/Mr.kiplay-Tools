@@ -75,6 +75,14 @@ jobs:
             throw "Help mode installer tidak mengembalikan usage yang diharapkan."
           }
 
+      - name: Verify PowerShell installer log self-test
+        shell: pwsh
+        run: |
+          $output = & ./scripts/install/install.ps1 -TestLog
+          if ($LASTEXITCODE -ne 0 -or ($output -join "`n") -notmatch "self-test lulus") {
+            throw "Self-test log installer tidak lulus."
+          }
+
       - name: Parse PowerShell installer
         shell: pwsh
         run: |
@@ -94,3 +102,14 @@ jobs:
         env:
           CI: true
         run: ./scripts/install/install.ps1
+
+      - name: Upload PowerShell installer log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: powershell-installer-log
+          path: |
+            .mrkiplay/logs/install.log
+            .mrkiplay/logs/install.log.1
+          if-no-files-found: ignore
+          retention-days: 7

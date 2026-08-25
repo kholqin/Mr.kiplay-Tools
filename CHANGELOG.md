@@ -70,3 +70,24 @@
 
 - Menambahkan job `windows-installer` pada GitHub Actions dengan runner `windows-latest`.
 - Job mem-parse installer PowerShell, menyiapkan Node.js 22 dan pnpm, lalu menjalankan bootstrap installer dalam mode CI tanpa scanner atau target jaringan.
+
+### Progress feedback installer PowerShell
+
+- Installer Windows kini menampilkan progress bar per tahap pada terminal interaktif.
+- Mode `CI=true` memakai marker teks `[CI] [persentase%]` yang stabil untuk log otomatis.
+- Mode `-Help` tetap berhenti sebelum instalasi dan tidak menjalankan pemeriksaan.
+
+### Audit dan troubleshooting lintas platform
+
+- Memindahkan `patchedDependencies` dan `overrides` ke `pnpm-workspace.yaml` agar pnpm 10 tidak mengabaikan konfigurasi.
+- Menambahkan `pnpm diagnose` untuk memeriksa runtime, manifest, lockfile, serta installer tanpa network scan.
+- Installer Unix kini menemukan root project secara otomatis dan memakai `--frozen-lockfile`.
+- Installer PowerShell mencatat tahap serta error tersanitasi ke `.mrkiplay/logs/install.log` dengan rotasi sederhana.
+
+### Audit kode dan hardening runtime
+
+- Upgrade aman AWS SDK S3, tRPC v11, Express 5, streamdown, recharts, nanoid, Drizzle ORM, dan tailwind-merge dalam rentang yang telah divalidasi.
+- Memperbaiki route wildcard storage proxy dan Vite bridge agar kompatibel dengan Express 5 tanpa `PathError`.
+- Menyesuaikan tipe wrapper chart untuk Recharts v3 dan menambahkan regression test.
+- Mem-pin `mdast-util-to-hast` ke 13.2.1 untuk menutup vulnerability moderate pada rantai markdown.
+- Menambahkan `pnpm diagnose`, root detection installer Kali/Termux, log PowerShell tersanitasi, dan artifact log CI Windows.
