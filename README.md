@@ -113,3 +113,11 @@ Installer PowerShell mencatat tahap bootstrap dan error tersanitasi ke `.mrkipla
 ### Status audit dependency
 
 Setelah upgrade AWS SDK, tRPC, Express, streamdown, recharts, Drizzle ORM, nanoid, dan dependency pendukung, `pnpm audit --prod --audit-level=low` tidak menemukan vulnerability produksi. `pnpm install` masih dapat menampilkan peer warning development dari `@builder.io/vite-plugin-jsx-loc` terhadap Vite 7; warning ini tidak memengaruhi runtime production dan tetap dipantau oleh CI. Upgrade major lain tidak dilakukan tanpa migrasi API serta pengujian terpisah.
+
+## Katalog 19 modul OSINT aman
+
+Halaman **Recon** kini memuat katalog 19 modul OSINT dalam mode `preview-only`. Modulnya mencakup RDAP domain, WHOIS IP, ASN/BGP, riwayat DNS, Certificate Transparency, korelasi subdomain pasif, snapshot security headers, robots/sitemap, favicon hash, fingerprint teknologi, SPF/DKIM/DMARC, infrastruktur MX, nameserver, metadata cloud/storage berbasis DNS, rantai redirect HEAD, metadata arsip web, metadata repository publik, indikator breach melalui API resmi tanpa data mentah, serta korelasi CVE/CPE.
+
+Katalog menyediakan pencarian dan filter kategori. Setiap modul memiliki kontrak input/output, catatan keamanan, status aktif, serta kewajiban validasi manual. Implementasi provider eksternal belum diaktifkan otomatis; modul baru hanya mendeskripsikan rencana observasi aman sampai endpoint, kredensial, scope, rate limit, dan persetujuan operator tersedia.
+
+Helper pendukung pada `shared/osintSupport.ts` menyediakan normalisasi IOC, relasi domain-IP untuk graph aset, timeline evidence terbaru, risk scoring bounded yang transparan, serta ekspor ringkasan CSV. Helper menolak indikator secret-like dan alamat IPv4 privat. Mr.Kiplay tidak mengumpulkan password, token, cookie, data breach mentah, isi repository privat, atau profil personal di luar kebutuhan engagement.

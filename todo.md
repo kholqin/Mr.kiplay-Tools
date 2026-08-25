@@ -311,3 +311,13 @@
 ## Sequencing checkpoint instalasi
 
 - [x] Simpan checkpoint baru setelah verifikasi clone publik bersih selesai agar validasi Termux/repository tercakup oleh checkpoint terbaru.
+
+## Paket 19 modul OSINT aman
+
+- [x] Tetapkan 19 modul OSINT preview-only: RDAP domain, WHOIS IP, ASN/BGP, DNS history, Certificate Transparency, korelasi subdomain pasif, header HTTP, robots/sitemap, favicon hash, technology fingerprint, SPF/DKIM/DMARC, MX/mail infrastructure, nameserver infrastructure, metadata cloud/storage berbasis DNS, redirect chain HEAD, Wayback metadata, repository publik metadata, indikator breach via API berizin tanpa data mentah, dan korelasi CVE/CPE.
+- [x] Tambahkan kontrak modul dengan kategori, input, output tersanitasi, batas akses, dan status implementasi.
+- [x] Tambahkan fitur pendukung: timeline evidence, normalisasi IOC, graph relasi aset, risk scoring transparan, filter status modul, dan ekspor ringkasan.
+- [x] Integrasikan katalog dan filter OSINT ke UI berbahasa Indonesia tanpa menjalankan pengumpulan data pribadi atau akses privat.
+- [x] Tambahkan test guardrail untuk preview-only, target scope, sanitasi, dan batas rate/timeout.
+- [x] Perbarui README, panduan modul, CHANGELOG, dan batasan legal/operasional.
+- [x] Jalankan check, test, build, verifikasi visual, checkpoint, dan sinkronisasi GitHub.

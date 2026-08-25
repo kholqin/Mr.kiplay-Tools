@@ -91,3 +91,19 @@
 - Menyesuaikan tipe wrapper chart untuk Recharts v3 dan menambahkan regression test.
 - Mem-pin `mdast-util-to-hast` ke 13.2.1 untuk menutup vulnerability moderate pada rantai markdown.
 - Menambahkan `pnpm diagnose`, root detection installer Kali/Termux, log PowerShell tersanitasi, dan artifact log CI Windows.
+
+## [Unreleased] — Paket 19 Modul OSINT Aman
+
+### Ditambahkan
+
+- Katalog 19 modul OSINT preview-only: RDAP domain, WHOIS IP, ASN/BGP, riwayat DNS, Certificate Transparency, korelasi subdomain pasif, snapshot security headers, robots/sitemap, favicon hash, fingerprint teknologi, SPF/DKIM/DMARC, infrastruktur MX, nameserver, metadata cloud/storage berbasis DNS, rantai redirect HEAD, metadata arsip web, metadata repository publik, indikator breach melalui API resmi tanpa data mentah, dan korelasi CVE/CPE.
+- Panel Recon berbahasa Indonesia dengan pencarian, filter kategori, jumlah modul, keluaran yang diharapkan, dan catatan guardrail.
+- Helper normalisasi IOC, relasi domain-IP untuk graph aset, timeline evidence, risk scoring bounded transparan, dan ekspor ringkasan CSV.
+- Test katalog dan helper: 65 test lulus, 1 test dilewati karena PowerShell tidak berada di PATH Linux.
+
+### Keamanan
+
+- Seluruh modul baru nonaktif dan preview-only sampai provider, scope, otorisasi, timeout, rate limit, dan audit trail dikonfigurasi.
+- Sistem menolak nilai yang menyerupai secret serta alamat IPv4 privat pada helper IOC.
+- Modul breach hanya boleh menyimpan status/provenance dari API resmi; password, token, cookie, data bocor mentah, isi privat, dan data personal berlebihan dilarang.
+- Tidak ada modul yang menjalankan eksploitasi, brute force agresif, zone transfer, crawling massal, credential testing, atau akses bucket/objek cloud.
