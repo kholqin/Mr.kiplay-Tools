@@ -164,3 +164,11 @@
 - Hasil live disimpan sebagai `recon_results.kind=osint` dengan provenance dan audit trail workspace.
 - Worker thread memiliki persistence lifecycle pada tabel `worker_jobs`, sehingga status dan hasil ringkasan tetap tersedia setelah restart server.
 - Verifikasi tetap memakai allowlist, authorization gate, public-resolution preflight, timeout, rate limit, sanitasi, batas bytes/hop/rows, dan validasi manual.
+
+## [Unreleased] — Performa dan adapter polyglot
+
+Mr.Kiplay kini mendokumentasikan adapter JSON untuk C#, C++, Java, Python, Go, PHP, Laravel, dan HTML. Runtime inti tetap TypeScript/Node.js; adapter tambahan bersifat opt-in dan tidak dapat melewati authorization gate. Alur URL/IP tetap dibatasi allowlist, public-resolution preflight, timeout, rate limit, cache, deduplikasi, cancellation, serta audit trail.
+
+## [Unreleased] — Dark performance dan polyglot contract
+
+Ditambahkan planner satu-input URL/IP yang bounded dan tetap bergantung pada allowlist serta konfirmasi otorisasi. Kontrak adapter diperluas dengan contoh Java, Go, PHP, Laravel, dan HTML; runtime inti tetap TypeScript/Node.js. Dokumentasi menegaskan concurrency, cache, deduplikasi, timeout, cancellation, rate limit, dan audit trail sebagai kontrol wajib.

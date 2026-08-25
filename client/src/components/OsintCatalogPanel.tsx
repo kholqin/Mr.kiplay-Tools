@@ -23,8 +23,8 @@ export default function OsintCatalogPanel() {
   return <Card className="border-red-300/15 bg-gradient-to-br from-red-500/[0.08] to-white/[0.025]">
     <CardHeader className="gap-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-        <div><CardTitle className="flex items-center gap-2"><BookOpenCheck className="h-5 w-5 text-red-200" /> Katalog 19 modul OSINT</CardTitle><p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">Pilih modul sesuai tujuan assessment. Semua modul baru berada pada mode pratinjau sampai engine provider dan otorisasi dikonfigurasi.</p></div>
-        <Badge variant="outline" className="w-fit border-amber-300/30 text-amber-200">Preview-only</Badge>
+        <div><CardTitle className="flex items-center gap-2"><BookOpenCheck className="h-5 w-5 text-red-200" /> Katalog 19 modul OSINT</CardTitle><p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">Pilih modul sesuai tujuan assessment. Modul live terbatas berjalan dengan scope, otorisasi, rate limit, dan audit; modul lain tetap provider-gated.</p></div>
+        <Badge variant="outline" className="w-fit border-emerald-300/30 text-emerald-200">Live terbatas</Badge>
       </div>
       <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
         <div className="relative"><Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-zinc-600" /><Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari modul, misalnya RDAP atau CVE" className="border-white/10 bg-black/20 pl-9" /></div>

@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="id">
+  <meta charset="utf-8" />
+  <title>Mr.Kiplay Adapter Result</title>
+  <main>
+    <h1>Hasil adapter Mr.Kiplay</h1>
+    <pre id="output">Menunggu JSON dari host terotorisasi…</pre>
+  </main>
+  <script>
+    // Host menyuntikkan JSON yang sudah disanitasi; halaman ini tidak melakukan request target.
+    window.renderAdapterResult = (value) => {
+      document.querySelector('#output').textContent = JSON.stringify(value, null, 2);
+    };
+  </script>
+</html>

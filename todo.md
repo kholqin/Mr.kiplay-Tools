@@ -400,3 +400,14 @@
 - [x] Tambahkan alur impor dataset breach lokal yang hanya menerima data yang disediakan pengguna dan tidak membuat data palsu.
 - [x] Susun storyboard serta naskah video demo berdurasi 1 menit.
 - [x] Produksi, rakit, validasi, dan kirim video demo kepada pengguna.
+
+## Upgrade performa, automation, dan polyglot adapter
+
+- [x] Tambahkan pipeline URL/IP satu-input yang tetap membutuhkan authorization workspace dan allowlist sebelum eksekusi.
+- [x] Tambahkan optimasi concurrency bounded, cache, deduplikasi, dan progress job tanpa scan agresif.
+- [x] Tambahkan adapter SDK/contract yang dapat dipakai C#, C++, Java, Python, Go, PHP, dan Laravel; runtime aktif tetap memakai server TypeScript.
+- [x] Tambahkan health check, timeout, retry terbatas, cancellation, dan audit event untuk job otomatis.
+- [x] Audit dan perbarui UI dark Merah Putih agar responsif pada mobile/tablet/desktop.
+- [x] Tambahkan test kontrak polyglot, pipeline URL/IP, concurrency, cancellation, dan guardrail.
+- [x] Perbarui README, CHANGELOG, panduan integrasi, dan installer tanpa memasang runtime bahasa yang tidak diperlukan.
+- [x] Jalankan check, test, build, verifier, screenshot, dan checkpoint.

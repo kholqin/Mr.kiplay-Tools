@@ -157,3 +157,13 @@ Eksekusi hanya berjalan jika target berada dalam allowlist dan otorisasi workspa
 ## Eksekusi nyata dan worker persisten
 
 Status job worker kini disimpan pada tabel `worker_jobs`, termasuk queued, running, completed, failed, dan cancelled beserta hasil ringkasan yang dibatasi. Setelah server restart, riwayat status workspace tetap dapat dibaca dari database. Worker tetap hanya mengolah payload hasil assessment yang sudah tersimpan; ia tidak menjalankan kode dari client, scanner eksternal, atau exploit.
+
+## Performa dan adapter polyglot
+
+Pipeline URL/IP Mr.Kiplay tetap dimulai dari target yang sudah masuk allowlist dan workspace yang memiliki otorisasi. Concurrency, cache, deduplikasi, timeout, pembatalan, dan rate limit dibatasi oleh host agar automation tidak berubah menjadi crawling agresif. Runtime inti menggunakan TypeScript/Node.js; contoh adapter JSON tersedia untuk C#, C++, Java, Python, Go, PHP, Laravel, dan HTML. Bahasa tersebut tidak dipasang otomatis pada deployment dan tidak dapat melewati gate otorisasi.
+
+## Alur satu-input URL/IP
+
+Operator dapat memulai alur recon dari satu URL atau alamat IP publik setelah target masuk allowlist dan otorisasi workspace dikonfirmasi. Planner menyusun tahapan DNS, HTTP, sertifikat, OSINT, dan port dengan maksimum 100 host serta 32 port; setiap tahap tetap memiliki timeout, rate limit, cancellation, audit, dan review manual. Planner tidak mengeksekusi exploit atau melewati scope.
+
+Contoh adapter polyglot berada di `plugins/examples/` untuk C#, C++, Java, Python, Go, PHP, Laravel, dan HTML. Adapter menerima kontrak JSON dari host, sedangkan host tetap mengendalikan policy dan jaringan.

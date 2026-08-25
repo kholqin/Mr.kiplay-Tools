@@ -20,3 +20,9 @@ export type MrkPlugin = {
 ```
 
 Implementasi Python, JavaScript/TypeScript, C++, dan C# dapat memakai kontrak yang sama melalui JSON envelope. Plugin tidak boleh menerima credentials mentah, mengubah scope, menonaktifkan logging, atau memicu eksploitasi.
+
+## Adapter polyglot
+
+Kontrak plugin menggunakan JSON envelope sederhana. Contoh tersedia untuk JavaScript/TypeScript, Python, C++, C#, Java, Go, PHP, dan Laravel. Adapter tidak boleh memulai request jaringan sendiri; host Mr.Kiplay yang memeriksa otorisasi, allowlist, resolusi publik, timeout, rate limit, cancellation, dan audit trail.
+
+Runtime web utama tetap TypeScript/Node.js agar deployment tidak memaksa pemasangan Java, Go, PHP, Laravel, C++, atau .NET. Runtime tambahan hanya dipasang saat operator memilih adapter terkait pada lingkungan terisolasi.
