@@ -9,7 +9,7 @@ import { collectDnsRecords, discoverSubdomains } from "../core/recon/dns";
 import { fingerprintHttp } from "../core/recon/httpFingerprint";
 import { inventoryCertificate } from "../core/recon/certificateInventory";
 import { isolatedWorkerQueue } from "../core/worker/isolatedWorker";
-import { listReconResults, saveReconResult } from "./reconDb";
+import { exportReconResults, listReconResults, saveReconResult } from "./reconDb";
 import { createPortScanPlan, scanOpenPorts } from "../core/recon/portScan";
 import { listDiscoveredSubdomains, exportPortObservationsCsv, listPortObservations, listPortObservationsPage, savePortObservations } from "./portScanDb";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -49,6 +49,7 @@ export const appRouter = router({
     findings: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive() })).query(({ ctx, input }) => listFindings(ctx.user.id, input.workspaceId)),
     report: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), format: z.enum(["json", "html"]) })).query(({ ctx, input }) => buildReport(ctx.user.id, input.workspaceId, input.format)),
     reconResults: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), kind: z.enum(["dns", "subdomain"]).optional() })).query(({ ctx, input }) => listReconResults(ctx.user.id, input.workspaceId, input.kind)),
+    reconExport: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), format: z.enum(["csv", "html"]) })).query(({ ctx, input }) => exportReconResults(ctx.user.id, input.workspaceId, input.format)),
     dnsLookup: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), targetId: z.number().int().positive(), preview: z.boolean().default(true), resolver: z.string().max(64).default("system"), cacheTtlSeconds: z.number().int().min(5).max(3600).default(60), bypassCache: z.boolean().default(false) })).mutation(async ({ ctx, input }) => {
       const workspace = await getWorkspace(ctx.user.id, input.workspaceId);
       if (!workspace?.authorizationConfirmed) throw new Error("Otorisasi workspace belum dikonfirmasi");

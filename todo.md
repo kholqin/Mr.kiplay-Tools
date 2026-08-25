@@ -348,3 +348,12 @@
 - [x] Restart server dan verifikasi log startup tanpa ERR_INVALID_PACKAGE_CONFIG.
 - [x] Jalankan check, test, build, dan screenshot halaman utama serta Recon desktop/mobile.
 - [x] Simpan checkpoint hasil perbaikan runtime.
+
+## Ekspor hasil recon OSINT
+
+- [x] Tambahkan helper ekspor recon tersanitasi dengan batas maksimal baris dan perlindungan formula injection.
+- [x] Tambahkan endpoint tRPC terproteksi untuk mengambil CSV dan laporan PDF/HTML hasil recon workspace.
+- [x] Tambahkan kontrol UI ekspor CSV dan PDF pada kartu hasil recon dengan state loading/error yang jelas.
+- [x] Tambahkan test helper dan endpoint untuk authorization, sanitasi, batas ukuran, dan format output.
+- [x] Perbarui README, panduan modul, dan CHANGELOG tentang ekspor recon.
+- [x] Jalankan check, test, build, screenshot desktop/mobile, dan checkpoint.

@@ -143,3 +143,7 @@ pnpm build
 `release:verify` memeriksa file wajib, integrity pin pnpm, command manifest, jumlah 19 modul OSINT, status preview-only, installer lintas platform, serta pola secret umum pada source. Pemeriksaan ini tidak melakukan request jaringan dan tidak menjalankan scanner terhadap target.
 
 Release Mr.Kiplay tetap berorientasi pada assessment berizin. Modul baru dan adapter eksternal harus diaktifkan terpisah melalui scope allowlist, otorisasi tertulis, rate limit, timeout, audit trail, dan validasi manual. README, CHANGELOG, LICENSE, serta SECURITY harus ditinjau bersama setiap perubahan besar.
+
+## Ekspor hasil recon OSINT
+
+Pada halaman **Recon DNS**, bagian **Hasil recon tersimpan** menyediakan **Unduh CSV** dan **Buka PDF**. CSV berisi modul, target, status, waktu, dan ringkasan metadata tersanitasi. PDF dibuka sebagai laporan print-ready pada tab baru; gunakan dialog browser **Simpan sebagai PDF**. Ekspor dibatasi maksimal 1.000 hasil per workspace, melewati authorization gate, dan menghapus field yang menyerupai token, cookie, password, atau API key.

@@ -40,3 +40,7 @@ Seluruh entri baru memiliki `previewOnly: true`, `active: false`, dan `manualVal
 ## Fitur pendukung
 
 `shared/osintSupport.ts` menyediakan normalisasi IOC, pembentukan relasi domain-IP untuk graph aset, timeline evidence terbatas 500 item, risk scoring 0–100 dengan formula yang dapat diaudit, serta ekspor CSV maksimal 1.000 baris. Helper menolak alamat IPv4 privat dan nilai yang menyerupai secret.
+
+## Ekspor recon OSINT
+
+Ekspor recon tersedia melalui prosedur tRPC terproteksi `assessment.reconExport`. Format `csv` menghasilkan kolom modul, target, status, waktu, dan ringkasan. Format `html` menghasilkan laporan print-ready yang dapat disimpan melalui dialog browser sebagai PDF. Keduanya memakai data workspace yang sudah melewati authorization gate, maksimal 1.000 baris, escaping HTML, escaping CSV, dan redaksi field sensitif.

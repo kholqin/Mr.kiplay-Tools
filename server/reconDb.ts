@@ -2,6 +2,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { assessmentTargets, auditLogs, reconResults } from "../drizzle/schema";
 import { getDb } from "./db";
 import { getWorkspace } from "./assessmentDb";
+import { reconRowsFromResults, reconRowsToCsv, reconRowsToPrintableHtml } from "../shared/reconExport";
 
 export async function saveReconResult(ownerId: number, workspaceId: number, targetId: number, kind: "dns" | "subdomain" | "http" | "certificate", target: string, payload: unknown) {
   const db = await getDb();
@@ -19,4 +20,10 @@ export async function listReconResults(ownerId: number, workspaceId: number, kin
   if (!db || !(await getWorkspace(ownerId, workspaceId))) return [];
   const filters = kind ? and(eq(reconResults.workspaceId, workspaceId), eq(reconResults.kind, kind)) : eq(reconResults.workspaceId, workspaceId);
   return db.select().from(reconResults).where(filters).orderBy(desc(reconResults.createdAt)).limit(100);
+}
+
+export async function exportReconResults(ownerId: number, workspaceId: number, format: "csv" | "html") {
+  const rows = await listReconResults(ownerId, workspaceId);
+  const exportRows = reconRowsFromResults(rows);
+  return format === "csv" ? reconRowsToCsv(exportRows) : reconRowsToPrintableHtml(exportRows);
 }

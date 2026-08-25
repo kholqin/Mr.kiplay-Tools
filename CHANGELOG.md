@@ -140,3 +140,12 @@
 ### Validasi
 
 - Verifikasi lokal mencakup check TypeScript, 66 test lulus dengan 1 skip PowerShell di Linux, build produksi, pemeriksaan release pasif, serta verifikasi visual desktop/mobile.
+
+## [Unreleased] — Ekspor Recon OSINT
+
+### Ditambahkan
+
+- Tombol **Unduh CSV** pada hasil recon tersimpan.
+- Tombol **Buka PDF** yang menghasilkan laporan print-ready pada tab baru dan dapat disimpan melalui dialog browser sebagai PDF.
+- Endpoint tRPC `assessment.reconExport` dengan format `csv` dan `html`, authorization workspace, batas 1.000 baris, redaksi field rahasia, escaping HTML, dan perlindungan formula injection.
+- Test helper ekspor untuk sanitasi target/payload, batas baris, HTML escaping, dan perilaku print-ready.
