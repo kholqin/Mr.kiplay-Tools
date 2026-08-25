@@ -366,3 +366,12 @@
 - [x] Tambahkan test PDF untuk signature, sanitasi, batas 1000 baris, dan ketiadaan secret.
 - [x] Perbarui README, panduan modul, dan CHANGELOG.
 - [x] Jalankan check, test, build, screenshot desktop/mobile, dan checkpoint.
+
+## Video presentasi Mr.Kiplay
+
+- [x] Susun storyboard 90 detik dengan hook 3–10 detik, dashboard, OSINT, simulasi preview, GitHub, dan Kali Linux.
+- [x] Kumpulkan screenshot dashboard/Recon/GitHub dan aset simulasi aman tanpa target nyata.
+- [x] Buat voice-over Bahasa Indonesia dengan suara perempuan muda generik yang ceria, friendly, dan candaan ringan.
+- [x] Produksi video presentasi sekitar 90 detik dengan subtitle/teks layar yang terbaca.
+- [x] Tambahkan pemutar video yang jelas pada dashboard dengan poster, caption, dan kontrol aksesibel.
+- [x] Validasi durasi, audio, visual, responsif, dan ukuran media sebelum checkpoint.

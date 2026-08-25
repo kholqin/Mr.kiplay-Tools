@@ -96,6 +96,20 @@ export default function Home() {
         <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"><div className="max-w-2xl"><div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.25em] text-red-200"><span className="h-2 w-2 rounded-full bg-red-400 shadow-[0_0_12px_#f87171]" /> Ruang kerja keamanan Merah Putih</div><h1 className="mt-4 text-3xl md:text-5xl font-semibold tracking-tight">{OPERATOR_IDENTITY.greeting}</h1><p className="mt-4 max-w-xl text-sm leading-6 text-zinc-400">{routeTitles[location] ?? "Ruang kerja assessment"}. Semua aktivitas dimulai dari scope yang jelas dan otorisasi yang terverifikasi.</p></div><div className="flex items-center gap-3"><Badge className="border border-emerald-400/20 bg-emerald-400/10 text-emerald-300"><Activity className="mr-2 h-3 w-3" /> Sistem siap</Badge><Badge variant="outline" className="border-white/15 bg-white/5 text-zinc-300">Mode aman</Badge></div></div>
       </div>
 
+      <Card className="overflow-hidden border-red-300/15 bg-gradient-to-br from-red-500/[0.10] to-white/[0.03]">
+        <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div><p className="text-xs uppercase tracking-[0.25em] text-red-200">Video pengenalan</p><CardTitle className="mt-2 text-xl">Kenalan dengan Mr.Kiplay dalam 90 detik</CardTitle><p className="mt-1 text-sm text-zinc-500">Dashboard, 19 modul OSINT, simulasi preview aman, GitHub, dan instalasi Kali Linux.</p></div>
+          <a href="https://github.com/kholqin/Mr.kiplay-Tools" target="_blank" rel="noreferrer" className="text-xs text-red-200 underline-offset-4 hover:underline">Buka GitHub</a>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <video className="aspect-video w-full rounded-2xl border border-white/10 bg-black object-cover" controls preload="metadata" playsInline poster="/manus-storage/scene_dashboard_97952c19.png" aria-label="Video presentasi Mr.Kiplay berdurasi sekitar 90 detik">
+            <source src="/manus-storage/mrkiplay-video-presentasi_96e7b107.mp4" type="video/mp4" />
+            Browser Anda tidak mendukung pemutar video HTML5.
+          </video>
+          <p className="text-xs text-zinc-500">Video hanya menampilkan simulasi dan metadata berizin; tidak ada target nyata yang dipindai.</p>
+        </CardContent>
+      </Card>
+
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
           { label: "Target dalam scope", value: targets.data?.length ?? 0, meta: "allowlist aktif", icon: Target, accent: "text-sky-300" },
