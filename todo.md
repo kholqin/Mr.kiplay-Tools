@@ -332,3 +332,12 @@
 - [x] Jalankan check, test, build, verifikasi visual desktop/mobile, checkpoint, dan sinkronisasi.
 
 - [x] Perbaiki mismatch hash Corepack pada deklarasi `packageManager` agar build terkelola dapat memasang pnpm secara konsisten.
+
+## Audit dan upgrade release lanjutan
+
+- [x] Tambahkan verifikasi kontrak modul dan command diagnostik untuk seluruh script installer/diagnose.
+- [x] Tambahkan modul defensif baru yang bounded: asset inventory summary, evidence timeline, policy report, dan health checks tanpa network scan tambahan.
+- [x] Perkuat validasi input, error boundary, dan observability server/client tanpa melemahkan authorization gate.
+- [x] Perbarui README, CHANGELOG, LICENSE, dan panduan release sesuai fitur aktual.
+- [x] Jalankan check, seluruh test, build, audit dependency, diff whitespace, dan pemeriksaan rahasia.
+- [ ] Commit dan push perubahan ke repository GitHub publik lalu verifikasi SHA, tree, dan file dokumentasi remote.

@@ -127,3 +127,19 @@ Helper pendukung pada `shared/osintSupport.ts` menyediakan normalisasi IOC, rela
 Halaman Recon menampilkan shimmer progress dan status operasi ketika katalog atau mutation OSINT sedang diproses. Error dipetakan menjadi pesan Bahasa Indonesia yang aman, tanpa stack trace, token, alamat privat, atau detail provider yang sensitif. Operator memperoleh tombol **Coba lagi** untuk mengulang preview; aktivitas tetap melalui scope dan authorization gate.
 
 Animasi non-esensial mengikuti `prefers-reduced-motion`, sedangkan status memakai `role=status`/`role=alert` dan `aria-live` agar dapat dibaca assistive technology. Jika instalasi terkelola melaporkan mismatch Corepack, project kini mem-pin pnpm 10.4.1 menggunakan integrity hash resmi registry; pemeriksaan lokal tetap dapat dijalankan dengan `pnpm check` dan `pnpm test -- --run`.
+
+## Verifikasi release
+
+Sebelum membuat release atau push perubahan, jalankan pemeriksaan pasif berikut dari root project:
+
+```bash
+pnpm diagnose
+pnpm release:verify
+pnpm check
+pnpm test -- --run
+pnpm build
+```
+
+`release:verify` memeriksa file wajib, integrity pin pnpm, command manifest, jumlah 19 modul OSINT, status preview-only, installer lintas platform, serta pola secret umum pada source. Pemeriksaan ini tidak melakukan request jaringan dan tidak menjalankan scanner terhadap target.
+
+Release Mr.Kiplay tetap berorientasi pada assessment berizin. Modul baru dan adapter eksternal harus diaktifkan terpisah melalui scope allowlist, otorisasi tertulis, rate limit, timeout, audit trail, dan validasi manual. README, CHANGELOG, LICENSE, serta SECURITY harus ditinjau bersama setiap perubahan besar.

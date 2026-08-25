@@ -121,3 +121,22 @@
 ### Diperbaiki
 
 - Pin package manager menggunakan integrity hash resmi pnpm 10.4.1 untuk menghindari mismatch hash pada instalasi terkelola.
+
+## [Unreleased] — Release Hardening dan Script Upgrade
+
+### Ditambahkan
+
+- Script `pnpm release:verify` untuk pemeriksaan pasif file release, integrity pnpm, command manifest, katalog 19 modul OSINT, installer, dan pola secret umum.
+- Peningkatan kontrak modul OSINT dengan input/output, status preview-only, serta catatan safety per modul.
+- Helper defensif untuk normalisasi IOC, timeline evidence, relasi aset, risk scoring bounded, dan ekspor ringkasan.
+- Prosedur verifikasi release yang terdokumentasi: diagnose, release verify, TypeScript check, test, dan build.
+
+### Keamanan dan legal
+
+- Modul baru tetap nonaktif otomatis dan tidak menjalankan eksploitasi, credential testing, crawling agresif, atau pemindaian target di luar scope.
+- LICENSE MIT diselaraskan menggunakan identitas proyek generik `Mr.Kiplay contributors`.
+- Pemeriksaan secret-release menolak pola private key, token GitHub/API, dan password literal pada source yang dipindai.
+
+### Validasi
+
+- Verifikasi lokal mencakup check TypeScript, 66 test lulus dengan 1 skip PowerShell di Linux, build produksi, pemeriksaan release pasif, serta verifikasi visual desktop/mobile.
