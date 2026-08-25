@@ -382,5 +382,5 @@
 - [x] Hubungkan endpoint tRPC live OSINT ke target allowlist dan otorisasi workspace tanpa preview default.
 - [x] Tambahkan persistensi hasil live OSINT serta provenance/evidence ke database workspace.
 - [x] Perkuat worker agar status job dan hasil bertahan setelah restart server.
-- [ ] Tambahkan konfigurasi provider opsional dan secret hanya untuk modul yang membutuhkannya.
+- [x] Tambahkan konfigurasi provider opsional dan secret hanya untuk modul yang membutuhkannya.
 - [x] Tambahkan test unit/integrasi tanpa menjalankan target eksternal dan dokumentasikan cara mengaktifkan eksekusi nyata.
