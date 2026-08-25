@@ -12,11 +12,18 @@
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "diagnose": "node scripts/diagnose.mjs",
-    "release:verify": "node scripts/verify-release.mjs"
+    "release:verify": "node scripts/verify-release.mjs",
+    "desktop:dev": "electron desktop/main.cjs",
+    "desktop:dist": "pnpm build && electron-builder --win nsis portable",
+    "mobile:init": "pnpm build && node scripts/prepare-android.mjs",
+    "mobile:sync": "pnpm build && node scripts/prepare-android.mjs",
+    "mobile:apk": "pnpm mobile:sync && cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1117.0",
     "@aws-sdk/s3-request-presigner": "^3.1117.0",
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -83,6 +90,7 @@
   },
   "devDependencies": {
     "@builder.io/vite-plugin-jsx-loc": "^0.1.1",
+    "@capacitor/cli": "^8.5.0",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "^4.1.3",
     "@types/express": "5.0.6",
@@ -94,6 +102,8 @@
     "add": "^2.0.6",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.31.4",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.3",
     "esbuild": "^0.25.0",
     "pnpm": "^10.15.1",
     "postcss": "^8.4.47",
@@ -106,5 +116,31 @@
     "vite-plugin-manus-runtime": "0.0.59",
     "vitest": "^2.1.4"
   },
-  "packageManager": "pnpm@10.4.1"
+  "packageManager": "pnpm@10.4.1",
+  "build": {
+    "appId": "com.mrkiplay.securityintel.desktop",
+    "productName": "Mr.Kiplay Security Intelligence",
+    "directories": {
+      "output": "artifacts/desktop"
+    },
+    "files": [
+      "desktop/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "MrKiplay-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "portable": {
+      "artifactName": "MrKiplay-${version}-${arch}-portable.${ext}"
+    }
+  }
 }

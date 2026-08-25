@@ -203,3 +203,15 @@ Ditambahkan planner satu-input URL/IP yang bounded dan tetap bergantung pada all
 - Endpoint AI memvalidasi gaya melalui enum dan menerapkan instruksi format terkontrol pada prompt.
 ### Keamanan
 - Gaya laporan tidak memberi AI tool eksekusi dan tidak mengubah scope, allowlist, authorization, atau tahapan pipeline.
+
+## [Unreleased] — Paket Desktop dan Android
+### Ditambahkan
+- Wrapper Electron aman untuk Windows dengan installer NSIS dan mode portable.
+- Konfigurasi Capacitor Android dengan application ID `com.mrkiplay.securityintel` dan koneksi HTTPS ke dashboard resmi.
+- Workflow GitHub Actions lintas runner untuk membangun artifact Windows dan APK Android pada tag rilis.
+- Skrip `desktop:dev`, `desktop:dist`, `mobile:init`, `mobile:sync`, dan `mobile:apk`.
+- Panduan instalasi dan catatan distribusi pada README.
+### Keamanan
+- Wrapper desktop menonaktifkan Node integration, menggunakan context isolation/sandbox, dan memblokir navigasi ke origin yang tidak diizinkan.
+- Paket hanya mengemas shell aplikasi; credential dan secret tetap berada di server.
+- APK debug belum merupakan rilis Play Store dan belum ditandatangani keystore produksi.

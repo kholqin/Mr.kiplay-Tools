@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mr.Kiplay Security Intelligence</string>
+    <string name="title_activity_main">Mr.Kiplay Security Intelligence</string>
+    <string name="package_name">com.mrkiplay.securityintel</string>
+    <string name="custom_url_scheme">com.mrkiplay.securityintel</string>
+</resources>

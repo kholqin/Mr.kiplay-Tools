@@ -187,3 +187,13 @@ Pada **Pengaturan**, operator dapat memilih intensitas animasi timeline **Penuh*
 ### Gaya laporan AI
 
 Preferensi **Gaya laporan AI** pada Pengaturan menyediakan tiga format: **Ringkas** untuk inti observasi dan tindakan berikutnya, **Eksekutif** untuk dampak defensif serta prioritas keputusan, dan **Teknis** untuk evidence, asumsi, batasan, serta hardening yang dapat diverifikasi. Gaya dipilih secara lokal dan hanya dikirim sebagai enum terkontrol ke endpoint AI; pengguna tidak dapat menyisipkan instruksi bebas melalui pilihan ini.
+
+## Paket aplikasi Windows dan Android
+
+Mr.Kiplay sekarang memiliki wrapper desktop Windows berbasis Electron dan konfigurasi Android berbasis Capacitor. Untuk Windows, format yang dihasilkan adalah installer **NSIS `.exe`** serta aplikasi **portable `.exe`**, bukan APK. Keduanya membuka dashboard HTTPS Mr.Kiplay dan tidak menyimpan credential di dalam paket.
+
+Untuk Android, workflow menghasilkan **APK debug** yang dapat dipasang untuk pengujian. Paket rilis yang ditandatangani memerlukan keystore milik pemilik aplikasi dan sebaiknya dibuat hanya melalui secret GitHub Actions. Paket Android membutuhkan koneksi ke dashboard/backend HTTPS; mode offline lokal tidak mengaktifkan scanner.
+
+Build manual memerlukan Node.js 22 dan pnpm 10.4.1. Jalankan `pnpm desktop:dist` pada lingkungan yang mendukung build Windows, atau `pnpm mobile:init` lalu `pnpm mobile:apk` pada lingkungan Android/Java. Cara paling mudah bagi pengguna adalah membuka tab **Actions** atau **Releases** repository dan mengunduh artifact sesuai sistem operasi. Workflow `.github/workflows/apps.yml` membangun Windows dan Android secara paralel pada tag `v*.*.*`.
+
+> Catatan distribusi: artifact yang dibuat workflow saat ini belum ditandatangani code-signing Windows atau Android. Windows dapat menampilkan peringatan SmartScreen, sedangkan Android dapat meminta izin pemasangan dari sumber tersebut. Verifikasi checksum dan rilis dari repository resmi sebelum memasang.
