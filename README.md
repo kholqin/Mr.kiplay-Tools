@@ -99,3 +99,17 @@ Workflow CI juga menjalankan job `windows-installer` pada `windows-latest`. Job 
 ### Progress installer PowerShell
 
 Saat dijalankan di terminal interaktif, `scripts/install/install.ps1` menampilkan progress bar untuk tahap pemeriksaan Node.js, Corepack/pnpm, instalasi dependency, pemeriksaan TypeScript, dan test. Ketika `CI=true`, tampilan beralih ke marker teks `[CI] [persentase%]` agar log runner stabil. Jalankan `.\scripts\install\install.ps1 -Help` untuk membaca penggunaan tanpa menjalankan bootstrap.
+
+### Diagnostik Kali Linux dan Termux
+
+Setelah clone dan sebelum instalasi, jalankan `pnpm diagnose` dari root repository. Command ini memeriksa Node.js, pnpm, `package.json`, lockfile, serta installer lintas platform tanpa mengirim request jaringan atau menjalankan scanner. Installer Unix menentukan root berdasarkan lokasinya, menggunakan `pnpm install --frozen-lockfile`, lalu menjalankan diagnose, check, dan test.
+
+Jika muncul `ERR_PNPM_NO_PKG_MANIFEST`, pastikan `pwd` menunjuk ke folder clone yang benar dan `ls package.json` menampilkan manifest. Gunakan clone baru dari `https://github.com/kholqin/Mr.kiplay-Tools.git` jika folder sebelumnya dibuat dari versi lama.
+
+### Log instalasi dan diagnostik
+
+Installer PowerShell mencatat tahap bootstrap dan error tersanitasi ke `.mrkiplay/logs/install.log`; log lama berukuran besar dipindahkan ke `install.log.1`. Direktori `.mrkiplay/` diabaikan Git dan sebaiknya diperiksa sebelum dibagikan. Gunakan `pnpm diagnose` untuk memeriksa runtime, manifest, lockfile, dan installer tanpa melakukan request jaringan atau scanning target.
+
+### Status audit dependency
+
+Setelah upgrade AWS SDK, tRPC, Express, streamdown, recharts, Drizzle ORM, nanoid, dan dependency pendukung, `pnpm audit --prod --audit-level=low` tidak menemukan vulnerability produksi. `pnpm install` masih dapat menampilkan peer warning development dari `@builder.io/vite-plugin-jsx-loc` terhadap Vite 7; warning ini tidak memengaruhi runtime production dan tetap dipantau oleh CI. Upgrade major lain tidak dilakukan tanpa migrasi API serta pengujian terpisah.

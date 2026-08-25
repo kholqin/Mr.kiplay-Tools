@@ -198,3 +198,112 @@
 - [x] Perbarui README atau panduan instalasi Windows tentang progress bar interaktif dan output ringkas CI.
 - [x] Tambahkan entri CHANGELOG untuk progress feedback dan marker `[CI]`.
 - [x] Jalankan ulang check dan test setelah dokumentasi diperbarui.
+
+## Log lokal installer PowerShell
+
+- [x] Audit alur installer dan kebutuhan logging lokal.
+- [x] Rancang format log, lokasi file, rotasi sederhana, dan sanitasi data sensitif.
+- [x] Tambahkan pencatatan tahap, command status, dan error ke file teks lokal.
+- [x] Tambahkan test untuk pembuatan log, error logging, dan ketiadaan rahasia.
+- [x] Perbarui dokumentasi Windows dan CHANGELOG tentang lokasi serta batasan log.
+- [x] Jalankan validasi (check, 58 test, build, diff, parser/self-test PowerShell, installer Unix, audit produksi) dan dokumentasikan hasil.
+
+## Perbaikan instalasi Termux
+
+- [x] Audit branch main GitHub dan isi clone untuk memastikan package.json terpublikasi.
+- [x] Verifikasi apakah source project dan dokumentasi ter-copy lengkap ke repository publik.
+- [x] Perbaiki sinkronisasi repository atau instruksi instalasi Termux sesuai akar masalah.
+- [x] Validasi clone baru dengan package.json, pnpm install, check, dan test yang relevan.
+- [x] Simpan checkpoint dan laporkan command Termux yang benar.
+
+## Audit menyeluruh dan kemudahan instalasi Kali/Termux
+
+- [x] Audit package manifest, dependency, TypeScript, server, client, shared, core, installer, dan workflow CI.
+- [x] Catat bug atau risiko yang terverifikasi dan pilih perbaikan yang aman serta terukur.
+- [x] Tambahkan fitur platform yang relevan tanpa melemahkan authorization gate atau menjalankan scan nyata.
+- [x] Perkuat installer Kali Linux dan Termux dengan deteksi environment, pesan error, dan bootstrap yang idempoten.
+- [x] Tambahkan test regresi, dokumentasi troubleshooting, dan CI untuk jalur instalasi.
+- [x] Jalankan check, test, build, diff check, validasi installer, dan verifikasi visual; checkpoint/sinkronisasi dicatat pada item khusus.
+
+## Perbaikan warning konfigurasi pnpm
+
+- [x] Pindahkan konfigurasi patchedDependencies dan overrides dari field package.json ke konfigurasi pnpm yang didukung.
+- [x] Tambahkan test atau pemeriksaan agar konfigurasi patch wouter dan override nanoid tetap aktif.
+- [x] Jalankan ulang check, test, build, dan audit dependency setelah perbaikan.
+
+## Diagnostik dan upgrade lintas platform
+
+- [x] Tambahkan command `pnpm diagnose` untuk memeriksa runtime, package manifest, pnpm, dan environment Termux/Kali tanpa network scan.
+- [x] Tambahkan test kontrak diagnostik dan konfigurasi pnpm workspace.
+- [x] Evaluasi warning dependency serta peer dependency tanpa upgrade major yang berisiko.
+- [x] Perbarui README dan panduan instalasi dengan troubleshooting diagnostik.
+- [ ] Jalankan validasi penuh, checkpoint, dan sinkronisasi repository.
+
+## Temuan audit lanjutan
+
+- [x] Jadikan installer Unix dan PowerShell bekerja dari direktori pemanggil mana pun dengan root project terdeteksi otomatis.
+- [x] Tambahkan logging lokal PowerShell dengan sanitasi pesan dan rotasi sederhana.
+- [x] Sertakan log installer Windows sebagai artifact CI saat job gagal atau selesai.
+- [x] Dokumentasikan `pnpm diagnose` dan lokasi log untuk troubleshooting Termux/Kali/Windows.
+
+## Koreksi regresi test logging
+
+- [x] Perbaiki assertion test rotasi log agar memeriksa suffix `.1` dan bukan nama path literal.
+- [x] Ulangi check, test, build, dan audit dependency setelah koreksi test.
+
+## Temuan audit dependency kritis
+
+- [x] Upgrade AWS SDK S3 ke rilis kompatibel yang membawa fast-xml-parser patched.
+- [x] Jalankan audit produksi ulang dan pastikan temuan kritis fast-xml-parser hilang.
+
+## Hardening dependency high
+
+- [x] Upgrade tRPC v11 ke rilis patched >=11.8.0.
+- [x] Evaluasi patch path-to-regexp; digantikan dengan migrasi Express 5 karena override nested tidak diterapkan.
+- [x] Dokumentasikan dependency high yang berasal dari rantai dev/visualisasi dan tidak di-upgrade major tanpa migrasi terpisah.
+- [x] Jalankan audit produksi, check, test, dan build setelah hardening.
+
+## Strategi hardening Express
+
+- [x] Ganti override nested path-to-regexp yang tidak diterapkan dengan upgrade Express 5 dan types yang kompatibel.
+- [x] Jalankan check, test, build, dan audit ulang setelah migrasi Express.
+
+## Regresi setelah upgrade Express/AWS
+
+- [x] Perbaiki error TypeScript pada `server/_core/storageProxy.ts` yang muncul setelah upgrade dependency.
+- [x] Tambahkan test atau pemeriksaan tipe untuk konfigurasi header storage proxy.
+- [x] Ulangi check, test, build, dan audit setelah perbaikan regresi.
+
+## Regresi Express 5 pada Vite bridge
+
+- [x] Ganti wildcard `app.use("*")` pada Vite bridge dengan pola route yang kompatibel Express 5.
+- [x] Tambahkan regression test untuk mencegah PathError saat server start.
+- [x] Restart server dan validasi log runtime setelah perbaikan.
+
+## Evaluasi upgrade visual/runtime
+
+- [x] Upgrade streamdown dan recharts ke major terbaru setelah menyesuaikan tipe wrapper dan memastikan API kompatibel.
+- [x] Jalankan check, test, build, dan audit produksi setelah upgrade visual/runtime.
+
+## Temuan moderate terakhir
+
+- [x] Pin mdast-util-to-hast >=13.2.1 pada rantai streamdown tanpa mengubah API aplikasi.
+- [x] Jalankan audit produksi dan test ulang untuk memastikan moderate vulnerability tertangani.
+
+## Gap verifikasi sebelum checkpoint berikutnya
+
+- [x] Tambahkan test PowerShell runtime yang memverifikasi log benar-benar dibuat, error dicatat, dan token/Authorization disanitasi menjadi `[REDACTED]`.
+- [ ] Verifikasi eksplisit README dan dokumen instalasi utama tersedia pada clone repository publik.
+- [ ] Uji clone bersih dari GitHub dengan `package.json`, `pnpm install`, `pnpm check`, dan `pnpm test -- --run`.
+- [ ] Simpan checkpoint baru setelah perbaikan instalasi Termux tervalidasi end-to-end.
+
+## Koreksi sanitasi Bearer pada log
+
+- [x] Jalankan redaction Bearer token sebelum redaction key/value agar token tidak tersisa.
+- [x] Ulangi self-test PowerShell dan seluruh validasi setelah koreksi sanitasi.
+
+## Gap validasi pasca-upgrade
+
+- [x] Lakukan verifikasi visual ulang setelah upgrade Express/Recharts dan catat hasil desktop/mobile.
+- [ ] Simpan checkpoint baru setelah audit dan hardening terbaru tervalidasi.
+- [ ] Commit dan push perubahan audit/hardening terbaru lalu verifikasi SHA remote.
