@@ -237,7 +237,7 @@
 - [x] Tambahkan test kontrak diagnostik dan konfigurasi pnpm workspace.
 - [x] Evaluasi warning dependency serta peer dependency tanpa upgrade major yang berisiko.
 - [x] Perbarui README dan panduan instalasi dengan troubleshooting diagnostik.
-- [ ] Jalankan validasi penuh, checkpoint, dan sinkronisasi repository.
+- [x] Jalankan validasi penuh, checkpoint, dan sinkronisasi repository.
 
 ## Temuan audit lanjutan
 
@@ -293,9 +293,9 @@
 ## Gap verifikasi sebelum checkpoint berikutnya
 
 - [x] Tambahkan test PowerShell runtime yang memverifikasi log benar-benar dibuat, error dicatat, dan token/Authorization disanitasi menjadi `[REDACTED]`.
-- [ ] Verifikasi eksplisit README dan dokumen instalasi utama tersedia pada clone repository publik.
-- [ ] Uji clone bersih dari GitHub dengan `package.json`, `pnpm install`, `pnpm check`, dan `pnpm test -- --run`.
-- [ ] Simpan checkpoint baru setelah perbaikan instalasi Termux tervalidasi end-to-end.
+- [x] Verifikasi eksplisit README dan dokumen instalasi utama tersedia pada clone repository publik.
+- [x] Uji clone bersih dari GitHub dengan `package.json`, `pnpm install`, `pnpm check`, dan `pnpm test -- --run`.
+- [x] Simpan checkpoint baru setelah perbaikan instalasi Termux tervalidasi end-to-end.
 
 ## Koreksi sanitasi Bearer pada log
 
@@ -305,5 +305,9 @@
 ## Gap validasi pasca-upgrade
 
 - [x] Lakukan verifikasi visual ulang setelah upgrade Express/Recharts dan catat hasil desktop/mobile.
-- [ ] Simpan checkpoint baru setelah audit dan hardening terbaru tervalidasi.
-- [ ] Commit dan push perubahan audit/hardening terbaru lalu verifikasi SHA remote.
+- [x] Simpan checkpoint baru setelah audit dan hardening terbaru tervalidasi.
+- [x] Commit dan push perubahan audit/hardening terbaru lalu verifikasi SHA remote.
+
+## Sequencing checkpoint instalasi
+
+- [ ] Simpan checkpoint baru setelah verifikasi clone publik bersih selesai agar validasi Termux/repository tercakup oleh checkpoint terbaru.
