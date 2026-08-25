@@ -429,3 +429,14 @@
 - [x] Hormati prefers-reduced-motion serta pertahankan fokus dan aria-live yang ada.
 - [x] Jalankan check, test, dan verifikasi visual desktop/mobile.
 - [x] Simpan checkpoint setelah animasi timeline tervalidasi.
+
+## Teknologi baru dan AI aman
+
+- [x] Audit fondasi AI server-side, pengaturan pengguna, dan payload recon yang boleh dianalisis.
+- [x] Tambahkan kebijakan redaksi untuk menghapus credential, token, cookie, password, dan data personal sebelum AI dipanggil.
+- [x] Tambahkan insight AI terstruktur untuk ringkasan observasi, prioritas risiko, dan rekomendasi remediasi dengan disclaimer validasi manual.
+- [x] Tambahkan endpoint AI terproteksi workspace dengan batas ukuran input, timeout, dan penanganan error provider.
+- [x] Tambahkan pengaturan intensitas animasi timeline: penuh, ringan, dan mati; tetap tunduk pada prefers-reduced-motion.
+- [x] Tambahkan test untuk redaksi AI, schema output, authorization, batas input, error handling, dan preferensi animasi.
+- [x] Jalankan check, test, build, release verifier, diff check, dan verifikasi visual desktop/mobile.
+- [x] Simpan checkpoint final fitur AI dan preferensi pengguna.

@@ -173,3 +173,13 @@ Contoh adapter polyglot berada di `plugins/examples/` untuk C#, C++, Java, Pytho
 Halaman **Pipeline pemindaian** menyediakan dashboard interaktif untuk satu target URL atau IP yang telah dimasukkan ke allowlist. Pilih workspace dan target, lalu gunakan **Pratinjau aman** untuk memeriksa urutan tahap tanpa request jaringan atau **Jalankan terbatas** untuk observasi metadata non-destruktif yang sudah dilindungi authorization gate.
 
 Status job diperbarui dari lifecycle server setiap 1,5 detik dan menampilkan tahap prapemeriksaan, DNS, HTTP pasif, sertifikat TLS, OSINT publik terbatas, port eksplisit, serta finalisasi. Riwayat job dapat dipilih kembali, tombol **Sambung ulang** tersedia ketika query gagal, dan pembatalan bersifat idempotent. Cancel menghentikan tahap lanjutan pada batas aman; request jaringan yang sudah berada di library operasi dapat menyelesaikan timeout normal terlebih dahulu.
+
+## Teknologi AI defensif
+
+Halaman **Temuan** menyediakan **Insight AI defensif** melalui endpoint server-side. Operator dapat memberi fokus analisis, kemudian AI menyusun ringkasan observasi, prioritas review, keyakinan konservatif, dan rekomendasi hardening. Sebelum dikirim, payload secara otomatis membuang field password, token, cookie, credential, authorization, email, dan nomor telepon; nilai yang menyerupai token juga diganti dengan penanda redaksi. Fitur ini tidak menjalankan scanner, exploitasi, credential testing, atau tindakan otomatis terhadap target.
+
+AI hanya digunakan sebagai bantuan triase. Semua hasil harus divalidasi operator terhadap evidence sumber, dan kegagalan provider ditampilkan sebagai error biasa tanpa membuka data sensitif.
+
+## Preferensi animasi pengguna
+
+Pada **Pengaturan**, operator dapat memilih intensitas animasi timeline **Penuh**, **Ringan**, atau **Mati**. Pilihan disimpan lokal pada browser dan tidak memengaruhi scope, authorization, atau data pipeline. Sistem tetap memprioritaskan `prefers-reduced-motion`; ketika aktif, animasi dinonaktifkan terlepas dari pilihan pengguna.

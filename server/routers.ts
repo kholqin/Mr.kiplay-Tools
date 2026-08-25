@@ -12,6 +12,7 @@ import { runLiveOsint, type LiveOsintModule } from "../core/recon/liveOsint";
 import { isolatedWorkerQueue } from "../core/worker/isolatedWorker";
 import { listPersistedWorkerJobs, persistWorkerJob } from "./workerDb";
 import { cancelPipeline, getPipeline, listPipelines, startPipeline } from "./pipelineProgress";
+import { createAiInsight } from "./aiInsight";
 
 isolatedWorkerQueue.setPersistenceHook(persistWorkerJob);
 import { exportReconResults, listReconResults, saveReconResult } from "./reconDb";
@@ -152,6 +153,11 @@ export const appRouter = router({
     cancelPipeline: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), jobId: z.string().uuid() })).mutation(async ({ ctx, input }) => {
       if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
       return cancelPipeline(input.jobId, input.workspaceId);
+    }),
+    aiInsight: protectedProcedure.input(z.object({ workspaceId: z.number().int().positive(), focus: z.string().trim().max(240).optional() })).mutation(async ({ ctx, input }) => {
+      if (!(await getWorkspace(ctx.user.id, input.workspaceId))) throw new Error("Workspace tidak ditemukan");
+      const [findings, reconResults] = await Promise.all([listFindings(ctx.user.id, input.workspaceId), listReconResults(ctx.user.id, input.workspaceId)]);
+      return createAiInsight({ findings, reconResults, focus: input.focus });
     }),
   }),
 });

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
+import { useAnimationPreference } from "@/hooks/useAnimationPreference";
 import { isTerminalPipelineStatus, type PipelineProgressSnapshot } from "../../../shared/pipelineProgress";
 import { Activity, AlertTriangle, CheckCircle2, Circle, Clock3, PauseCircle, Play, RefreshCw, RotateCcw, ShieldCheck, Sparkles, XCircle } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -42,6 +43,7 @@ export default function Pipeline() {
   const [targetId, setTargetId] = useState<number | null>(null);
   const [jobId, setJobId] = useState<string | null>(null);
   const [mode, setMode] = useState<"preview" | "active">("preview");
+  const { intensity } = useAnimationPreference();
   const [changedStageId, setChangedStageId] = useState<string | null>(null);
   const previousStageStatuses = useRef<Record<string, string>>({});
   const workspaces = trpc.assessment.workspaces.useQuery();
@@ -107,7 +109,7 @@ export default function Pipeline() {
     start.mutate({ workspaceId, targetId, mode: nextMode });
   };
 
-  return <div className="space-y-6 text-zinc-100">
+  return <div className={`pipeline-animation-${intensity} space-y-6 text-zinc-100`}>
     <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <div>
         <p className="text-xs uppercase tracking-[0.25em] text-red-200">Pipeline terpantau</p>

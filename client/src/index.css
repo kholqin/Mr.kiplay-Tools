@@ -202,6 +202,24 @@
   .timeline-stage-changed svg {
     animation: timeline-icon-change 680ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
+
+  .pipeline-animation-ringan .timeline-stage-changed {
+    animation-duration: 360ms;
+  }
+
+  .pipeline-animation-ringan .timeline-stage-changed svg {
+    animation-duration: 360ms;
+  }
+
+  .pipeline-animation-mati .timeline-stage-changed,
+  .pipeline-animation-mati .timeline-stage-changed svg {
+    animation: none;
+  }
+
+  .pipeline-animation-mati .timeline-stage,
+  .pipeline-animation-ringan .timeline-stage {
+    transition-duration: 180ms;
+  }
 }
 
 @keyframes timeline-stage-change {

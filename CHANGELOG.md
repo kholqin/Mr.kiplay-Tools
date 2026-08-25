@@ -184,3 +184,14 @@ Ditambahkan planner satu-input URL/IP yang bounded dan tetap bergantung pada all
 ### Keamanan
 - Pipeline aktif hanya menerima target allowlist pada workspace dengan otorisasi terkonfirmasi.
 - Tidak ada exploitasi, credential testing, crawling agresif, OOB callback, atau bypass scope.
+
+## [Unreleased] — Teknologi AI Defensif dan Preferensi Visual
+### Ditambahkan
+- Insight AI server-side pada halaman Temuan dengan ringkasan, prioritas review, confidence konservatif, dan rekomendasi hardening berformat terstruktur.
+- Redaksi otomatis field password, token, cookie, credential, authorization, email, telepon, serta pola token sebelum payload dianalisis.
+- Pemilihan model AI melalui katalog model runtime; tidak ada credential AI yang dikirim ke browser.
+- Pengaturan intensitas animasi timeline Penuh, Ringan, dan Mati yang tersimpan lokal.
+### Keamanan
+- AI tidak diberi tool eksekusi dan tidak dapat memulai scan, exploitasi, credential testing, atau melewati authorization gate.
+- Insight selalu diberi disclaimer validasi manual dan hanya berjalan setelah workspace terotorisasi.
+- `prefers-reduced-motion` mengungguli pilihan intensitas pengguna untuk menjaga aksesibilitas.
