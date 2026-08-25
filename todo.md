@@ -321,3 +321,14 @@
 - [x] Tambahkan test guardrail untuk preview-only, target scope, sanitasi, dan batas rate/timeout.
 - [x] Perbarui README, panduan modul, CHANGELOG, dan batasan legal/operasional.
 - [x] Jalankan check, test, build, verifikasi visual, checkpoint, dan sinkronisasi GitHub.
+
+## Peningkatan UX loading dan error modul OSINT
+
+- [x] Tambahkan komponen loading OSINT dengan shimmer/spinner, label status, dan dukungan reduced-motion.
+- [x] Tambahkan komponen error OSINT dengan pesan aman, penyebab umum, tindakan pemulihan, dan tombol coba lagi.
+- [x] Integrasikan loading/error ke query katalog serta seluruh mutation Recon/OSINT.
+- [x] Tambahkan test kontrak untuk label loading, error sanitization, retry, dan aksesibilitas dasar.
+- [x] Perbarui dokumentasi UX dan CHANGELOG.
+- [x] Jalankan check, test, build, verifikasi visual desktop/mobile, checkpoint, dan sinkronisasi.
+
+- [x] Perbaiki mismatch hash Corepack pada deklarasi `packageManager` agar build terkelola dapat memasang pnpm secara konsisten.

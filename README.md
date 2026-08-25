@@ -121,3 +121,9 @@ Halaman **Recon** kini memuat katalog 19 modul OSINT dalam mode `preview-only`. 
 Katalog menyediakan pencarian dan filter kategori. Setiap modul memiliki kontrak input/output, catatan keamanan, status aktif, serta kewajiban validasi manual. Implementasi provider eksternal belum diaktifkan otomatis; modul baru hanya mendeskripsikan rencana observasi aman sampai endpoint, kredensial, scope, rate limit, dan persetujuan operator tersedia.
 
 Helper pendukung pada `shared/osintSupport.ts` menyediakan normalisasi IOC, relasi domain-IP untuk graph aset, timeline evidence terbaru, risk scoring bounded yang transparan, serta ekspor ringkasan CSV. Helper menolak indikator secret-like dan alamat IPv4 privat. Mr.Kiplay tidak mengumpulkan password, token, cookie, data breach mentah, isi repository privat, atau profil personal di luar kebutuhan engagement.
+
+## Feedback loading dan error OSINT
+
+Halaman Recon menampilkan shimmer progress dan status operasi ketika katalog atau mutation OSINT sedang diproses. Error dipetakan menjadi pesan Bahasa Indonesia yang aman, tanpa stack trace, token, alamat privat, atau detail provider yang sensitif. Operator memperoleh tombol **Coba lagi** untuk mengulang preview; aktivitas tetap melalui scope dan authorization gate.
+
+Animasi non-esensial mengikuti `prefers-reduced-motion`, sedangkan status memakai `role=status`/`role=alert` dan `aria-live` agar dapat dibaca assistive technology. Jika instalasi terkelola melaporkan mismatch Corepack, project kini mem-pin pnpm 10.4.1 menggunakan integrity hash resmi registry; pemeriksaan lokal tetap dapat dijalankan dengan `pnpm check` dan `pnpm test -- --run`.

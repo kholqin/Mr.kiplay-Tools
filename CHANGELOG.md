@@ -107,3 +107,17 @@
 - Sistem menolak nilai yang menyerupai secret serta alamat IPv4 privat pada helper IOC.
 - Modul breach hanya boleh menyimpan status/provenance dari API resmi; password, token, cookie, data bocor mentah, isi privat, dan data personal berlebihan dilarang.
 - Tidak ada modul yang menjalankan eksploitasi, brute force agresif, zone transfer, crawling massal, credential testing, atau akses bucket/objek cloud.
+
+## [Unreleased] — UX Feedback OSINT
+
+### Ditambahkan
+
+- Loading shimmer dan progress bar untuk katalog serta operasi OSINT dengan status yang informatif.
+- Pesan error Bahasa Indonesia yang memetakan authorization, timeout, rate limit, jaringan, dan error umum ke tindakan pemulihan yang aman.
+- Tombol retry untuk query katalog dan status operasi mutation inline pada DNS, subdomain, port, HTTP, sertifikat, serta worker.
+- Dukungan `aria-live`, `role=status`, `role=alert`, dan `prefers-reduced-motion` untuk aksesibilitas.
+- Test feedback UX: 66 test lulus, 1 test dilewati karena PowerShell tidak tersedia di PATH Linux.
+
+### Diperbaiki
+
+- Pin package manager menggunakan integrity hash resmi pnpm 10.4.1 untuk menghindari mismatch hash pada instalasi terkelola.
